@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  
+  --color-studio-black: #171510;
+  --color-studio-gold: #c39d5d;
+  --color-studio-gold-light: #e1bd85;
+  --color-studio-gray: #2a2824;
+}
+
+@layer base {
+  body {
+    @apply bg-studio-black text-white font-sans;
+    scroll-behavior: smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display uppercase tracking-widest;
+  }
+}
+
+@layer utilities {
+  .mist-overlay {
+    background: linear-gradient(to bottom, rgba(23, 21, 16, 0.4), rgba(23, 21, 16, 0.9));
+    pointer-events: none;
+  }
+
+  .gold-border-gradient {
+    border: 1px solid transparent;
+    border-image: linear-gradient(to bottom right, #c39d5d, #171510) 1;
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
