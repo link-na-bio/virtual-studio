@@ -4,15 +4,45 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Camera, Mail, Lock, Eye, EyeOff, Github } from 'lucide-react';
+import { supabase } from '@/lib/supabaseClient'; // Importando a conexão do banco
+import { useRouter } from 'next/navigation'; // Para redirecionar após o login
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+
+  // Estados para capturar o que o usuário digita
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const router = useRouter();
+
+  // A função mágica que fala com o Supabase
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setMessage('Erro: E-mail ou senha incorretos.');
+      setLoading(false);
+    } else {
+      setMessage('Acesso liberado! Redirecionando...');
+      router.push('/dashboard'); // Agora sim ele vai pra Dashboard do jeito certo!
+    }
+  };
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4 bg-[#0a0807]">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image 
+        <Image
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0ZlxuTySbhRbdkystj1YbVuKSrGR8CnvHrkFhMdYY6QiIwmLM0pg8OMeBrDtk7QTM13siCGRA2AvcDxz8jYfSMFXB3VRJpfDkf4nsv-ieO6lhvO2rvcD02gUvsKBkiNY4A8-OTkDJUDFIHTKSJ3XHxzGm09kVtiZRnU9fVbyyUq54y-UYk-YVZYzjs3aV4oQdwuF8D9CuBUuEv-Sw9iFMPjgt1VyIJ2kDy6XqxvZHafMWNoMm0o_UEiWiTNW-dHT_KZ7ihz7mttKb"
           alt="Studio Background"
           fill
@@ -35,17 +65,20 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Form */}
-        <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+        {/* Form - Agora com o onSubmit chamando o Supabase */}
+        <form className="flex flex-col gap-6" onSubmit={handleLogin}>
           {/* Email Field */}
           <div className="flex flex-col gap-2">
             <label className="text-slate-300 text-xs font-semibold uppercase tracking-widest px-1">E-mail</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
-              <input 
-                className="w-full h-14 pl-12 pr-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-studio-gold/50 transition-all text-base" 
-                placeholder="seu@email.com" 
+              <input
+                className="w-full h-14 pl-12 pr-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-studio-gold/50 transition-all text-base"
+                placeholder="seu@email.com"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
           </div>
@@ -55,13 +88,16 @@ export default function LoginPage() {
             <label className="text-slate-300 text-xs font-semibold uppercase tracking-widest px-1">Senha</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
-              <input 
-                className="w-full h-14 pl-12 pr-12 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-studio-gold/50 transition-all text-base" 
-                placeholder="••••••••" 
+              <input
+                className="w-full h-14 pl-12 pr-12 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-studio-gold/50 transition-all text-base"
+                placeholder="••••••••"
                 type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              <button 
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-studio-gold transition-colors" 
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-studio-gold transition-colors"
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -69,6 +105,13 @@ export default function LoginPage() {
               </button>
             </div>
           </div>
+
+          {/* Mensagem de Erro/Sucesso estilizada com a paleta do site */}
+          {message && (
+            <div className={`p-3 rounded text-sm text-center font-medium ${message.includes('Erro') ? 'text-red-400 bg-red-400/10 border border-red-400/20' : 'text-studio-gold bg-studio-gold/10 border border-studio-gold/20'}`}>
+              {message}
+            </div>
+          )}
 
           {/* Remember & Forgot */}
           <div className="flex items-center justify-between px-1">
@@ -79,10 +122,14 @@ export default function LoginPage() {
             <Link href="/recovery" className="text-studio-gold/80 text-sm font-medium hover:text-studio-gold transition-colors">Esqueceu a senha?</Link>
           </div>
 
-          {/* Submit Button */}
-          <Link href="/dashboard" className="bg-gradient-to-r from-studio-gold to-studio-gold-light w-full h-14 rounded-lg text-black font-bold text-base uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_4px_20px_rgba(195,157,93,0.3)] mt-2 flex items-center justify-center">
-            Entrar
-          </Link>
+          {/* Submit Button - Mudou de Link falso para Button real */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-gradient-to-r from-studio-gold to-studio-gold-light w-full h-14 rounded-lg text-black font-bold text-base uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_4px_20px_rgba(195,157,93,0.3)] mt-2 flex items-center justify-center disabled:opacity-50"
+          >
+            {loading ? 'Verificando...' : 'Entrar'}
+          </button>
         </form>
 
         {/* Divider */}
