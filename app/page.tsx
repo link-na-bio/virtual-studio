@@ -140,21 +140,24 @@ export default function LandingPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-4">
           {[
-            { title: 'Retrato Corporativo', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEuJsM9vNbB3RzkxNj3IDeEXR-WX971NxmCMw2kBVlDHn46chfbLr6s6bu_Yaiby_XPiA_xcxschwdJ7BbPkI3UZuJ9wPBp9vD_hki3daVh0FFmROJPG3KufPsM_OhlFddoXsPKAt-rPK8Z3YGqYxG8w49oZqL3ZDIBevB7k0ZGAXytNaJRuix8fNA1nUCE2vxoRBpq8psMDJ_waj-zG7Xrk4S9_WQmazX6MWeDbE_cM2a343esK1pzb7GyUIlqVT1b9sn0zswrk9m', offset: false },
-            { title: 'Editorial de Moda', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB442X2Lj97g6bdivRzTFBzjTufr7aOKizshP3lyjNVSd9wJekFbFaTL9jM9fDLWtjwjZj4vlvT3jc5pqRM7kHHmtDhba2tpnGzV2V88CaG-xWLp_YsX6bUq5ctFR_U81kDbS4lGO_pwIqAVjyfdSMUHxlM2xr6tJoPlOf_M4S5VogIuPBaD77F7pfkG-FoEeXiSAEC8CykHp6zbDI-6FPKZELujmeMKv8ieovIz6EYzv45YVYNt76d-g9M0494ysfqH4jZcb7Yn-ag', offset: true },
-            { title: 'Lifestyle Urbano', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBfzZSyTDVeiC5p6_l4ARaDCCUaV0L5vC6cePBNNOvzMTVFZJ_mdX00u0EfrUlYp-eQyd_aHQF7yF2HwlpOx--2xXr-Bn7LANzavPdbcvWUcSkuCM_W-NnInA_azMuNqx7FvcjSbLx9fSKImZksPlVi-IIw2Tt--0OCm9rzl3iOk0STbC7ecYFpd2SI70Od15bX_Ok3bBqmilg_R1Picv6ize9NWdCseeYQKn0O-UTNhruhhb_IT-YvBJD_LScXZhzqRx3G-U-cyLFy', offset: false },
-            { title: 'Estilo Cinematográfico', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDQ3h37ywgem1OuAC2VMN8J5mFPIImyWFI2U4iGMkgwprhVQqe7eT_pVhUqhL-4oLk75U-knjwIncVcAmm0vtuz2CrL8HXZ29Ui5jgQ_lJwWd5crO1EuB-EpaxLOYLLAN_mhGvE-jHL1dsQR3A9EZ3nJKc9UzJd2r-nVtJRlpSgERFMD2SFRgo6uKVjy9txhTGX-TVSKKIL-QdWJ98t5BeqdU2tPYFRXmdlpqNjGqsQRI_DoJ8p4vhdIi3YcyWeHEEuMnKlB6yYtg3O', offset: true }
+            { title: 'Retrato Corporativo', img: '/corporativo.png', offset: false },
+            { title: 'Editorial de Moda', img: '/editorial-de-moda.png', offset: true },
+            { title: 'Lifestyle Urbano', img: '/lifestyleurbano.png', offset: false },
+            { title: 'Estilo Cinematográfico', img: '/estilo-cinematográfico.jpeg', offset: true }
           ].map((style, i) => (
             <div key={i} className={`relative group h-[500px] overflow-hidden ${style.offset ? 'md:mt-12' : ''}`}>
-              <Image
-                src={style.img}
-                alt={style.title}
-                fill
-                className="object-cover transition duration-700 group-hover:scale-110"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-80"></div>
-              <div className="absolute bottom-8 left-8">
+              {/* Scale-105 e translate-y para jogar a marca d'água para fora do container overflow-hidden */}
+              <div className="absolute inset-0 bg-studio-black scale-[1.08] translate-y-3 origin-center">
+                <Image
+                  src={style.img}
+                  alt={style.title}
+                  fill
+                  className="object-cover transition duration-700 group-hover:scale-110"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
+              <div className="absolute bottom-8 left-8 pointer-events-none">
                 <h3 className="text-2xl font-display">{style.title}</h3>
                 <p className="text-studio-gold text-xs mt-2 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition">Ver Detalhes</p>
               </div>
@@ -217,7 +220,7 @@ export default function LandingPage() {
             <div className="md:w-1/2 order-1 md:order-2">
               <div className="relative aspect-video gold-border-gradient p-4">
                 <Image
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBziF1DSBFduXlEAL4NOPwgIuFsGgpAQbNpNX7e-t5150P4C6J9T-sPbn393aGKJPZyXVCvDQvGowLcTU4eLa4hhbqeWmEIgFelLTDb1cidGWi6IOcwYnKT5k0LD3r1gAD0SCs0aEewMngwbawZG2rezPZx-bmHTcq3mj5TqoF3Ibmjd0Z-dQhm6s9p4NUbtbEDyZDmkUwEr2cuSDF0Yh1jrtCDUMpb65Y6kv297mLk2ljtG_LOuCN_5GLTXmqGJT-1e5I5E_9ogcgV"
+                  src="/curadoria.png"
                   alt="AI Artist Working"
                   fill
                   className="object-cover"
