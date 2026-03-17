@@ -41,15 +41,17 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD31FwgTzY94BXOQ4Lsu4gTWwijG8_k85DTVXHnTcf2QRC0jxwA6fK8YD-nQ48fW6UXnJYKqIUBm026zVFZa1AoQXreXo7GdyCnxCc2jVbrDjcOS13IuIwRng5fRekwP6jxdtxdyl7g7AYkH4vkl7p5MvzFzzy6o3orP5-TSao2xOOrkR06ZAQcU3A92k0BnJGoBka4WD7CoNaBUXz-naQmpnMQg9LYAHlJQjExTAk0ijJi9xpAJ64uC8CQUFoqqMaC7yQ5bMn5Kpbn"
-            alt="Hero Background"
-            fill
-            className="object-cover opacity-60"
-            priority
-            referrerPolicy="no-referrer"
-          />
+        <div className="absolute inset-0 z-0 overflow-hidden bg-studio-black">
+          <div className="absolute inset-0 scale-[1.08] translate-y-3 origin-center">
+            <Image
+              src="/hero-futurista.png"
+              alt="Hero Background"
+              fill
+              className="object-cover opacity-30"
+              priority
+              referrerPolicy="no-referrer"
+            />
+          </div>
           <div className="absolute inset-0 mist-overlay"></div>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-studio-black to-transparent z-10"></div>
