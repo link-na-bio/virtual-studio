@@ -482,14 +482,14 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="flex flex-col md:flex-row items-center gap-8 md:gap-16 p-8 md:p-12 bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-2xl group"
             >
-              <div className="md:w-1/3 relative aspect-square rounded-xl overflow-hidden shadow-2xl">
+              <div className="w-full md:w-1/3 relative aspect-square rounded-xl overflow-hidden shadow-2xl order-1">
                 <Image src="/corporativo.png" alt="Essential Package" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 to-transparent"></div>
                 <div className="absolute bottom-4 left-4">
                   <span className="text-studio-gold font-display text-lg">ESSENTIAL</span>
                 </div>
               </div>
-              <div className="md:w-2/3 flex flex-col justify-center">
+              <div className="md:w-2/3 flex flex-col justify-center order-2">
                 <h3 className="text-2xl md:text-3xl mb-4 text-white">O Começo da Sua Nova Versão</h3>
                 <p className="text-gray-400 mb-8 leading-relaxed font-light text-lg">
                   Ideal para quem precisa de um impacto imediato. Receba <strong className="text-white">10 fotos de alta resolução</strong> em até 2 estilos distintos. Perfeito para atualizar seu perfil no LinkedIn ou WhatsApp com uma imagem que transmite confiança e profissionalismo de elite.
@@ -513,8 +513,9 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="relative p-8 md:p-16 bg-studio-black border-2 border-studio-gold rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(195,157,93,0.15)] group"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-studio-gold/10 blur-[100px] pointer-events-none"></div>
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-studio-gold text-studio-black text-[10px] font-bold px-6 py-2 uppercase tracking-widest rounded-b-lg">O Mais Escolhido</div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-studio-gold/10 blur-[100px] pointer-events-none"></div>
+
 
               <div className="flex flex-col md:flex-row gap-12 items-center">
                 <div className="md:w-1/2 order-2 md:order-1">
@@ -556,14 +557,14 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-16 p-8 md:p-12 bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-2xl group"
             >
-              <div className="md:w-1/3 relative aspect-square rounded-xl overflow-hidden shadow-2xl">
+              <div className="w-full md:w-1/3 relative aspect-square rounded-xl overflow-hidden shadow-2xl order-1">
                 <Image src="/estilo-cinematográfico.jpeg" alt="Ultra Package" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 to-transparent"></div>
                 <div className="absolute bottom-4 left-4">
                   <span className="text-studio-gold font-display text-lg">ULTRA</span>
                 </div>
               </div>
-              <div className="md:w-2/3 flex flex-col justify-center">
+              <div className="md:w-2/3 flex flex-col justify-center order-2">
                 <h3 className="text-2xl md:text-3xl mb-4 text-white">Domínio Editorial e Escala Global</h3>
                 <p className="text-gray-400 mb-8 leading-relaxed font-light text-lg">
                   Para quem não aceita nada menos que o auge. <strong className="text-white">50 fotos lendárias</strong> abrangendo até 10 estilos cinematográficos. Transforme sua imagem em um império visual com fotos que parecem ter saído das maiores revistas de moda do mundo.
@@ -581,10 +582,10 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-20 text-center"
+            className="mt-20 text-center px-4"
           >
-            <button className="px-12 py-6 bg-studio-gold text-studio-black font-extrabold uppercase tracking-[0.2em] hover:bg-studio-gold-light hover:scale-110 transition-all shadow-2xl shadow-studio-gold/30 rounded-xl flex items-center justify-center gap-4 mx-auto text-lg">
-              SOLICITAR MEU ENSAIO <ArrowRight size={24} />
+            <button className="w-full md:w-auto px-8 py-5 md:px-12 md:py-6 bg-studio-gold text-studio-black font-extrabold uppercase tracking-[0.1em] md:tracking-[0.2em] hover:bg-studio-gold-light hover:scale-105 transition-all shadow-2xl shadow-studio-gold/30 rounded-xl flex items-center justify-center gap-4 mx-auto text-base md:text-lg">
+              SOLICITAR MEU ENSAIO <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
             </button>
             <p className="mt-8 text-gray-500 text-sm italic font-light tracking-widest uppercase">Comece agora sua jornada definitiva de imagem</p>
           </motion.div>
