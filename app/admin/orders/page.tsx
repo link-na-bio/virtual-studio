@@ -3,17 +3,17 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { 
-  Search, 
-  Bell, 
-  Plus, 
-  TrendingUp, 
-  TrendingDown, 
-  List, 
-  Calendar, 
-  DollarSign, 
-  Filter, 
-  Download, 
+import {
+  Search,
+  Bell,
+  Plus,
+  TrendingUp,
+  TrendingDown,
+  List,
+  Calendar,
+  DollarSign,
+  Filter,
+  Download,
   Upload,
   ChevronLeft,
   ChevronRight,
@@ -34,10 +34,10 @@ export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeAction, setActiveAction] = useState<Record<string, boolean>>({});
-  const [downloadModal, setDownloadModal] = useState<{ isOpen: boolean; files: any[]; orderId: string }>({ 
-    isOpen: false, 
-    files: [], 
-    orderId: '' 
+  const [downloadModal, setDownloadModal] = useState<{ isOpen: boolean; files: any[]; orderId: string }>({
+    isOpen: false,
+    files: [],
+    orderId: ''
   });
   const [uploadingOrder, setUploadingOrder] = useState<{ id: string; userId: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,11 +60,11 @@ export default function AdminOrders() {
 
       if (data) {
         setOrders(data);
-        
+
         // Calcular Stats Reais
         const total = data.length;
         const pending = data.filter((o: any) => o.status === 'Aguardando Produção').length;
-        
+
         setStats([
           { label: 'Total de Pedidos', value: total.toString().padStart(2, '0'), trend: '+0%', trendUp: true, icon: List, color: 'text-studio-gold bg-studio-gold/10' },
           { label: 'Pendentes', value: pending.toString().padStart(2, '0'), trend: '+0%', trendUp: false, icon: Calendar, color: 'text-orange-600 bg-orange-100' },
@@ -93,7 +93,7 @@ export default function AdminOrders() {
         .eq('id', orderId);
 
       if (error) throw error;
-      
+
       alert('Status atualizado com sucesso!');
       await fetchOrders();
     } catch (error: any) {
@@ -103,30 +103,36 @@ export default function AdminOrders() {
     }
   };
 
-  // Handler: Download Fotos do Cliente
+  // Handler: Download Fotos do Cliente (CORRIGIDO PARA BUSCAR NA SUBPASTA)
   const handleDownloadCustomerPhotos = async (userId: string, orderId: string) => {
     const actionKey = `download-${orderId}`;
     try {
       setActiveAction(prev => ({ ...prev, [actionKey]: true }));
-      
-      // Listar arquivos no bucket do cliente (usando userId como folder)
+
+      // O CAMINHO CORRETO: userId/orderId
+      const folderPath = `${userId}/${orderId}`;
+
+      // Listar arquivos na subpasta exata do pedido
       const { data: files, error } = await supabase.storage
         .from('fotos_clientes')
-        .list(userId);
+        .list(folderPath);
 
       if (error) throw error;
 
-      if (!files || files.length === 0) {
-        alert('Nenhuma foto encontrada para este cliente no bucket.');
+      // O Supabase tem um bug que retorna um item placeholder invisível chamado '.emptyFolderPlaceholder', precisamos filtrá-lo.
+      const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
+
+      if (validFiles.length === 0) {
+        alert(`Nenhuma foto encontrada na pasta deste pedido.`);
         return;
       }
 
-      // Gerar URLs Públicas
-      const filesWithUrls = files.map(file => {
+      // Gerar URLs Públicas com o caminho correto
+      const filesWithUrls = validFiles.map(file => {
         const { data: { publicUrl } } = supabase.storage
           .from('fotos_clientes')
-          .getPublicUrl(`${userId}/${file.name}`);
-        
+          .getPublicUrl(`${folderPath}/${file.name}`);
+
         return {
           name: file.name,
           url: publicUrl
@@ -159,10 +165,10 @@ export default function AdminOrders() {
     const actionKey = `upload-${uploadingOrder.id}`;
     try {
       setActiveAction(prev => ({ ...prev, [actionKey]: true }));
-      
+
       for (const file of Array.from(files)) {
         const filePath = `${uploadingOrder.userId}/${uploadingOrder.id}/${file.name}`;
-        
+
         const { error: uploadError } = await supabase.storage
           .from('previa_ensaios')
           .upload(filePath, file, { upsert: true });
@@ -194,15 +200,16 @@ export default function AdminOrders() {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('pt-BR');
   };
+
   return (
     <div className="flex h-screen overflow-hidden bg-studio-black text-white">
       <AdminSidebar />
-      
+
       {/* Input de arquivo oculto para upload de prévias */}
-      <input 
-        type="file" 
-        ref={fileInputRef} 
-        className="hidden" 
+      <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
         onChange={handleFileUpload}
         multiple
       />
@@ -213,7 +220,7 @@ export default function AdminOrders() {
           <div className="bg-[#121212] border border-white/10 w-full max-w-lg overflow-hidden shadow-2xl">
             <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/5">
               <h3 className="font-bold font-display uppercase tracking-widest text-studio-gold">Fotos do Cliente</h3>
-              <button 
+              <button
                 onClick={() => setDownloadModal({ ...downloadModal, isOpen: false })}
                 className="text-slate-400 hover:text-white transition-colors"
               >
@@ -231,9 +238,9 @@ export default function AdminOrders() {
                         <Camera size={16} className="text-studio-gold shrink-0" />
                         <span className="text-xs font-medium truncate text-slate-300">{file.name}</span>
                       </div>
-                      <a 
-                        href={file.url} 
-                        target="_blank" 
+                      <a
+                        href={file.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-studio-gold hover:text-studio-gold-light transition-colors"
                       >
@@ -246,7 +253,7 @@ export default function AdminOrders() {
               )}
             </div>
             <div className="px-6 py-4 border-t border-white/5 bg-white/5 flex justify-end">
-              <button 
+              <button
                 onClick={() => setDownloadModal({ ...downloadModal, isOpen: false })}
                 className="px-6 py-2 bg-studio-gold text-studio-black text-[10px] font-bold uppercase tracking-widest hover:bg-studio-gold-light transition-colors"
               >
@@ -273,15 +280,15 @@ export default function AdminOrders() {
           <div className="flex items-center gap-6">
             <div className="relative w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
-              <input 
-                className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-none text-[10px] font-bold uppercase tracking-widest focus:ring-1 focus:ring-studio-gold transition-all outline-none text-white placeholder:text-gray-600" 
-                placeholder="Pesquisar pedidos..." 
+              <input
+                className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-none text-[10px] font-bold uppercase tracking-widest focus:ring-1 focus:ring-studio-gold transition-all outline-none text-white placeholder:text-gray-600"
+                placeholder="Pesquisar pedidos..."
                 type="text"
               />
             </div>
-            
+
             <div className="h-8 w-[1px] bg-white/10"></div>
-            
+
             <div className="flex items-center gap-4">
               <button className="size-9 flex items-center justify-center rounded-none bg-white/5 border border-white/10 text-slate-400 relative hover:text-studio-gold transition-colors">
                 <Bell size={18} />
@@ -383,14 +390,13 @@ export default function AdminOrders() {
                               <span className="text-[10px] font-bold uppercase tracking-widest">Atualizando...</span>
                             </div>
                           ) : (
-                            <select 
+                            <select
                               value={order.status}
                               onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                              className={`bg-studio-black border px-2 py-1 text-[10px] font-bold uppercase tracking-widest font-display outline-none cursor-pointer focus:ring-1 focus:ring-studio-gold transition-all ${
-                                order.status === 'Completed' ? 'text-emerald-400 border-emerald-400/30' :
-                                order.status === 'Processing' ? 'text-blue-400 border-blue-400/30' :
-                                'text-orange-400 border-orange-400/30'
-                              }`}
+                              className={`bg-studio-black border px-2 py-1 text-[10px] font-bold uppercase tracking-widest font-display outline-none cursor-pointer focus:ring-1 focus:ring-studio-gold transition-all ${order.status === 'Completed' ? 'text-emerald-400 border-emerald-400/30' :
+                                  order.status === 'Processing' ? 'text-blue-400 border-blue-400/30' :
+                                    'text-orange-400 border-orange-400/30'
+                                }`}
                             >
                               <option value="Aguardando Produção">Aguardando Produção</option>
                               <option value="Processing">Processing</option>
@@ -401,18 +407,18 @@ export default function AdminOrders() {
                         <td className="px-6 py-4 text-[11px] font-bold text-slate-400 tabular-nums">{formatDate(order.criado_em)}</td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2">
-                            <button 
+                            <button
                               onClick={() => handleDownloadCustomerPhotos(order.user_id, order.id)}
                               disabled={activeAction[`download-${order.id}`]}
-                              className="size-9 flex items-center justify-center rounded border border-white/10 text-slate-400 hover:border-studio-gold hover:text-studio-gold transition-all disabled:opacity-50" 
+                              className="size-9 flex items-center justify-center rounded border border-white/10 text-slate-400 hover:border-studio-gold hover:text-studio-gold transition-all disabled:opacity-50"
                               title="Download fotos do cliente"
                             >
                               {activeAction[`download-${order.id}`] ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
                             </button>
-                            <button 
+                            <button
                               onClick={() => triggerUploadPreview(order.id, order.user_id)}
                               disabled={activeAction[`upload-${order.id}`]}
-                              className="size-9 flex items-center justify-center rounded border border-white/10 text-slate-400 hover:border-studio-gold hover:text-studio-gold transition-all disabled:opacity-50" 
+                              className="size-9 flex items-center justify-center rounded border border-white/10 text-slate-400 hover:border-studio-gold hover:text-studio-gold transition-all disabled:opacity-50"
                               title="Upload prévia para o cliente"
                             >
                               {activeAction[`upload-${order.id}`] ? <Loader2 size={18} className="animate-spin" /> : <Upload size={18} />}
