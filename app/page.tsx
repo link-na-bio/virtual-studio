@@ -369,30 +369,50 @@ export default function LandingPage() {
               })}
             </div>
 
-            {/* Navigation Arrows */}
-            <button
-              onClick={prevTestimonial}
-              className="absolute left-0 lg:left-[5%] xl:left-[10%] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-studio-gray/80 border border-white/10 hidden md:flex items-center justify-center text-white hover:bg-studio-gold hover:border-studio-gold hover:text-black transition-all z-50 backdrop-blur-md shadow-lg"
-              aria-label="Anterior"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button
-              onClick={nextTestimonial}
-              className="absolute right-0 lg:right-[5%] xl:right-[10%] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-studio-gray/80 border border-white/10 hidden md:flex items-center justify-center text-white hover:bg-studio-gold hover:border-studio-gold hover:text-black transition-all z-50 backdrop-blur-md shadow-lg"
-              aria-label="Próximo"
-            >
-              <ChevronRight size={24} />
-            </button>
+            {/* Navigation Arrows (Restored Original Style) */}
+            <div className="absolute inset-0 flex items-center justify-between pointer-events-none z-50">
+              <button
+                onClick={prevTestimonial}
+                className="pointer-events-auto ml-1 w-12 h-12 rounded-full bg-studio-gray/80 border border-white/10 flex md:hidden items-center justify-center text-white backdrop-blur-md shadow-lg"
+                aria-label="Anterior"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={nextTestimonial}
+                className="pointer-events-auto mr-1 w-12 h-12 rounded-full bg-studio-gray/80 border border-white/10 flex md:hidden items-center justify-center text-white backdrop-blur-md shadow-lg"
+                aria-label="Próximo"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+
+            {/* Desktop Arrows */}
+            <div className="hidden md:block">
+              <button
+                onClick={prevTestimonial}
+                className="absolute left-[-60px] lg:left-[-100px] top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-studio-gray/80 border border-white/10 flex items-center justify-center text-white hover:bg-studio-gold hover:text-black transition-all z-50 backdrop-blur-md shadow-lg"
+                aria-label="Anterior"
+              >
+                <ChevronLeft size={28} />
+              </button>
+              <button
+                onClick={nextTestimonial}
+                className="absolute right-[-60px] lg:right-[-100px] top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-studio-gray/80 border border-white/10 flex items-center justify-center text-white hover:bg-studio-gold hover:text-black transition-all z-50 backdrop-blur-md shadow-lg"
+                aria-label="Próximo"
+              >
+                <ChevronRight size={28} />
+              </button>
+            </div>
           </div>
 
-          {/* Dots Indicators */}
-          <div className="flex justify-center items-center gap-3 mt-10">
+          {/* Dots Indicators (Restored Original Logic) */}
+          <div className="flex justify-center items-center gap-3 mt-12 relative z-20">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveTestimonial(i)}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${activeTestimonial === i ? 'w-10 h-2 bg-studio-gold shadow-[0_0_10px_rgba(255,215,0,0.5)]' : 'w-2 h-2 bg-white/20 hover:bg-white/40'}`}
+                className={`transition-all duration-300 rounded-full cursor-pointer h-2 ${activeTestimonial === i ? 'w-10 bg-studio-gold shadow-[0_0_10px_rgba(255,215,0,0.5)]' : 'w-2 bg-white/20 hover:bg-white/40'}`}
                 aria-label={`Ir para depoimento ${i + 1}`}
               />
             ))}
