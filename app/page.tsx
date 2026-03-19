@@ -410,7 +410,7 @@ export default function LandingPage() {
                       </div>
 
                       {/* Body */}
-                      <div className="p-4 h-[420px] bg-[#e5ddd5] flex flex-col justify-start gap-2 relative overflow-y-auto custom-scrollbar" style={{ backgroundImage: 'url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png")', backgroundSize: 'cover', backgroundBlendMode: 'overlay', backgroundColor: 'rgba(229, 221, 213, 0.9)' }}>
+                      <div className="p-4 h-[420px] bg-[#e5ddd5] flex flex-col justify-start gap-2 relative overflow-y-auto custom-scrollbar" style={{ backgroundImage: 'url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png")', backgroundSize: 'cover', backgroundBlendMode: 'overlay', backgroundColor: 'rgba(229, 221, 213, 0.4)' }}>
                         <div className="bg-white/70 backdrop-blur-sm text-[#54656f] text-[10px] py-1 px-3 rounded-lg self-center mb-3 mt-1 shadow-sm font-medium uppercase tracking-wider">Ontem</div>
 
                         {test.msgs.map((msg, idx) => (
