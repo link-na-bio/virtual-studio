@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
 
@@ -60,6 +60,18 @@ export default function LandingPage() {
   const prevTestimonial = () => {
     setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
+
+  const cardRef1 = useRef(null);
+  const cardRef2 = useRef(null);
+  const cardRef3 = useRef(null);
+
+  const { scrollYProgress: s1 } = useScroll({ target: cardRef1, offset: ["start end", "center center"] });
+  const { scrollYProgress: s2 } = useScroll({ target: cardRef2, offset: ["start end", "center center"] });
+  const { scrollYProgress: s3 } = useScroll({ target: cardRef3, offset: ["start end", "center center"] });
+
+  const filter1 = useTransform(s1, [0, 1], ["grayscale(100%)", "grayscale(0%)"]);
+  const filter2 = useTransform(s2, [0, 1], ["grayscale(100%)", "grayscale(0%)"]);
+  const filter3 = useTransform(s3, [0, 1], ["grayscale(100%)", "grayscale(0%)"]);
 
   // Função matemática para o loop infinito
   const getOffset = (index: number) => {
@@ -396,13 +408,24 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Pacote 1: ESSENTIAL */}
             <motion.div
+              ref={cardRef1}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <Image src="/corporativo.png" alt="Essential Package" fill className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" />
+                <motion.div 
+                  className="w-full h-full"
+                  style={{ filter: windowWidth < 768 ? filter1 : "none" }}
+                >
+                  <Image 
+                    src="/corporativo.png" 
+                    alt="Essential Package" 
+                    fill 
+                    className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0' : ''}`} 
+                  />
+                </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6">
                   <span className="text-studio-gold font-display text-xl tracking-widest">ESSENTIAL</span>
@@ -426,6 +449,7 @@ export default function LandingPage() {
 
             {/* Pacote 2: PRO */}
             <motion.div
+              ref={cardRef2}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -433,7 +457,17 @@ export default function LandingPage() {
               className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <Image src="/editorial-de-moda.png" alt="Pro Package" fill className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" />
+                <motion.div 
+                  className="w-full h-full"
+                  style={{ filter: windowWidth < 768 ? filter2 : "none" }}
+                >
+                  <Image 
+                    src="/editorial-de-moda.png" 
+                    alt="Pro Package" 
+                    fill 
+                    className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0' : ''}`} 
+                  />
+                </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6">
                   <span className="text-studio-gold font-display text-xl tracking-widest">PRO</span>
@@ -460,6 +494,7 @@ export default function LandingPage() {
 
             {/* Pacote 3: ULTRA */}
             <motion.div
+              ref={cardRef3}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -467,7 +502,17 @@ export default function LandingPage() {
               className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <Image src="/estilo-cinematográfico.jpeg" alt="Ultra Package" fill className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" />
+                <motion.div 
+                  className="w-full h-full"
+                  style={{ filter: windowWidth < 768 ? filter3 : "none" }}
+                >
+                  <Image 
+                    src="/estilo-cinematográfico.jpeg" 
+                    alt="Ultra Package" 
+                    fill 
+                    className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0' : ''}`} 
+                  />
+                </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6">
                   <span className="text-studio-gold font-display text-xl tracking-widest">ULTRA</span>
