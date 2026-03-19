@@ -205,9 +205,9 @@ export default function LandingPage() {
             <Link href="/signup" className="bg-studio-gold text-studio-black px-10 py-4 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center">
               Criar Meu Ensaio
             </Link>
-            <button className="border border-white/30 backdrop-blur-sm px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition">
+            <Link href="/galeria" className="border border-white/30 backdrop-blur-sm px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition text-center">
               Ver Galeria
-            </button>
+            </Link>
           </motion.div>
         </div>
       </section>
