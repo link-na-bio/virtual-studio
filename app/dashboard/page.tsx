@@ -177,10 +177,26 @@ export default function Dashboard() {
       const userId = user.id;
       const userEmail = user.email;
 
-      // 3. Fazer o upload dos arquivos para o Storage
+      // 3. Gravar os dados do pedido primeiro para obter o ID do pedido (UUID)
+      const { data: orderData, error: dbError } = await supabase
+        .from('pedidos')
+        .insert({
+          user_id: userId,
+          user_email: userEmail,
+          pacote: selectedPackage,
+          estilos: selectedStyles,
+          status: 'Aguardando Produção'
+        })
+        .select()
+        .single();
+
+      if (dbError) throw dbError;
+      const orderId = orderData.id;
+
+      // 4. Fazer o upload dos arquivos para o Storage (Caminho: userId/orderId/fileName)
       for (const file of selectedFiles) {
         const fileName = `${Date.now()}_${file.name}`;
-        const filePath = `${userEmail}/${fileName}`;
+        const filePath = `${userId}/${orderId}/${fileName}`;
 
         const { error: storageError } = await supabase.storage
           .from('fotos_clientes')
@@ -188,19 +204,6 @@ export default function Dashboard() {
 
         if (storageError) throw storageError;
       }
-
-      // 4. Gravar os dados do pedido na tabela 'pedidos'
-      const { error: dbError } = await supabase
-        .from('pedidos')
-        .insert({
-          user_id: userId,
-          user_email: userEmail,
-          pacote: selectedPackage,
-          estilos: selectedStyles,
-          status: 'Aguardando Produção' // Valor padrão, mas reforçado aqui
-        });
-
-      if (dbError) throw dbError;
 
       // 5. Sucesso Total: Limpeza e Redirecionamento Visual
       setAlertMessage("Pedido enviado com sucesso! Em breve sua prévia estará disponível na aba Meus Ensaios.");

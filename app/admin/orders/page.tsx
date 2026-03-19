@@ -30,6 +30,12 @@ import {
 import AdminSidebar from '@/components/AdminSidebar';
 import { supabase } from '@/lib/supabaseClient';
 
+declare global {
+  interface Window {
+    JSZip: any;
+  }
+}
+
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +46,7 @@ export default function AdminOrders() {
     orderId: ''
   });
   const [uploadingOrder, setUploadingOrder] = useState<{ id: string; userId: string } | null>(null);
+  const [isZipping, setIsZipping] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [stats, setStats] = useState([
@@ -80,6 +87,14 @@ export default function AdminOrders() {
 
   useEffect(() => {
     fetchOrders();
+
+    // Injetar JSZip via CDN para evitar erros de build no drive F:
+    if (!window.JSZip) {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
   }, []);
 
   // Handler: Alterar Status
@@ -127,17 +142,18 @@ export default function AdminOrders() {
         return;
       }
 
-      // Gerar URLs Públicas com o caminho correto
-      const filesWithUrls = validFiles.map(file => {
-        const { data: { publicUrl } } = supabase.storage
-          .from('fotos_clientes')
-          .getPublicUrl(`${folderPath}/${file.name}`);
+      // Gerar URLs Assinadas (Signed URLs) - Bucket Privado
+      const paths = validFiles.map(file => `${folderPath}/${file.name}`);
+      const { data: signedData, error: signedError } = await supabase.storage
+        .from('fotos_clientes')
+        .createSignedUrls(paths, 3600); // 1 hora de validade
 
-        return {
-          name: file.name,
-          url: publicUrl
-        };
-      });
+      if (signedError) throw signedError;
+
+      const filesWithUrls = validFiles.map((file, idx) => ({
+        name: file.name,
+        url: signedData[idx].signedUrl
+      }));
 
       setDownloadModal({
         isOpen: true,
@@ -201,6 +217,58 @@ export default function AdminOrders() {
     return new Date(dateString).toLocaleDateString('pt-BR');
   };
 
+  // Handler: Baixar Todos os Arquivos em um ZIP
+  const handleDownloadAll = async () => {
+    if (!downloadModal.files.length) return;
+    
+    // Verificar se o JSZip carregou via CDN
+    if (!window.JSZip) {
+      alert('A biblioteca de compactação ainda está carregando. Por favor, aguarde um segundo e tente novamente.');
+      return;
+    }
+    
+    setIsZipping(true);
+    try {
+      const zip = new window.JSZip();
+      // Criar uma pasta dentro do ZIP com o ID curto do pedido
+      const folderName = `pedido_${downloadModal.orderId.slice(0, 8).toUpperCase()}`;
+      const folder = zip.folder(folderName);
+      
+      // Baixar todos os arquivos em paralelo
+      const downloadPromises = downloadModal.files.map(async (file) => {
+        try {
+          const response = await fetch(file.url);
+          const blob = await response.blob();
+          folder?.file(file.name, blob);
+        } catch (err) {
+          console.error(`Erro ao baixar ${file.name}:`, err);
+        }
+      });
+      
+      await Promise.all(downloadPromises);
+      
+      // Gerar o ZIP
+      const content = await zip.generateAsync({ type: 'blob' });
+      
+      // Disparar o download
+      const href = URL.createObjectURL(content);
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = `VIRTUAL_STUDIO_${folderName}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      
+      // Limpar memória
+      URL.revokeObjectURL(href);
+      
+    } catch (error: any) {
+      alert('Erro ao gerar arquivo ZIP: ' + error.message);
+    } finally {
+      setIsZipping(false);
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden bg-studio-black text-white">
       <AdminSidebar />
@@ -220,12 +288,26 @@ export default function AdminOrders() {
           <div className="bg-[#121212] border border-white/10 w-full max-w-lg overflow-hidden shadow-2xl">
             <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/5">
               <h3 className="font-bold font-display uppercase tracking-widest text-studio-gold">Fotos do Cliente</h3>
-              <button
-                onClick={() => setDownloadModal({ ...downloadModal, isOpen: false })}
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={handleDownloadAll}
+                  disabled={isZipping}
+                  className={`text-[10px] font-bold uppercase tracking-widest text-studio-gold hover:text-studio-gold-light transition-colors border-b border-studio-gold/30 hover:border-studio-gold flex items-center gap-2 ${isZipping ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {isZipping ? (
+                    <>
+                      <Loader2 size={12} className="animate-spin" />
+                      Zipando...
+                    </>
+                  ) : 'Baixar Tudo (ZIP)'}
+                </button>
+                <button
+                  onClick={() => setDownloadModal({ ...downloadModal, isOpen: false })}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
             <div className="p-6 max-h-[60vh] overflow-y-auto">
               {downloadModal.files.length === 0 ? (
