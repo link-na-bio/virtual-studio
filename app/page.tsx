@@ -3,8 +3,36 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'motion/react';
-import { Camera, ChevronLeft, ChevronRight, Check, CheckCheck, Star, Play, Instagram, Linkedin, Twitter, Menu, X, ArrowRight, Zap, Phone, Video } from 'lucide-react';
+import { Camera, ChevronLeft, ChevronRight, Check, CheckCheck, Star, Play, Instagram, Linkedin, Twitter, Menu, X, ArrowRight, Zap, Phone, Video, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
+import { AnimatePresence } from 'motion/react';
+
+const faqs = [
+  {
+    question: "Como funciona o Virtual Studio?",
+    answer: "Nosso sistema de IA avançado analisa suas fotos para criar um modelo digital personalizado. Em seguida, nossos artistas aplicam curadoria humana para gerar retratos profissionais que mantêm sua essência real e autoridade visual."
+  },
+  {
+    question: "Quantas fotos eu preciso enviar?",
+    answer: "Recomendamos o envio de 10 a 20 fotos de diferentes ângulos, iluminações e expressões. Quanto mais variadas as fotos, melhor nossa IA poderá aprender sua fisionomia para resultados perfeitos."
+  },
+  {
+    question: "Em quanto tempo recebo meu ensaio?",
+    answer: "O prazo padrão de entrega é de até 72 horas. Nossa prioridade é a perfeição, por isso cada pixel passa por uma revisão humana rigorosa antes de ser liberado na sua galeria."
+  },
+  {
+    question: "As fotos ficam com aspecto artificial?",
+    answer: "Diferente de filtros comuns de redes sociais, nossa tecnologia de IA generativa simula luzes e sombras físicas reais. A curadoria humana final garante que o resultado seja 100% convincente e profissional."
+  },
+  {
+    question: "Existe política de reembolso?",
+    answer: "Devido ao altíssimo custo de processamento computacional das nossas IAs de elite, não oferecemos reembolsos após o início da geração. No entanto, garantimos a satisfação através de nossa curadoria de excelência."
+  },
+  {
+    question: "Meus dados e fotos estão protegidos?",
+    answer: "Privacidade é nosso pilar. Suas imagens originais e o modelo de IA treinado são utilizados exclusivamente para o seu ensaio e deletados permanentemente de nossos servidores após a conclusão do trabalho."
+  }
+];
 
 const testimonials = [
   {
@@ -115,6 +143,7 @@ const testimonials = [
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const nextTestimonial = () => {
     setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -626,6 +655,60 @@ export default function LandingPage() {
                 <p className="text-gray-400 font-light leading-relaxed">Nossa <strong className="text-white">tecnologia de IA de ponta</strong> captura e mantém sua essência real, criando sombras, bordas e luzes 100% físicas e convincentes.</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-studio-black border-t border-white/5" id="faq">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 font-display italic">PERGUNTAS <span className="text-studio-gold">FREQUENTES</span></h2>
+            <p className="text-gray-500 uppercase tracking-widest text-xs font-light">Tudo o que você precisa saber sobre o Virtual Studio</p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="border border-white/10 bg-white/5 rounded-2xl overflow-hidden hover:border-studio-gold/30 transition-all duration-300"
+              >
+                <button
+                  onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                  className="w-full px-8 py-6 flex items-center justify-between text-left group"
+                >
+                  <span className={`text-lg transition-colors duration-300 ${activeFaq === index ? 'text-studio-gold font-bold' : 'text-gray-200 group-hover:text-white'}`}>
+                    {faq.question}
+                  </span>
+                  {activeFaq === index ? (
+                    <ChevronUp className="text-studio-gold shrink-0" size={20} />
+                  ) : (
+                    <ChevronDown className="text-gray-500 group-hover:text-studio-gold shrink-0 transition-all" size={20} />
+                  )}
+                </button>
+                <AnimatePresence mode="wait">
+                  {activeFaq === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    >
+                      <div className="px-8 pb-6 text-gray-400 font-light leading-relaxed border-t border-white/5 pt-4">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className="text-gray-500 text-sm mb-6">Ainda tem dúvidas? Fale com nosso suporte.</p>
+            <a href="mailto:suporte@virtualstudio.click" className="text-studio-gold font-bold border-b border-studio-gold/30 pb-1 hover:text-studio-gold-light transition-all">
+              suporte@virtualstudio.click
+            </a>
           </div>
         </div>
       </section>
