@@ -401,8 +401,8 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
             >
-              <div className="relative aspect-square w-full overflow-hidden">
-                <Image src="/corporativo.png" alt="Essential Package" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+              <div className="relative aspect-[3/4] w-full overflow-hidden">
+                <Image src="/corporativo.png" alt="Essential Package" fill className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6">
                   <span className="text-studio-gold font-display text-xl tracking-widest">ESSENTIAL</span>
@@ -432,8 +432,8 @@ export default function LandingPage() {
               transition={{ delay: 0.1 }}
               className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
             >
-              <div className="relative aspect-square w-full overflow-hidden">
-                <Image src="/editorial-de-moda.png" alt="Pro Package" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+              <div className="relative aspect-[3/4] w-full overflow-hidden">
+                <Image src="/editorial-de-moda.png" alt="Pro Package" fill className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6">
                   <span className="text-studio-gold font-display text-xl tracking-widest">PRO</span>
@@ -466,8 +466,8 @@ export default function LandingPage() {
               transition={{ delay: 0.2 }}
               className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
             >
-              <div className="relative aspect-square w-full overflow-hidden">
-                <Image src="/estilo-cinematográfico.jpeg" alt="Ultra Package" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+              <div className="relative aspect-[3/4] w-full overflow-hidden">
+                <Image src="/estilo-cinematográfico.jpeg" alt="Ultra Package" fill className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                 <div className="absolute bottom-6 left-6">
                   <span className="text-studio-gold font-display text-xl tracking-widest">ULTRA</span>
