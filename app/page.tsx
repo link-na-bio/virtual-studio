@@ -502,9 +502,7 @@ export default function LandingPage() {
                     <Check size={14} className="text-studio-gold" /> Entrega em 24h
                   </div>
                 </div>
-                <button className="self-start px-8 py-4 bg-transparent border border-studio-gold text-studio-gold font-bold uppercase tracking-widest hover:bg-studio-gold hover:text-studio-black transition-all flex items-center gap-3 group/btn">
-                  Iniciar Transformação <ChevronRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                </button>
+
               </div>
             </motion.div>
 
@@ -519,7 +517,7 @@ export default function LandingPage() {
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-studio-gold text-studio-black text-[10px] font-bold px-6 py-2 uppercase tracking-widest rounded-b-lg">O Mais Escolhido</div>
 
               <div className="flex flex-col md:flex-row gap-12 items-center">
-                <div className="md:w-1/2">
+                <div className="md:w-1/2 order-2 md:order-1">
                   <h3 className="text-3xl md:text-5xl mb-6 text-studio-gold italic">PACOTE PRO</h3>
                   <p className="text-xl md:text-2xl text-white mb-6 font-display leading-tight">MOLDE UMA IDENTIDADE VISUAL COMPLETA E INESQUECÍVEL</p>
                   <p className="text-gray-300 mb-8 leading-relaxed font-light text-lg">
@@ -539,11 +537,9 @@ export default function LandingPage() {
                       <Check size={18} className="text-studio-gold" /> Licença Comercial Full
                     </div>
                   </div>
-                  <button className="w-full md:w-auto px-12 py-5 bg-studio-gold text-studio-black font-extrabold uppercase tracking-[0.2em] hover:bg-studio-gold-light hover:scale-105 transition-all shadow-xl shadow-studio-gold/20 flex items-center justify-center gap-4">
-                    QUERO SER PRO <ArrowRight size={20} />
-                  </button>
+
                 </div>
-                <div className="md:w-1/2 relative">
+                <div className="w-full md:w-1/2 relative order-1 md:order-2">
                   <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 md:rotate-2 group-hover:rotate-0 transition-transform duration-700">
                     <Image src="/editorial-de-moda.png" alt="Pro Package" fill className="object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-tr from-studio-black/40 to-transparent"></div>
@@ -575,12 +571,23 @@ export default function LandingPage() {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center gap-3 text-sm text-gray-300 font-light italic">"A maior diversidade de poses e cenários para sua marca."</li>
                 </ul>
-                <button className="self-start px-8 py-4 bg-transparent border border-studio-gold text-studio-gold font-bold uppercase tracking-widest hover:bg-studio-gold hover:text-studio-black transition-all flex items-center gap-3 group/btn">
-                  Alcançar o Topo <ChevronRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                </button>
+
               </div>
             </motion.div>
           </div>
+
+          {/* Botão Único Final */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-20 text-center"
+          >
+            <button className="px-12 py-6 bg-studio-gold text-studio-black font-extrabold uppercase tracking-[0.2em] hover:bg-studio-gold-light hover:scale-110 transition-all shadow-2xl shadow-studio-gold/30 rounded-xl flex items-center justify-center gap-4 mx-auto text-lg">
+              SOLICITAR MEU ENSAIO <ArrowRight size={24} />
+            </button>
+            <p className="mt-8 text-gray-500 text-sm italic font-light tracking-widest uppercase">Comece agora sua jornada definitiva de imagem</p>
+          </motion.div>
 
           <div className="mt-24 border-t border-white/10 pt-20">
             <div className="text-center mb-16">
