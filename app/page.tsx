@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion } from 'motion/react';
-import { Camera, ChevronLeft, ChevronRight, Check, CheckCheck, Star, Play, Instagram, Linkedin, Twitter, Menu, X, ArrowRight, Zap, Phone, Video, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
-import { AnimatePresence } from 'motion/react';
 
 const faqs = [
   {
@@ -34,63 +33,25 @@ const faqs = [
   }
 ];
 
+// O Array original com os seus prints de tela
 const testimonials = [
-  {
-    id: 1,
-    name: "Roberto T.",
-    testimonialImage: "/01.jpeg"
-  },
-  {
-    id: 2,
-    name: "Camila",
-    testimonialImage: "/02.jpeg"
-  },
-  {
-    id: 3,
-    name: "Dr. Andre",
-    testimonialImage: "/03.jpeg"
-  },
-  {
-    id: 4,
-    name: "Aline",
-    testimonialImage: "/04.jpeg"
-  },
-  {
-    id: 5,
-    name: "Carlos Exec.",
-    testimonialImage: "/05.jpeg"
-  },
-  {
-    id: 6,
-    name: "Juliana Model",
-    testimonialImage: "/06.jpeg"
-  },
-  {
-    id: 7,
-    name: "Mauro A.",
-    testimonialImage: "/07.jpeg"
-  },
-  {
-    id: 8,
-    name: "Paula",
-    testimonialImage: "/08.jpeg"
-  },
-  {
-    id: 9,
-    name: "Pedro Burger",
-    testimonialImage: "/09.jpeg"
-  },
-  {
-    id: 10,
-    name: "Tiago A.",
-    testimonialImage: "/10.jpeg"
-  }
+  { id: 1, name: "Roberto T.", img: "/01.jpeg" },
+  { id: 2, name: "Camila", img: "/02.jpeg" },
+  { id: 3, name: "Dr. Andre", img: "/03.jpeg" },
+  { id: 4, name: "Aline", img: "/04.jpeg" },
+  { id: 5, name: "Carlos Exec.", img: "/05.jpeg" },
+  { id: 6, name: "Juliana Model", img: "/06.jpeg" },
+  { id: 7, name: "Mauro A.", img: "/07.jpeg" },
+  { id: 8, name: "Paula", img: "/08.jpeg" },
+  { id: 9, name: "Pedro Burger", img: "/09.jpeg" },
+  { id: 10, name: "Tiago A.", img: "/10.jpeg" }
 ];
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [windowWidth, setWindowWidth] = useState(1200);
 
   const nextTestimonial = () => {
     setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -100,19 +61,35 @@ export default function LandingPage() {
     setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  // Função matemática para o loop infinito
+  const getOffset = (index: number) => {
+    let offset = index - activeTestimonial;
+    const total = testimonials.length;
+    if (offset > Math.floor(total / 2)) offset -= total;
+    if (offset < -Math.floor(total / 2)) offset += total;
+    return offset;
+  };
+
   useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleResize = () => setWindowWidth(window.innerWidth);
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
+
+    window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
-    <div className="min-h-screen bg-studio-black">
+    <div className="min-h-screen bg-studio-black overflow-x-hidden">
       {/* Header */}
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-studio-black/90 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'}`}>
         <nav className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            {/* Logo expandida sem empurrar a altura da barra (margem negativa resolve) */}
             <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
               <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
@@ -195,7 +172,6 @@ export default function LandingPage() {
             <div className="relative">
               <div className="absolute -top-10 -left-10 w-40 h-40 border-t border-l border-studio-gold opacity-30"></div>
               <div className="relative aspect-square overflow-hidden bg-studio-black">
-                {/* Scale-105 e translate-y para jogar a marca d'água para fora do container overflow-hidden */}
                 <div className="absolute inset-0 scale-[1.08] translate-y-3 origin-center">
                   <Image
                     src="/humanoide.png"
@@ -242,7 +218,6 @@ export default function LandingPage() {
             { title: 'Estilo Cinematográfico', img: '/estilo-cinematográfico.jpeg', offset: true }
           ].map((style, i) => (
             <div key={i} className={`relative group h-[500px] overflow-hidden ${style.offset ? 'md:mt-12' : ''}`}>
-              {/* Scale-105 e translate-y para jogar a marca d'água para fora do container overflow-hidden */}
               <div className="absolute inset-0 bg-studio-black scale-[1.08] translate-y-3 origin-center">
                 <Image
                   src={style.img}
@@ -287,152 +262,95 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials / Social Proof (Dark Mode WhatsApp Carousel) */}
+      {/* NOVA SEÇÃO DE DEPOIMENTOS: IMAGENS 3D (PRINTS ORIGINAIS) - CORRIGIDA E À PROVA DE FALHAS */}
       <section className="py-24 bg-studio-black relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-studio-gold/5 to-transparent pointer-events-none"></div>
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
+
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-display italic">O QUE NOSSOS CLIENTES ESTÃO <span className="text-studio-gold">DIZENDO</span> <span className="text-xs opacity-50 ml-2">({activeTestimonial + 1}/{testimonials.length})</span></h2>
-            <p className="text-studio-gold tracking-widest uppercase text-sm font-light">Mais de 500 ensaios gerados com 100% de satisfação</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-display italic uppercase">
+              O QUE NOSSOS CLIENTES <span className="text-studio-gold">ESTÃO DIZENDO</span>
+            </h2>
+            <p className="text-studio-gold tracking-widest uppercase text-sm font-light">
+              Mais de 1.500 ensaios gerados com 100% de satisfação
+            </p>
           </div>
 
-          <div className="relative h-[650px] max-w-7xl mx-auto flex items-center justify-center mt-8 perspective-1000">
-            {/* Carousel Items */}
-            <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: '1000px' }}>
-              {testimonials.map((test, index) => {
-                const diff = (index - activeTestimonial + testimonials.length) % testimonials.length;
-                const half = Math.floor(testimonials.length / 2);
-                let offset = diff;
-                if (offset > half) offset -= testimonials.length;
+          {/* O Carrossel 3D CoverFlow */}
+          {/* Flexbox centraliza todos os itens absolutos com perfeição */}
+          <div className="relative h-[600px] w-full max-w-6xl mx-auto flex items-center justify-center overflow-hidden">
 
-                const absOffset = Math.abs(offset);
-                const isCenter = offset === 0;
+            {testimonials.map((test, index) => {
+              const offset = getOffset(index);
+              const absOffset = Math.abs(offset);
 
-                // Position logic: hide cards that are too far
-                if (absOffset > 2) return null;
+              // Constantes para controlar se o cartão aparece na tela
+              const isActive = absOffset <= 2;
+              const isCenter = offset === 0;
+              const distanceX = windowWidth < 768 ? 140 : 250;
 
-                const scale = isCenter ? 1.05 : 0.8;
-                const translateX = offset * 380;
-                const zIndex = 50 - absOffset;
-                const opacity = isCenter ? 1 : Math.max(0, 0.4 - (absOffset * 0.1));
+              return (
+                <motion.div
+                  key={test.id}
+                  onClick={() => !isCenter && setActiveTestimonial(index)}
+                  className={`absolute w-[260px] h-[520px] md:w-[280px] md:h-[560px] rounded-2xl overflow-hidden shadow-2xl transition-colors duration-300 bg-studio-black ${isCenter ? 'border-2 border-studio-gold cursor-default' : 'border border-white/10 cursor-pointer'}`}
+                  style={{ pointerEvents: isActive ? "auto" : "none" }}
+                  initial={false}
+                  animate={{
+                    // Animação usando números puros, sem travar o React!
+                    x: offset * distanceX,
+                    scale: isActive ? 1 - absOffset * 0.15 : 0.5,
+                    zIndex: 20 - absOffset,
+                    opacity: isActive ? (1 - absOffset * 0.3) : 0,
+                  }}
+                  transition={{ type: "spring", stiffness: 260, damping: 25 }}
+                >
+                  <Image
+                    src={test.img}
+                    alt={`Depoimento ${test.name}`}
+                    fill
+                    className="object-contain"
+                    priority={isCenter}
+                  />
+                  {/* Máscara preta escurecendo as imagens laterais */}
+                  {!isCenter && (
+                    <div className="absolute inset-0 bg-black/60 transition-all duration-300 hover:bg-black/40" />
+                  )}
+                </motion.div>
+              );
+            })}
 
-                return (
-                  <motion.div
-                    key={test.id}
-                    className="absolute top-1/2 left-1/2 cursor-pointer"
-                    initial={false}
-                    animate={{
-                      x: translateX,
-                      y: '-50%',
-                      scale,
-                      opacity,
-                      zIndex,
-                    }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 260,
-                      damping: 26,
-                    }}
-                    style={{
-                      left: '50%',
-                      translateX: '-50%',
-                    }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    onDragEnd={(_, info) => {
-                      const swipeThreshold = 50;
-                      if (info.offset.x > swipeThreshold) {
-                        prevTestimonial();
-                      } else if (info.offset.x < -swipeThreshold) {
-                        nextTestimonial();
-                      }
-                    }}
-                    onClick={() => !isCenter && setActiveTestimonial(index)}
-                  >
-                    {/* Testimonial Image Card - Optimized for Visibility */}
-                    <div className="relative w-[420px] aspect-[9/19.5] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-white/5 border border-white/10 group">
-                      <Image 
-                        src={test.testimonialImage} 
-                        alt={test.name} 
-                        fill 
-                        className="object-contain"
-                        priority={isCenter}
-                      />
-                      
-                      {!isCenter && (
-                        <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] z-30 transition-all duration-500"></div>
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+            {/* Setas de navegação */}
+            <button
+              onClick={prevTestimonial}
+              className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-studio-black/80 backdrop-blur-md border border-studio-gold/50 flex items-center justify-center text-studio-gold hover:bg-studio-gold hover:text-black transition-all shadow-xl z-50 cursor-pointer"
+            >
+              <ChevronLeft size={28} />
+            </button>
+            <button
+              onClick={nextTestimonial}
+              className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-studio-black/80 backdrop-blur-md border border-studio-gold/50 flex items-center justify-center text-studio-gold hover:bg-studio-gold hover:text-black transition-all shadow-xl z-50 cursor-pointer"
+            >
+              <ChevronRight size={28} />
+            </button>
           </div>
 
-          {/* Navigation Controls (Moved outside perspective container) */}
-          <div className="flex flex-col items-center mt-12 gap-8 relative z-50">
-            {/* Desktop Arrows Row */}
-            <div className="hidden md:flex items-center gap-12">
+          {/* Pontos de Navegação Inferiores */}
+          <div className="flex justify-center items-center gap-3 mt-8 relative z-50">
+            {testimonials.map((_, i) => (
               <button
-                onClick={prevTestimonial}
-                className="w-16 h-16 rounded-full bg-studio-gray/80 border border-white/10 flex items-center justify-center text-white hover:bg-studio-gold hover:text-black transition-all shadow-xl"
-                aria-label="Anterior"
-              >
-                <ChevronLeft size={32} />
-              </button>
-              
-              {/* Dots Indicators */}
-              <div className="flex justify-center items-center gap-3">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveTestimonial(i)}
-                    className={`transition-all duration-300 rounded-full cursor-pointer h-2 ${activeTestimonial === i ? 'w-12 bg-studio-gold shadow-[0_0_15px_rgba(255,215,0,0.6)]' : 'w-2 bg-white/20 hover:bg-white/40'}`}
-                    aria-label={`Ir para depoimento ${i + 1}`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={nextTestimonial}
-                className="w-16 h-16 rounded-full bg-studio-gray/80 border border-white/10 flex items-center justify-center text-white hover:bg-studio-gold hover:text-black transition-all shadow-xl"
-                aria-label="Próximo"
-              >
-                <ChevronRight size={32} />
-              </button>
-            </div>
-
-            {/* Mobile Arrows Row */}
-            <div className="flex md:hidden items-center gap-8">
-              <button
-                onClick={prevTestimonial}
-                className="w-14 h-14 rounded-full bg-studio-gray/80 border border-white/10 flex items-center justify-center text-white shadow-lg"
-                aria-label="Anterior"
-              >
-                <ChevronLeft size={28} />
-              </button>
-
-              <div className="flex gap-2">
-                {[...Array(testimonials.length)].map((_, i) => (
-                  <div 
-                    key={i}
-                    className={`w-1.5 h-1.5 rounded-full ${activeTestimonial === i ? 'bg-studio-gold' : 'bg-white/20'}`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={nextTestimonial}
-                className="w-14 h-14 rounded-full bg-studio-gray/80 border border-white/10 flex items-center justify-center text-white shadow-lg"
-                aria-label="Próximo"
-              >
-                <ChevronRight size={28} />
-              </button>
-            </div>
+                key={i}
+                onClick={() => setActiveTestimonial(i)}
+                className={`transition-all duration-300 rounded-full cursor-pointer h-2 ${activeTestimonial === i
+                    ? 'w-10 bg-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]'
+                    : 'w-2 bg-white/20 hover:bg-white/40'
+                  }`}
+                aria-label={`Ir para depoimento ${i + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>
-
 
       {/* AI Artist Section */}
       <section className="py-24 bg-studio-black">
@@ -444,7 +362,6 @@ export default function LandingPage() {
               <p className="text-gray-300 mb-6 font-light leading-relaxed">
                 Diferente de aplicativos genéricos, no VIRTUAL STUDIO cada pixel é revisado por um profissional. Nós não apenas geramos imagens; nós criamos uma narrativa visual que respeita suas características únicas e eleva sua marca pessoal.
               </p>
-
             </div>
             <div className="w-full md:w-1/2 order-1 md:order-2">
               <div className="relative aspect-[16/10] md:aspect-video gold-border-gradient p-2 md:p-4">
@@ -477,7 +394,7 @@ export default function LandingPage() {
           </div>
 
           <div className="space-y-12">
-            {/* Pacote 1: ESSENTIAL - Staggered Left */}
+            {/* Pacote 1: ESSENTIAL */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -504,11 +421,10 @@ export default function LandingPage() {
                     <Check size={14} className="text-studio-gold" /> Entrega em 24h
                   </div>
                 </div>
-
               </div>
             </motion.div>
 
-            {/* Pacote 2: PRO - Full Width Highlight */}
+            {/* Pacote 2: PRO */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -517,7 +433,6 @@ export default function LandingPage() {
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-studio-gold text-studio-black text-[10px] font-bold px-6 py-2 uppercase tracking-widest rounded-b-lg">O Mais Escolhido</div>
               <div className="absolute top-0 right-0 w-64 h-64 bg-studio-gold/10 blur-[100px] pointer-events-none"></div>
-
 
               <div className="flex flex-col md:flex-row gap-12 items-center">
                 <div className="md:w-1/2 order-2 md:order-1">
@@ -540,7 +455,6 @@ export default function LandingPage() {
                       <Check size={18} className="text-studio-gold" /> Licença Comercial Full
                     </div>
                   </div>
-
                 </div>
                 <div className="w-full md:w-1/2 relative order-1 md:order-2">
                   <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 md:rotate-2 group-hover:rotate-0 transition-transform duration-700">
@@ -552,7 +466,7 @@ export default function LandingPage() {
               </div>
             </motion.div>
 
-            {/* Pacote 3: ULTRA - Staggered Right */}
+            {/* Pacote 3: ULTRA */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -574,7 +488,6 @@ export default function LandingPage() {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center gap-3 text-sm text-gray-300 font-light italic">"A maior diversidade de poses e cenários para sua marca."</li>
                 </ul>
-
               </div>
             </motion.div>
           </div>
