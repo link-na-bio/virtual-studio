@@ -316,8 +316,7 @@ export default function Dashboard() {
           .from('previa_ensaios')
           .createSignedUrl(`${path}${file.name}`, 3600, {
             transform: {
-              quality: 50,
-              width: 600 // Limita o tamanho do arquivo original enviado para a prévia
+              quality: 40
             }
           }); // Válido por 1 hora (3600 segundos)
 
@@ -375,7 +374,7 @@ export default function Dashboard() {
                 <div
                   key={idx}
                   // 📐 Tamanho Elegante e Premium: max-w-xs (aproximadamente 320px)
-                  className="relative w-48 md:w-64 shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-xl overflow-hidden bg-[#121212] border border-white/5"
+                  className="relative max-w-[160px] md:max-w-[240px] w-full shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-xl overflow-hidden bg-[#121212] border border-white/5"
                   onContextMenu={(e) => e.preventDefault()} // 🛡️ Bloqueio botão direito
                 >
                   {/* A Foto */}
