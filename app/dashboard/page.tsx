@@ -344,7 +344,6 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen bg-studio-black text-white relative">
-
       {/* 🛡️ MODAL DE PRÉVIA BLINDADO 🛡️ */}
       <AnimatePresence>
         {isPreviewOpen && (
@@ -499,7 +498,21 @@ export default function Dashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto bg-[#121212]">
+      <main className="flex-1 overflow-y-auto bg-[#121212] pt-20 pb-24 md:pt-8 md:pb-8 relative">
+        
+        {/* MOBILE HEADER (TOP) */}
+        <header className="fixed top-0 left-0 right-0 h-16 bg-studio-black/80 backdrop-blur-xl border-b border-white/5 z-[100] flex items-center justify-between px-6 md:hidden">
+          <div className="flex items-center gap-2">
+            <div className="relative w-8 h-8">
+              <Image src="/logo.png" alt="Logo" fill className="object-contain" priority />
+            </div>
+            <h1 className="text-white text-xs font-bold font-display tracking-widest leading-none">VIRTUAL STUDIO</h1>
+          </div>
+          <button onClick={handleLogout} className="p-2 bg-white/5 rounded-lg border border-white/10 text-red-500">
+            <LogOut size={16} />
+          </button>
+        </header>
+
         {/* Aba Home */}
         {activeTab === 'home' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="home">
@@ -1014,6 +1027,31 @@ export default function Dashboard() {
           </motion.div>
         )}
       </AnimatePresence>
+      {/* MOBILE BOTTOM NAVIGATION (BOTTOM) */}
+      <nav className="fixed bottom-0 left-0 right-0 h-20 bg-studio-black/90 backdrop-blur-2xl border-t border-white/5 z-[100] flex items-center justify-around px-2 md:hidden">
+        {[
+          { id: 'home', icon: Home, label: 'Home' },
+          { id: 'ensaios', icon: Library, label: 'Ensaios' },
+          { id: 'novo', icon: PlusCircle, label: 'Novo', primary: true },
+          { id: 'perfil', icon: User, label: 'Perfil' },
+        ].map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id as any)}
+            className={`flex flex-col items-center justify-center gap-1 transition-all duration-300 relative ${
+              item.primary 
+                ? 'w-14 h-14 -mt-10 bg-studio-gold text-studio-black rounded-full shadow-[0_0_20px_rgba(212,175,55,0.4)]' 
+                : activeTab === item.id ? 'text-studio-gold' : 'text-gray-500'
+            }`}
+          >
+            {activeTab === item.id && !item.primary && (
+              <motion.div layoutId="activeMobileTab" className="absolute -top-3 w-1.5 h-1.5 bg-studio-gold rounded-full" />
+            )}
+            <item.icon size={item.primary ? 28 : 22} strokeWidth={item.primary ? 3 : 2} />
+            {!item.primary && <span className="text-[10px] font-bold uppercase tracking-wider">{item.label}</span>}
+          </button>
+        ))}
+      </nav>
     </div>
   );
 }
