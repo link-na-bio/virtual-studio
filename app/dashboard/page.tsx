@@ -314,7 +314,12 @@ export default function Dashboard() {
       const urlPromises = validFiles.map(async (file) => {
         const { data, error } = await supabase.storage
           .from('previa_ensaios')
-          .createSignedUrl(`${path}${file.name}`, 3600); // Válido por 1 hora (3600 segundos)
+          .createSignedUrl(`${path}${file.name}`, 3600, {
+            transform: {
+              quality: 50,
+              width: 600 // Limita o tamanho do arquivo original enviado para a prévia
+            }
+          }); // Válido por 1 hora (3600 segundos)
 
         if (error) throw error;
         return data.signedUrl;
@@ -377,7 +382,7 @@ export default function Dashboard() {
                   <img
                     src={url}
                     alt={`Prévia ${idx + 1}`}
-                    className="w-full h-auto block pointer-events-none select-none"
+                    className="w-full h-auto block pointer-events-none select-none filter blur-[1.2px] brightness-[0.9] contrast-[1.1]"
                     draggable={false}
                   />
 
