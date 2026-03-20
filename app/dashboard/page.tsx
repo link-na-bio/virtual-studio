@@ -365,34 +365,35 @@ export default function Dashboard() {
             </div>
 
             {/* Área das Fotos Blindadas */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col items-center gap-6 select-none bg-black/40">
+            <div className="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col items-center gap-12 select-none">
               {previewPhotos.map((url, idx) => (
                 <div
                   key={idx}
-                  // LUXO: max-w-xs (320px) cria uma miniatura elegante e profissional
-                  className="relative max-w-xs w-full shrink-0 shadow-[0_20px_50px_rgba(0,0,0,0.8)] rounded-xl overflow-hidden bg-[#0A0A0A] border border-white/10 group"
-                  onContextMenu={(e) => e.preventDefault()}
+                  // 📐 Tamanho Elegante e Premium: max-w-xs (aproximadamente 320px)
+                  className="relative max-w-xs w-full shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-xl overflow-hidden bg-[#121212] border border-white/5"
+                  onContextMenu={(e) => e.preventDefault()} // 🛡️ Bloqueio botão direito
                 >
                   {/* A Foto */}
                   <img
                     src={url}
                     alt={`Prévia ${idx + 1}`}
-                    className="w-full h-auto block pointer-events-none select-none grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
+                    className="w-full h-auto block pointer-events-none select-none"
                     draggable={false}
                   />
 
-                  {/* Camada 1: Escudo Invisível anti-Drag & Drop */}
-                  <div className="absolute inset-0 z-10 cursor-default"></div>
+                  {/* 🛡️ Camada 1: Escudo Invisível anti-Drag & Drop e anti-clique */}
+                  <div className="absolute inset-0 z-10 cursor-not-allowed"></div>
 
-                  {/* Camada 2: Marca d'água de Luxo (Grade Diagonal Densa SVG) */}
-                  <div 
-                    className="absolute inset-0 z-20 pointer-events-none opacity-20 mix-blend-overlay"
+                  {/* 🛡️ Camada 2: A NOVA Blindagem de Grade Premium (Estilo Denso e Sutil) 🛡️ */}
+                  <div
+                    className="absolute inset-0 z-20 pointer-events-none opacity-25 mix-blend-overlay"
                     style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='6' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle' transform='rotate(-45 40 40)' opacity='0.8'%3EVIRTUAL STUDIO%3C/text%3E%3C/svg%3E")`,
+                      // Usando Base64 SVG para criar uma grade diagonal densa e repetida com o seu texto
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cstyle%3E .watermark { font-family: 'font-display', sans-serif; font-size: 10px; font-weight: 900; fill: %23ffffff; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; } %3C/style%3E%3Ctext x='50' y='50' transform='rotate(-45 50 50)' text-anchor='middle' className='watermark'%3EVIRTUAL STUDIO%3C/text%3E%3C/svg%3E")`,
                       backgroundRepeat: 'repeat',
-                      backgroundSize: '80px 80px'
+                      backgroundSize: '80px 80px' // Controla a densidade da grade
                     }}
-                  />
+                  ></div>
                 </div>
               ))}
             </div>
@@ -499,7 +500,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto bg-[#121212] pt-20 pb-24 md:pt-8 md:pb-8 relative">
-        
+
         {/* MOBILE HEADER (TOP) */}
         <header className="fixed top-0 left-0 right-0 h-16 bg-studio-black/80 backdrop-blur-xl border-b border-white/5 z-[100] flex items-center justify-between px-6 md:hidden">
           <div className="flex items-center gap-2">
@@ -1038,11 +1039,10 @@ export default function Dashboard() {
           <button
             key={item.id}
             onClick={() => setActiveTab(item.id as any)}
-            className={`flex flex-col items-center justify-center gap-1 transition-all duration-300 relative ${
-              item.primary 
-                ? 'w-14 h-14 -mt-10 bg-studio-gold text-studio-black rounded-full shadow-[0_0_20px_rgba(212,175,55,0.4)]' 
+            className={`flex flex-col items-center justify-center gap-1 transition-all duration-300 relative ${item.primary
+                ? 'w-14 h-14 -mt-10 bg-studio-gold text-studio-black rounded-full shadow-[0_0_20px_rgba(212,175,55,0.4)]'
                 : activeTab === item.id ? 'text-studio-gold' : 'text-gray-500'
-            }`}
+              }`}
           >
             {activeTab === item.id && !item.primary && (
               <motion.div layoutId="activeMobileTab" className="absolute -top-3 w-1.5 h-1.5 bg-studio-gold rounded-full" />
