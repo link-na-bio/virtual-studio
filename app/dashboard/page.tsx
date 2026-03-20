@@ -384,18 +384,14 @@ export default function Dashboard() {
                   {/* 🛡️ Camada 1: Escudo Invisível anti-Drag & Drop e anti-clique */}
                   <div className="absolute inset-0 z-10 cursor-not-allowed"></div>
 
-                  {/* 🛡️ Camada 2: A NOVA Blindagem de Grade Profissional (Estilo Fotógrafo de Elite) 🛡️ */}
+                  {/* 🛡️ Camada 2: A Blindagem Definitiva (Estilo Fotto 1:1 - Ultra-Dense Security Grid) 🛡️ */}
                   <div
-                    className="absolute inset-0 z-20 pointer-events-none opacity-20 mix-blend-overlay"
+                    className="absolute inset-0 z-20 pointer-events-none opacity-25 mix-blend-overlay"
                     style={{
-                      // MULTI-LAYER: Logo e Texto intercalados para máxima segurança e branding
-                      backgroundImage: `
-                        url("/logo.2.png"),
-                        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='85%25' transform='rotate(-20 50 85)' text-anchor='middle' fill='white' font-size='8' font-family='sans-serif' font-weight='900' opacity='0.7' letter-spacing='0.1em'%3EVIRTUAL STUDIO%3C/text%3E%3C/svg%3E")
-                      `,
-                      backgroundRepeat: 'repeat, repeat',
-                      backgroundSize: '40px 40px, 100px 100px',
-                      backgroundPosition: 'center center, 0 0'
+                      // GRID DINÂMICO: Repetição rítmica com diagonais cruzadas conectando logo e avisos
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cline x1='0' y1='0' x2='160' y2='160' stroke='white' stroke-width='0.5' opacity='0.15' /%3E%3Cline x1='160' y1='0' x2='0' y2='160' stroke='white' stroke-width='0.5' opacity='0.15' /%3E%3Cimage href='/logo.2.png' x='60' y='50' width='40' height='40' opacity='0.4' /%3E%3Ctext x='80' y='105' text-anchor='middle' fill='white' font-size='9' font-family='sans-serif' font-weight='900' opacity='0.5' letter-spacing='0.1em'%3EVIRTUAL STUDIO%3C/text%3E%3Ctext x='80' y='118' text-anchor='middle' fill='white' font-size='6' font-family='sans-serif' font-weight='700' opacity='0.3'%3EFOTO PROTEGIDA • NÃO TIRE PRINT%3C/text%3E%3C/svg%3E")`,
+                      backgroundRepeat: 'repeat',
+                      backgroundSize: '160px 160px'
                     }}
                   ></div>
                 </div>
