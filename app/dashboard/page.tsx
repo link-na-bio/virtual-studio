@@ -418,11 +418,12 @@ export default function Dashboard() {
                       />
                       <div className="absolute inset-0 z-10 cursor-not-allowed" onContextMenu={(e) => e.preventDefault()}></div>
                       <div
-                        className="absolute inset-0 z-20 pointer-events-none opacity-25 mix-blend-overlay"
+                        className="absolute inset-0 z-20 pointer-events-none opacity-80"
                         style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cstyle%3E .watermark { font-family: 'sans-serif'; font-size: 10px; font-weight: 900; fill: %23ffffff; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; } %3C/style%3E%3Ctext x='50' y='50' transform='rotate(-45 50 50)' text-anchor='middle' className='watermark'%3EVIRTUAL STUDIO%3C/text%3E%3C/svg%3E")`,
-                          backgroundRepeat: 'repeat',
-                          backgroundSize: '80px 80px'
+                          backgroundImage: `url("/FOTO PROTEGIDA - NÃO TIRE PRINT.png")`,
+                          backgroundRepeat: 'no-repeat',
+                          backgroundSize: '100% 100%',
+                          backgroundPosition: 'center center'
                         }}
                       ></div>
                     </motion.div>
