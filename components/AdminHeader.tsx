@@ -17,7 +17,7 @@ export default function AdminHeader() {
         .select('*')
         .eq('lida', false)
         .order('criado_em', { ascending: false })
-        .limit(5);
+        .limit(10); // Aumentei o limite para não perder nenhum PIX
 
       if (data) {
         setNotifications(data);
@@ -27,9 +27,9 @@ export default function AdminHeader() {
 
     fetchNotifications();
 
-    // 2. Escutar em tempo real (CANAL REALTIME)
+    // 2. O VERDADEIRO Escutador Real-time do Supabase
     const channel = supabase
-      .channel('admin_notifications')
+      .channel('notificacoes_admin_channel')
       .on(
         'postgres_changes',
         {
@@ -38,14 +38,14 @@ export default function AdminHeader() {
           table: 'notificacoes_admin'
         },
         (payload) => {
-          console.log('Nova notificação recebida:', payload);
-          setNotifications(prev => [payload.new, ...prev].slice(0, 5));
+          console.log('✅ Novo PIX detectado pelo Admin:', payload);
+          setNotifications(prev => [payload.new, ...prev].slice(0, 10));
           setHasNew(true);
-          
-          // Opcional: Tocar um som de alerta ou mostrar toast
+
+          // Opcional: Tocar um som de alerta
           if (typeof window !== 'undefined') {
-            const audio = new Audio('/notification-sound.mp3'); // Opcional
-            audio.play().catch(() => {});
+            const audio = new Audio('/notification-sound.mp3');
+            audio.play().catch(() => console.log('Áudio bloqueado pelo navegador'));
           }
         }
       )
@@ -60,7 +60,8 @@ export default function AdminHeader() {
     setShowNotifications(!showNotifications);
     if (hasNew) {
       setHasNew(false);
-      // Opcional: Marcar no banco como lidas
+
+      // Marca no banco como lidas
       await supabase
         .from('notificacoes_admin')
         .update({ lida: true })
@@ -94,7 +95,7 @@ export default function AdminHeader() {
         <div className="flex items-center gap-4">
           {/* Sino de Notificação com Realtime */}
           <div className="relative">
-            <button 
+            <button
               onClick={markAsRead}
               className={`size-9 flex items-center justify-center rounded-none bg-white/5 border border-white/10 text-slate-400 relative hover:text-studio-gold transition-colors ${hasNew ? 'text-studio-gold border-studio-gold/30' : ''}`}
             >
@@ -104,7 +105,7 @@ export default function AdminHeader() {
               )}
             </button>
 
-            {/* Menu Dropdown de Notificações Simple */}
+            {/* Menu Dropdown de Notificações */}
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-80 bg-[#121212] border border-white/10 shadow-2xl z-[100] animate-in fade-in slide-in-from-top-2">
                 <div className="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
@@ -118,9 +119,14 @@ export default function AdminHeader() {
                     notifications.map((notif, i) => (
                       <div key={i} className="p-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer group">
                         <p className="text-[10px] font-bold text-white uppercase group-hover:text-studio-gold transition-colors">
-                          {notif.pacote || 'Novo Pedido'}
+                          {notif.pacote ? `PIX - Pacote ${notif.pacote}` : 'Novo Aviso'}
                         </p>
                         <p className="text-[11px] text-gray-400 mt-1">{notif.mensagem}</p>
+                        {notif.order_id && (
+                          <p className="text-[9px] text-emerald-500 mt-1 uppercase tracking-widest font-bold">
+                            Verifique o pedido #{notif.order_id.slice(0, 8)}
+                          </p>
+                        )}
                         <p className="text-[9px] text-gray-600 mt-2 uppercase tracking-tighter">
                           {new Date(notif.criado_em).toLocaleString('pt-BR')}
                         </p>
