@@ -56,6 +56,12 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [pedidos, setPedidos] = useState<any[]>([]);
 
+  // Estados do Modal de Prévia Segura
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [previewPhotos, setPreviewPhotos] = useState<string[]>([]);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+  const [isFetchingPreview, setIsFetchingPreview] = useState(false);
+
   // Buscar Pedidos do Usuário
   const fetchPedidos = async (userId: string) => {
     try {
@@ -289,6 +295,42 @@ export default function Dashboard() {
       alert("Erro ao atualizar avatar: " + (error.message || "Tente novamente."));
     } finally {
       setIsUpdatingProfile(false);
+    }
+  };
+
+  // Função para Abrir Prévia Segura
+  const handleOpenPreview = async (orderId: string) => {
+    setIsFetchingPreview(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Não autenticado");
+
+      const path = `${user.id}/${orderId}/`;
+      const { data: files, error } = await supabase.storage
+        .from('previa_ensaios')
+        .list(path);
+
+      if (error) throw error;
+      if (!files || files.length === 0) {
+        alert("Nenhuma prévia encontrada. Nossa equipe está finalizando seu ensaio!");
+        return;
+      }
+
+      const urls = files.map(file => {
+        const { data: { publicUrl } } = supabase.storage
+          .from('previa_ensaios')
+          .getPublicUrl(`${path}${file.name}`);
+        return publicUrl;
+      });
+
+      setPreviewPhotos(urls);
+      setSelectedOrderId(orderId);
+      setIsPreviewOpen(true);
+    } catch (error: any) {
+      console.error('Erro ao buscar prévia:', error);
+      alert("Erro ao carregar prévia: " + error.message);
+    } finally {
+      setIsFetchingPreview(false);
     }
   };
 
@@ -545,6 +587,21 @@ export default function Dashboard() {
                           </span>
                         ))}
                       </div>
+
+                      {pedido.status === 'Prévia Disponível' && (
+                        <button
+                          onClick={() => handleOpenPreview(pedido.id)}
+                          disabled={isFetchingPreview}
+                          className="w-full mt-4 py-3 bg-studio-gold text-studio-black font-bold uppercase tracking-widest text-[10px] hover:bg-studio-gold-light transition-all flex items-center justify-center gap-2 group/btn"
+                        >
+                          {isFetchingPreview && selectedOrderId === pedido.id ? (
+                            <div className="w-3 h-3 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                          ) : (
+                            <Eye size={14} className="group-hover/btn:scale-110 transition-transform" />
+                          )}
+                          Visualizar Prévia
+                        </button>
+                      )}
                     </div>
 
                     <div className="p-4 bg-white/5 border-t border-white/10 flex justify-between items-center mt-auto">
