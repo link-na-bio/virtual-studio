@@ -4,9 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  Search,
-  Bell,
-  Plus,
   TrendingUp,
   TrendingDown,
   List,
@@ -28,6 +25,7 @@ import {
   Loader2
 } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
+import AdminHeader from '@/components/AdminHeader';
 import { supabase } from '@/lib/supabaseClient';
 
 declare global {
@@ -363,41 +361,7 @@ export default function AdminOrders() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        {/* Header Profissional */}
-        <header className="h-20 bg-studio-black border-b border-white/5 flex items-center justify-between px-8 bg-gradient-to-b from-white/[0.02] to-transparent">
-          <div className="flex flex-col">
-            <h1 className="text-xl font-bold font-display uppercase tracking-[0.2em] text-white">
-              VIRTUAL <span className="text-studio-gold">STUDIO</span>
-            </h1>
-            <p className="text-[9px] text-studio-gold font-bold uppercase tracking-[0.2em] opacity-60">
-              Painel de Controle Administrativo
-            </p>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <div className="relative w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
-              <input
-                className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-none text-[10px] font-bold uppercase tracking-widest focus:ring-1 focus:ring-studio-gold transition-all outline-none text-white placeholder:text-gray-600"
-                placeholder="Pesquisar pedidos..."
-                type="text"
-              />
-            </div>
-
-            <div className="h-8 w-[1px] bg-white/10"></div>
-
-            <div className="flex items-center gap-4">
-              <button className="size-9 flex items-center justify-center rounded-none bg-white/5 border border-white/10 text-slate-400 relative hover:text-studio-gold transition-colors">
-                <Bell size={18} />
-                <span className="absolute top-2 right-2 size-1.5 bg-studio-gold rounded-full shadow-[0_0_8px_rgba(212,175,55,1)]"></span>
-              </button>
-              <button className="h-10 px-8 bg-studio-gold text-studio-black rounded-none text-[10px] font-bold font-display uppercase tracking-widest flex items-center gap-2 hover:bg-studio-gold-light transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)]">
-                <Plus size={14} />
-                Novo Pedido
-              </button>
-            </div>
-          </div>
-        </header>
+        <AdminHeader />
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-8 bg-[#121212]">
