@@ -402,13 +402,13 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
               {[
                 {
-                  label: 'Pedidos Totais',
-                  val: pedidos.length.toString().padStart(2, '0'),
+                  label: 'Aguardando',
+                  val: pedidos.filter(p => !p.status || p.status === 'Aguardando Produção').length.toString().padStart(2, '0'),
                   icon: Clock
                 },
                 {
-                  label: 'Em Processo',
-                  val: pedidos.filter(p => p.status === 'Aguardando Produção' || p.status === 'Em Produção').length.toString().padStart(2, '0'),
+                  label: 'Em Produção',
+                  val: pedidos.filter(p => p.status === 'Em Produção' || p.status === 'Processing').length.toString().padStart(2, '0'),
                   icon: Zap
                 },
                 {
@@ -418,7 +418,7 @@ export default function Dashboard() {
                 },
                 {
                   label: 'Ensaios Concluídos',
-                  val: pedidos.filter(p => p.status === 'Finalizado').length.toString().padStart(2, '0'),
+                  val: pedidos.filter(p => p.status === 'Ensaio Concluído' || p.status === 'Finalizado').length.toString().padStart(2, '0'),
                   icon: CheckCircle2
                 },
               ].map((stat, i) => (
@@ -454,12 +454,13 @@ export default function Dashboard() {
                           <td className="px-6 py-4 font-bold uppercase tracking-widest text-xs text-studio-gold">{pedido.pacote}</td>
                           <td className="px-6 py-4 text-gray-500 text-xs">{formatDate(pedido.criado_em)}</td>
                           <td className="px-6 py-4">
-                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                              pedido.status === 'Finalizado' ? 'bg-emerald-500/10 text-emerald-500' :
-                              pedido.status === 'Em Produção' ? 'bg-blue-500/10 text-blue-500' :
-                              'bg-amber-500/10 text-amber-500'
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
+                              (pedido.status === 'Ensaio Concluído' || pedido.status === 'Finalizado') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                              pedido.status === 'Em Produção' ? 'bg-blue-900/20 text-blue-400 border-blue-400/30' :
+                              pedido.status === 'Prévia Disponível' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
+                              'bg-orange-500/10 text-orange-400 border-orange-500/20'
                             }`}>
-                              {pedido.status}
+                              {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
                             </span>
                           </td>
                         </tr>
@@ -524,12 +525,13 @@ export default function Dashboard() {
                   <div key={pedido.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden group hover:border-studio-gold/30 transition-all flex flex-col">
                     <div className="p-6 flex-1">
                       <div className="flex justify-between items-start mb-4">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                          pedido.status === 'Finalizado' ? 'bg-emerald-500/10 text-emerald-500' :
-                          pedido.status === 'Em Produção' ? 'bg-blue-500/10 text-blue-500' :
-                          'bg-amber-500/10 text-amber-500'
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
+                          (pedido.status === 'Ensaio Concluído' || pedido.status === 'Finalizado') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                          pedido.status === 'Em Produção' ? 'bg-blue-900/20 text-blue-400 border-blue-400/30' :
+                          pedido.status === 'Prévia Disponível' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
+                          'bg-orange-500/10 text-orange-400 border-orange-500/20'
                         }`}>
-                          {pedido.status}
+                          {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
                         </span>
                         <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{formatDate(pedido.criado_em).split(',')[0]}</span>
                       </div>

@@ -162,6 +162,9 @@ export default function AdminOrders() {
 
       if (signedError) throw signedError;
 
+      // ATUALIZAÇÃO AUTOMÁTICA: Marcar como 'Em Produção' ao baixar as fotos
+      await handleStatusChange(orderId, 'Em Produção');
+
       const filesWithUrls = validFiles.map((file, idx) => ({
         name: file.name,
         url: signedData[idx].signedUrl
@@ -207,7 +210,7 @@ export default function AdminOrders() {
       // Atualizar status do pedido no banco após upload com sucesso
       const { error: statusError } = await supabase
         .from('pedidos')
-        .update({ status: 'Em Produção' }) 
+        .update({ status: 'Prévia Disponível' }) 
         .eq('id', uploadingOrder.id);
 
       if (statusError) throw statusError;
@@ -487,19 +490,21 @@ export default function AdminOrders() {
                             <select
                               value={
                                 order.status === 'Processing' ? 'Em Produção' : 
-                                order.status === 'Completed' ? 'Concluído' : 
+                                order.status === 'Completed' ? 'Ensaio Concluído' : 
                                 order.status
                               }
                               onChange={(e) => handleStatusChange(order.id, e.target.value)}
                               className={`bg-studio-black border px-2 py-1 text-[10px] font-bold uppercase tracking-widest font-display outline-none cursor-pointer focus:ring-1 focus:ring-studio-gold transition-all ${
-                                (order.status === 'Concluído' || order.status === 'Completed') ? 'text-emerald-400 border-emerald-400/30' :
-                                (order.status === 'Em Produção' || order.status === 'Processing') ? 'text-blue-400 border-blue-400/30' :
+                                (order.status === 'Ensaio Concluído' || order.status === 'Completed') ? 'text-emerald-400 border-emerald-400/30' :
+                                (order.status === 'Em Produção' || order.status === 'Processing') ? 'text-blue-400 border-blue-400/20 bg-blue-900/10' :
+                                (order.status === 'Prévia Disponível') ? 'text-studio-gold border-studio-gold/30' :
                                 'text-orange-400 border-orange-400/30'
                               }`}
                             >
                               <option value="Aguardando Produção">Aguardando Produção</option>
                               <option value="Em Produção">Em Produção</option>
-                              <option value="Concluído">Concluído</option>
+                              <option value="Prévia Disponível">Prévia Disponível</option>
+                              <option value="Ensaio Concluído">Ensaio Concluído</option>
                             </select>
                           )}
                         </td>
