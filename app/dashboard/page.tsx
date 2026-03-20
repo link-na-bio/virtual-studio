@@ -42,7 +42,7 @@ export default function Dashboard() {
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<null | 'basico' | 'popular' | 'pro'>(null);
+  const [selectedPackage, setSelectedPackage] = useState<null | 'essencial' | 'premium' | 'elite'>(null);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('Fotos enviadas! Em breve sua prévia estará disponível.');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -146,9 +146,9 @@ export default function Dashboard() {
   };
 
   const getStyleLimit = () => {
-    if (selectedPackage === 'basico') return 2;
-    if (selectedPackage === 'popular') return 5;
-    if (selectedPackage === 'pro') return 10;
+    if (selectedPackage === 'essencial') return 1;
+    if (selectedPackage === 'premium') return 3;
+    if (selectedPackage === 'elite') return 5;
     return 0;
   };
 
@@ -415,7 +415,7 @@ export default function Dashboard() {
                       key={idx}
                       onClick={() => !isCenter && setActivePreview(idx)}
                       className={`absolute w-[220px] h-[400px] md:w-[280px] md:h-[500px] rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-all duration-500 bg-[#121212] ${isCenter ? 'border-2 border-studio-gold shadow-studio-gold/20' : 'border border-white/10 opacity-60'}`}
-                      style={{ 
+                      style={{
                         pointerEvents: isActive ? "auto" : "none",
                         onContextMenu: (e: any) => e.preventDefault()
                       }}
@@ -805,9 +805,9 @@ export default function Dashboard() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
-                      { id: 'basico', title: 'Básico', styles: '2 Estilos', price: 'Free Preview', icon: User },
-                      { id: 'popular', title: 'Popular', styles: '5 Estilos', price: 'Most Choosen', icon: Sparkles },
-                      { id: 'pro', title: 'Profissional', styles: '10 Estilos', price: 'Full Access', icon: Zap },
+                      { id: 'essencial', title: 'Essencial', styles: '1 Estilo', price: 'R$ 89,90', icon: User },
+                      { id: 'premium', title: 'Premium', styles: '3 Estilos', price: 'R$ 149,90', icon: Sparkles, popular: true },
+                      { id: 'elite', title: 'Elite', styles: '5 Estilos', price: 'R$ 247,90', icon: Zap },
                     ].map((pkg) => (
                       <button
                         key={pkg.id}
@@ -817,6 +817,9 @@ export default function Dashboard() {
                         }}
                         className={`p-6 border text-left rounded-xl transition-all relative overflow-hidden group ${selectedPackage === pkg.id ? 'border-studio-gold bg-studio-gold/5 shadow-lg' : 'border-white/10 hover:border-studio-gold/30'}`}
                       >
+                        {pkg.popular && (
+                          <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[8px] font-bold px-2 py-0.5 uppercase tracking-tighter">Mais Vendido</div>
+                        )}
                         {selectedPackage === pkg.id && (
                           <div className="absolute top-2 right-2 text-studio-gold">
                             <CheckCircle2 size={16} />
