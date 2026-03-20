@@ -21,6 +21,7 @@ import {
   Copy,
   QrCode
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 // ============================================================================
 // ⚠️ BRUNO: COLOQUE OS SEUS CÓDIGOS "PIX COPIA E COLA" REAIS AQUI ABAIXO ⚠️
@@ -45,7 +46,6 @@ function CheckoutContent() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [pedido, setPedido] = useState<any>(null);
-  const [previewPhotos, setPreviewPhotos] = useState<string[]>([]);
 
   // Estados do Modal PIX
   const [showPixModal, setShowPixModal] = useState(false);
@@ -81,20 +81,6 @@ function CheckoutContent() {
         if (orderData.user_id !== userId) throw new Error("Acesso negado.");
 
         setPedido(orderData);
-
-        const path = `${userId}/${orderId}/`;
-        const { data: files, error: filesError } = await supabase.storage.from('previa_ensaios').list(path);
-        if (filesError) throw filesError;
-
-        const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
-        const urlPromises = validFiles.map(async (file) => {
-          const { data, error } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
-          if (error) throw error;
-          return data.signedUrl;
-        });
-
-        const urls = await Promise.all(urlPromises);
-        setPreviewPhotos(urls);
       } catch (error: any) {
         console.error(error);
         alert(error.message);
@@ -276,92 +262,72 @@ function CheckoutContent() {
         </div>
       </aside>
 
-      {/* 🛒 MAIN CHECKOUT CONTENT */}
-      <main className="flex-1 p-8 overflow-y-auto bg-[#121212]">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+      {/* 🛒 MAIN CHECKOUT CONTENT (Centralizado) */}
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto bg-[#121212] flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-2xl bg-studio-black border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] relative"
+        >
+          {/* Header do Checkout */}
+          <div className="p-8 border-b border-white/5 bg-white/5 text-center relative z-10">
+            <h2 className="text-3xl font-display uppercase tracking-widest mb-2 text-white">Finalizar Ensaio</h2>
+            <p className="text-studio-gold font-bold uppercase tracking-widest text-xs">Pedido #{pedido?.id.slice(0, 8)}</p>
+          </div>
 
-          <section className="lg:col-span-7 space-y-8">
-            <header>
-              <h2 className="text-3xl font-display uppercase tracking-widest mb-2 text-white">Finalizar Ensaio</h2>
-              <p className="text-studio-gold/60 text-sm font-bold uppercase tracking-widest">Pedido #{pedido?.id.slice(0, 8)}</p>
-            </header>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-h-[800px] overflow-y-auto pr-4 custom-scrollbar">
-              {previewPhotos.map((url, i) => (
-                <div key={i} className="relative group aspect-[3/4] overflow-hidden border border-white/5 bg-studio-black rounded-xl" onContextMenu={(e) => e.preventDefault()}>
-                  <img
-                    src={url}
-                    alt={`Preview ${i + 1}`}
-                    className="w-full h-full object-cover select-none pointer-events-none"
-                    draggable={false}
-                  />
-                  <div className="absolute inset-0 z-10 cursor-not-allowed"></div>
-                  <div
-                    className="absolute inset-0 z-20 pointer-events-none opacity-25 mix-blend-overlay"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cstyle%3E .watermark { font-family: 'sans-serif'; font-size: 10px; font-weight: 900; fill: %23ffffff; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; } %3C/style%3E%3Ctext x='50' y='50' transform='rotate(-45 50 50)' text-anchor='middle' className='watermark'%3EVIRTUAL STUDIO%3C/text%3E%3C/svg%3E")`,
-                      backgroundRepeat: 'repeat',
-                      backgroundSize: '80px 80px'
-                    }}
-                  ></div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <aside className="lg:col-span-5 space-y-8">
-            <div className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-studio-gold/20 relative overflow-hidden">
+          <div className="p-8 space-y-10 relative z-10">
+            {/* Pacote Selecionado */}
+            <div className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-studio-gold/20 relative overflow-hidden text-center flex flex-col items-center">
               <div className="absolute top-0 right-0 w-32 h-32 bg-studio-gold/10 rounded-full blur-3xl"></div>
-              <div className="flex items-center gap-4 mb-6 relative z-10">
-                <div className="w-12 h-12 rounded-full bg-studio-gold/10 text-studio-gold flex items-center justify-center border border-studio-gold/30">
-                  <PacoteIcon size={24} />
-                </div>
-                <div>
-                  <h3 className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Pacote Selecionado</h3>
-                  <p className="font-display text-2xl uppercase text-white">{pacoteInfo.nome}</p>
-                </div>
+
+              <div className="w-16 h-16 rounded-full bg-studio-gold/10 text-studio-gold flex items-center justify-center border border-studio-gold/30 mb-4">
+                <PacoteIcon size={32} />
               </div>
-              <ul className="space-y-3 mb-8 text-sm text-gray-300 relative z-10">
-                <li className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Até {pacoteInfo.fotos} fotos geradas em alta resolução</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Sem marca d'água</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Licença de uso comercial</li>
-              </ul>
+
+              <h3 className="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-1">Pacote Selecionado</h3>
+              <p className="font-display text-3xl uppercase text-white mb-6">{pacoteInfo.nome}</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-300 w-full text-left max-w-md mx-auto">
+                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Até {pacoteInfo.fotos} fotos HD</div>
+                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Sem marca d'água</div>
+                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Uso comercial livre</div>
+                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Entrega instantânea</div>
+              </div>
             </div>
 
-            <div className="bg-[#0e0d0a] border border-white/5 p-8 rounded-2xl space-y-6">
-              <h3 className="font-display text-lg uppercase tracking-widest text-studio-gold border-b border-white/10 pb-4">Resumo do Pedido</h3>
-              <div className="space-y-4 text-sm">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-500 uppercase tracking-wider text-[10px] font-bold">Pacote {pacoteInfo.nome}</span>
-                  <span className="text-white">R$ {pacoteInfo.preco.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-500 uppercase tracking-wider text-[10px] font-bold">Taxas</span>
-                  <span className="text-emerald-400 uppercase text-[10px] font-bold">Isento</span>
-                </div>
-                <div className="border-t border-white/10 pt-4 flex justify-between items-center">
-                  <span className="text-studio-gold font-display uppercase text-base font-bold">Total a Pagar</span>
-                  <span className="text-white font-display text-3xl">R$ {pacoteInfo.preco.toFixed(2)}</span>
-                </div>
+            {/* Resumo e Pagamento (PIX) */}
+            <div className="space-y-6">
+              <div className="flex justify-between items-center text-sm border-b border-white/10 pb-4">
+                <span className="text-gray-400 uppercase tracking-widest text-xs font-bold">Investimento Total</span>
+                <span className="text-white font-display text-4xl font-black">R$ {pacoteInfo.preco.toFixed(2)}</span>
               </div>
 
-              <button
-                onClick={handleOpenPix}
-                className="w-full py-5 mt-4 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-studio-gold-light hover:scale-[1.02] transition-all rounded-xl shadow-[0_0_30px_rgba(212,175,55,0.2)]"
-              >
-                Efetuar Pagamento via PIX
-                <ArrowRight size={18} />
-              </button>
+              <div className="space-y-4">
+                <button
+                  onClick={handleOpenPix}
+                  className="w-full py-6 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-studio-gold-light hover:scale-[1.02] transition-all rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.3)] text-lg"
+                >
+                  Pagar Agora via PIX
+                  <ArrowRight size={20} />
+                </button>
 
-              <div className="pt-6 flex flex-col items-center gap-4">
-                <div className="flex items-center justify-center space-x-2 text-gray-500">
-                  <ShieldCheck size={14} className="text-emerald-500" />
-                  <span className="text-[10px] uppercase tracking-widest font-bold">Pagamento Seguro direto na Conta</span>
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <div className="flex items-center justify-center space-x-2 text-gray-500">
+                    <ShieldCheck size={16} className="text-emerald-500" />
+                    <span className="text-[10px] uppercase tracking-widest font-bold tracking-[0.2em]">Pagamento Seguro direto na Conta</span>
+                  </div>
+                  <p className="text-[9px] text-gray-600 uppercase tracking-wider leading-relaxed max-w-xs">
+                    As fotos em alta resolução serão liberadas após a confirmação do pagamento.
+                  </p>
                 </div>
               </div>
             </div>
-          </aside>
-        </div>
+          </div>
+
+          {/* Decoração de fundo sutil */}
+          <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-studio-gold/5 rounded-full blur-3xl -z-0"></div>
+          <div className="absolute -top-20 -right-20 w-64 h-64 bg-studio-gold/5 rounded-full blur-3xl -z-0"></div>
+        </motion.div>
       </main>
     </div>
   );
