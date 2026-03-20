@@ -288,7 +288,7 @@ export default function Dashboard() {
     }
   };
 
-  // Função para Abrir Prévia Segura
+  // Função para Abrir Prévia Segura (CORRIGIDA COM URL ASSINADA)
   const handleOpenPreview = async (orderId: string) => {
     setIsFetchingPreview(true);
     try {
@@ -310,12 +310,18 @@ export default function Dashboard() {
         return;
       }
 
-      const urls = validFiles.map(file => {
-        const { data: { publicUrl } } = supabase.storage
+      // NOVO: Gerando URLs Assinadas (Temporárias e Seguras) para o cofre privado
+      const urlPromises = validFiles.map(async (file) => {
+        const { data, error } = await supabase.storage
           .from('previa_ensaios')
-          .getPublicUrl(`${path}${file.name}`);
-        return publicUrl;
+          .createSignedUrl(`${path}${file.name}`, 3600); // Válido por 1 hora (3600 segundos)
+
+        if (error) throw error;
+        return data.signedUrl;
       });
+
+      // Espera todas as URLs serem geradas
+      const urls = await Promise.all(urlPromises);
 
       setPreviewPhotos(urls);
       setSelectedOrderId(orderId);
@@ -557,9 +563,9 @@ export default function Dashboard() {
                           <td className="px-6 py-4 text-gray-500 text-xs">{formatDate(pedido.criado_em)}</td>
                           <td className="px-6 py-4">
                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${(pedido.status === 'Ensaio Concluído' || pedido.status === 'Finalizado') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
-                                pedido.status === 'Em Produção' ? 'bg-blue-900/20 text-blue-400 border-blue-400/30' :
-                                  pedido.status === 'Prévia Disponível' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
-                                    'bg-orange-500/10 text-orange-400 border-orange-500/20'
+                              pedido.status === 'Em Produção' ? 'bg-blue-900/20 text-blue-400 border-blue-400/30' :
+                                pedido.status === 'Prévia Disponível' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
+                                  'bg-orange-500/10 text-orange-400 border-orange-500/20'
                               }`}>
                               {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
                             </span>
@@ -627,9 +633,9 @@ export default function Dashboard() {
                     <div className="p-6 flex-1">
                       <div className="flex justify-between items-start mb-4">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${(pedido.status === 'Ensaio Concluído' || pedido.status === 'Finalizado') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
-                            pedido.status === 'Em Produção' ? 'bg-blue-900/20 text-blue-400 border-blue-400/30' :
-                              pedido.status === 'Prévia Disponível' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
-                                'bg-orange-500/10 text-orange-400 border-orange-500/20'
+                          pedido.status === 'Em Produção' ? 'bg-blue-900/20 text-blue-400 border-blue-400/30' :
+                            pedido.status === 'Prévia Disponível' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
+                              'bg-orange-500/10 text-orange-400 border-orange-500/20'
                           }`}>
                           {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
                         </span>
