@@ -384,14 +384,18 @@ export default function Dashboard() {
                   {/* 🛡️ Camada 1: Escudo Invisível anti-Drag & Drop e anti-clique */}
                   <div className="absolute inset-0 z-10 cursor-not-allowed"></div>
 
-                  {/* 🛡️ Camada 2: A NOVA Blindagem de Grade Premium (Estilo Denso e Sutil) 🛡️ */}
+                  {/* 🛡️ Camada 2: A NOVA Blindagem de Grade Profissional (Estilo Fotógrafo de Elite) 🛡️ */}
                   <div
-                    className="absolute inset-0 z-20 pointer-events-none opacity-25 mix-blend-overlay"
+                    className="absolute inset-0 z-20 pointer-events-none opacity-20 mix-blend-overlay"
                     style={{
-                      // Usando Base64 SVG para criar uma grade diagonal densa e repetida com o seu texto
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cstyle%3E .watermark { font-family: 'font-display', sans-serif; font-size: 10px; font-weight: 900; fill: %23ffffff; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; } %3C/style%3E%3Ctext x='50' y='50' transform='rotate(-45 50 50)' text-anchor='middle' className='watermark'%3EVIRTUAL STUDIO%3C/text%3E%3C/svg%3E")`,
-                      backgroundRepeat: 'repeat',
-                      backgroundSize: '80px 80px' // Controla a densidade da grade
+                      // MULTI-LAYER: Logo e Texto intercalados para máxima segurança e branding
+                      backgroundImage: `
+                        url("/logo.2.png"),
+                        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='85%25' transform='rotate(-20 50 85)' text-anchor='middle' fill='white' font-size='8' font-family='sans-serif' font-weight='900' opacity='0.7' letter-spacing='0.1em'%3EVIRTUAL STUDIO%3C/text%3E%3C/svg%3E")
+                      `,
+                      backgroundRepeat: 'repeat, repeat',
+                      backgroundSize: '40px 40px, 100px 100px',
+                      backgroundPosition: 'center center, 0 0'
                     }}
                   ></div>
                 </div>
