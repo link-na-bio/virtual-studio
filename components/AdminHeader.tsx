@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Search, Bell, Plus, CheckCheck } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
@@ -11,11 +11,14 @@ export default function AdminHeader() {
   const [hasNew, setHasNew] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  // Função para tocar o arquivo alerta.mp3 da pasta public
+  // Referência para o áudio pré-carregado
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   const playBeep = () => {
-    if (typeof window !== 'undefined') {
-      const audio = new Audio('/alerta.mp3');
-      audio.play().catch(() => console.log('Áudio bloqueado pelo navegador. O usuário precisa interagir com a página primeiro.'));
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0; // Zera o áudio para tocar desde o início
+      // O catch previne que o erro do navegador "quebre" a tela caso esteja bloqueado
+      audioRef.current.play().catch((err) => console.warn('Áudio bloqueado pelo navegador. Dê um clique na tela primeiro.', err));
     }
   };
 
@@ -44,7 +47,7 @@ export default function AdminHeader() {
         (payload) => {
           setNotifications(prev => [payload.new, ...prev]);
           setHasNew(true);
-          playBeep(); // 🔔 Toca o alerta.mp3 instantaneamente!
+          playBeep(); // 🔔 Toca o alerta.mp3 pré-carregado!
         }
       )
       .subscribe();
@@ -56,7 +59,6 @@ export default function AdminHeader() {
     setShowNotifications(!showNotifications);
   };
 
-  // Só limpa as notificações se o admin clicar nesse botão
   const clearNotifications = async () => {
     setHasNew(false);
     setNotifications([]);
@@ -66,11 +68,15 @@ export default function AdminHeader() {
 
   const handleNotificationClick = (orderId: string) => {
     setShowNotifications(false);
-    router.push('/admin/orders'); // Opcional: futuramente pode ser /admin/financeiro
+    router.push('/admin/orders');
   };
 
   return (
     <header className="h-20 bg-studio-black border-b border-white/5 flex items-center justify-between px-8 bg-gradient-to-b from-white/[0.02] to-transparent sticky top-0 z-50">
+
+      {/* 🎵 ÁUDIO PRÉ-CARREGADO ESCONDIDO 🎵 */}
+      <audio ref={audioRef} src="/alerta.mp3" preload="auto" className="hidden" />
+
       <div className="flex flex-col">
         <h1 className="text-xl font-bold font-display uppercase tracking-[0.2em] text-white">VIRTUAL <span className="text-studio-gold">STUDIO</span></h1>
         <p className="text-[9px] text-studio-gold font-bold uppercase tracking-[0.2em] opacity-60">Painel de Controle Administrativo</p>
@@ -85,14 +91,12 @@ export default function AdminHeader() {
         <div className="h-8 w-[1px] bg-white/10"></div>
 
         <div className="flex items-center gap-4">
-          {/* Sino */}
           <div className="relative">
             <button onClick={toggleDropdown} className={`size-9 flex items-center justify-center rounded-none bg-white/5 border border-white/10 text-slate-400 relative hover:text-studio-gold transition-colors ${hasNew ? 'text-studio-gold border-studio-gold/30' : ''}`}>
               <Bell size={18} />
               {hasNew && <span className="absolute top-2 right-2 size-2 bg-studio-gold rounded-full shadow-[0_0_10px_rgba(212,175,55,1)] animate-pulse"></span>}
             </button>
 
-            {/* Dropdown Persistente */}
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-[350px] bg-[#121212] border border-white/10 shadow-2xl z-[100] animate-in fade-in slide-in-from-top-2">
                 <div className="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
@@ -117,7 +121,6 @@ export default function AdminHeader() {
                             {new Date(notif.criado_em).toLocaleTimeString('pt-BR')}
                           </p>
                         </div>
-                        {/* Nome do Cliente */}
                         <p className="text-[11px] font-medium text-emerald-400 mb-1">
                           Cliente: {notif.user_email?.split('@')[0]}
                         </p>
@@ -126,7 +129,6 @@ export default function AdminHeader() {
                     ))
                   )}
                 </div>
-                {/* Rodapé do Dropdown: O seu futuro atalho para o Financeiro */}
                 <div className="p-3 bg-studio-black/80 border-t border-white/5 text-center">
                   <span className="text-[9px] text-gray-500 uppercase tracking-widest italic">Estes registros serão salvos em Financeiro futuramente.</span>
                 </div>
