@@ -27,8 +27,9 @@ export default function Dashboard() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null); // Ref para o upload do avatar
 
+  // Estados do Perfil
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
@@ -121,6 +122,7 @@ export default function Dashboard() {
     }
   }, [router]);
 
+  // ESCUTADOR REAL-TIME DOS PEDIDOS (PIX APROVADO)
   useEffect(() => {
     if (!userId) return;
     const channel = supabase
@@ -154,7 +156,7 @@ export default function Dashboard() {
 
     fetchMessages();
 
-    // Agora vai funcionar! Escutador de novas mensagens
+    // Escutador de novas mensagens
     const channel = supabase.channel(`client_chat_${chatOrderId}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens', filter: `order_id=eq.${chatOrderId}` }, (payload) => {
         setMessages(prev => [...prev, payload.new]);
@@ -185,7 +187,7 @@ export default function Dashboard() {
     }
   };
 
-  // NOVO: Enviar Imagem no Chat
+  // Enviar Imagem no Chat
   const handleSendImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !chatOrderId || !userId) return;
@@ -194,7 +196,7 @@ export default function Dashboard() {
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `chat_${Date.now()}.${fileExt}`;
-      const filePath = `${userId}/chat/${fileName}`; // Salva numa pasta chat do cliente
+      const filePath = `${userId}/chat/${fileName}`;
 
       const { error: uploadError } = await supabase.storage.from('comprovantes_pix').upload(filePath, file);
       if (uploadError) throw uploadError;
@@ -240,6 +242,7 @@ export default function Dashboard() {
     } catch (error: any) { alert(`Falha no envio: ${error.message}`); } finally { setIsUploading(false); }
   };
 
+  // Funções de Perfil RESTAURADAS
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) { alert("As senhas não coincidem!"); return; }
@@ -515,7 +518,7 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* 💬 NOVO CHAT COM ENVIO DE IMAGEM 💬 */}
+        {/* CHAT COM ENVIO DE IMAGEM */}
         {activeTab === 'mensagens' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="mensagens" className="px-4 md:px-8 h-full flex flex-col">
             <header className="mb-6 shrink-0">
@@ -632,7 +635,6 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* ... (as abas 'novo' e 'perfil' continuam iguais ao que eu te enviei no código anterior, mas já estão neste código completo) */}
         {activeTab === 'novo' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="novo" className="px-8">
             <header className="mb-8"><h2 className="text-2xl font-bold font-display uppercase tracking-widest">Configurar Novo Ensaio</h2><p className="text-gray-500">Personalize o seu pedido para obter o melhor resultado.</p></header>
@@ -694,10 +696,25 @@ export default function Dashboard() {
                   )}
                 </section>
               </div>
+
+              <div className="space-y-6">
+                <div className="bg-white/5 border border-white/10 p-6 rounded-2xl sticky top-8">
+                  <h3 className="text-lg font-bold mb-6 font-display uppercase tracking-widest border-b border-white/5 pb-4">Resumo do Pedido</h3>
+                  <div className="space-y-4 mb-8">
+                    <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Pacote</span><span className="font-bold text-white uppercase">{selectedPackage || 'Não selecionado'}</span></div>
+                    <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Estilos</span><span className={`font-bold ${selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}`}>{selectedStyles.length}/{getStyleLimit()}</span></div>
+                    <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Fotos Env.</span><span className={`font-bold ${selectedFiles.length >= 5 ? 'text-emerald-400' : 'text-red-500'}`}>{selectedFiles.length}/10</span></div>
+                  </div>
+                  <button onClick={handleSendToProduction} disabled={isUploading} className="w-full py-4 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all disabled:opacity-50 rounded-lg shadow-xl shadow-studio-gold/10">
+                    {isUploading ? 'A enviar...' : 'Enviar para Produção'}
+                  </button>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
 
+        {/* 👤 ABA PERFIL RESTAURADA E COMPLETA 👤 */}
         {activeTab === 'perfil' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="perfil" className="max-w-4xl px-8">
             <header className="mb-10"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">O Meu Perfil</h2><p className="text-gray-500 mt-2">Gira as suas informações e a segurança da conta.</p></header>
@@ -708,9 +725,26 @@ export default function Dashboard() {
                     <div className="w-full h-full rounded-full bg-studio-gold/10 flex items-center justify-center overflow-hidden border-2 border-studio-gold/30">
                       {avatarUrl ? <Image src={avatarUrl} alt="Avatar" fill className="object-cover" /> : <User size={64} className="text-studio-gold opacity-50" />}
                     </div>
+                    {/* Botão de Câmera RESTAURADO */}
+                    <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-0 right-0 w-10 h-10 bg-studio-gold text-studio-black rounded-full flex items-center justify-center border-4 border-[#121212] hover:scale-110 transition-transform"><Camera size={18} /></button>
+                    <input type="file" ref={avatarInputRef} hidden accept="image/*" onChange={handleAvatarUpload} />
                   </div>
                   <h3 className="font-bold text-lg font-display uppercase tracking-widest">{userEmail?.split('@')[0]}</h3><p className="text-gray-500 text-xs truncate mt-1">{userEmail}</p>
                 </div>
+              </div>
+
+              {/* Formulário de Segurança RESTAURADO */}
+              <div className="md:col-span-2 space-y-6">
+                <form onSubmit={handleUpdatePassword} className="bg-white/5 border border-white/10 p-8 rounded-2xl">
+                  <h3 className="text-lg font-bold font-display uppercase tracking-widest mb-6 flex items-center gap-3"><Zap size={18} className="text-studio-gold" /> Segurança da Conta</h3>
+                  <div className="space-y-6">
+                    <div><label className="block text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2 font-bold">Nova Senha</label><input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="••••••••" className="w-full bg-white/5 border border-white/10 py-3 px-4 text-white focus:outline-none focus:border-studio-gold transition-colors rounded-lg" /></div>
+                    <div><label className="block text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2 font-bold">Confirmar Nova Senha</label><input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" className="w-full bg-white/5 border border-white/10 py-3 px-4 text-white focus:outline-none focus:border-studio-gold transition-colors rounded-lg" /></div>
+                    <button type="submit" disabled={isUpdatingProfile || !newPassword} className="w-full py-4 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all disabled:opacity-50 rounded-lg shadow-xl shadow-studio-gold/10 flex items-center justify-center gap-2">
+                      {isUpdatingProfile ? <div className="w-5 h-5 border-2 border-studio-black border-t-transparent rounded-full animate-spin"></div> : <><CheckCheck size={18} /> Atualizar Senha</>}
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </motion.div>
