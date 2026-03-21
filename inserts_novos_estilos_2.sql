@@ -1,0 +1,43 @@
+-- 1. CATEGORIA: EVENTO
+INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES 
+('Velas', 'Evento', 'Celebração luminosa e vibrante. As velas geram pontos de luz (bokeh) que capturam atenção imediata, transmitindo alegria genuína e um luxo acolhedor, ideal para marcos importantes.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Aniversário (Couro)', 'Evento', 'Sensualidade empoderada e sofisticação tátil. O couro marrom cria um impacto visual de poder, segurança e requinte, sendo altamente associado a sucesso e confiança.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Básico', 'Evento', 'Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Padrão (Cubo)', 'Evento', 'Estética de galeria de moda e minimalismo geométrico. As linhas claras do bloco enaltecem a silhueta, projetando uma linguagem executiva de perfeccionismo estético.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Aniversário (Champanhe/Cristal)', 'Evento', 'Glamour refinado e brindes inesquecíveis. Elementos de cristal e bebida refletora exalam sucesso de alto nível e vitórias de elite.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Niver Vermelho', 'Evento', 'Magnetismo e paixão audaciosa. O tom vermelho intenso comanda total atenção e transmite uma confiança inabalável para seduzir e conquistar.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Padrão (Balões)', 'Evento', 'Impacto festivo monumental e altamente instagramável. O brilho dos balões grandes atrai o olhar, garantindo foco central na conquista e no protagonismo da modelo.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Aniversário (Minimalista/Branco)', 'Evento', 'Elegância minimalista e atemporal. A clareza e o equilíbrio visual focam na pureza da celebração, transmitindo alto padrão estético sem exageros.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Aniversário Happy', 'Evento', 'Dinamismo intenso e euforia. O movimento dos confetes cria uma textura visual cativante que prende o espectador no auge do momento festivo.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Aniversário 51', 'Evento', 'Serenidade clássica com frescor elegante. Os tons frios e claros evocam paz, maturidade refinada e um luxo acolhedor e seguro.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', '');
+
+-- 2. CATEGORIA: ÁREA DA SAÚDE
+INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES 
+('Estetoscópio / Profissão Saúde', 'Área da Saúde', 'Autoridade clínica, precisão e acolhimento humano. O estilo transmite credibilidade fotográfica máxima e conhecimento técnico impecável no setor de saúde.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', '');
+
+-- 3. CATEGORIA: CASUAL
+INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES 
+('Ombro 1', 'Casual', 'Liberdade intimista, frescor e desprendimento. O visual autêntico e vulnerável conecta rapidamente o observador ao lado humano e relaxado da composição.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Cadeira de Couro - Blazer', 'Casual', 'Sensualidade empoderada e sofisticação tátil. O couro marrom cria um impacto visual de poder, segurança e requinte, sendo altamente associado a sucesso e confiança.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', '');
+
+-- 4. CATEGORIA: ENSAIO PROFISSIONAL
+INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES 
+('Sentada - Bege', 'Ensaio Profissional', 'Aconchego monocromático e moda chic sustentável. Os tons de terra emanam estabilidade, maturidade elegante e proximidade natural.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Ensaio Cadeira + Mão no Cabelo', 'Ensaio Profissional', 'Profissionalismo envolto em natureza minimalista estruturada. A madeira aquece a tonalidade reforçando sabedoria e acolhimento.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Segurando Blazer / Mão no Queixo / Olhar Lateral', 'Ensaio Profissional', 'Postura ''boss-lady'' irretocável e clareza de ideias. A alfaiataria branca impecável transmite honestidade assertiva, transparência e liderança contemporânea brilhante.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Sentada Expressão Séria / Close e Blazer', 'Ensaio Profissional', 'Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Sentada em Cubo', 'Ensaio Profissional', 'Estética de galeria de moda e minimalismo geométrico. As linhas claras do bloco enaltecem a silhueta, projetando uma linguagem executiva de perfeccionismo estético.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', '');
+
+-- 5. CATEGORIA: FORMATURA
+INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES 
+('Saúde (Beca)', 'Formatura', 'Triunfo, honra e orgulho acadêmico. O impacto remete imediatamente a marcos consagradores, reverenciando a jornada com excelência e formatura irretocável.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', '');
+
+-- 6. CATEGORIA: GESTAÇÃO & NATUREZA
+INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES 
+('Gestante Externo', 'Gestação & Natureza', 'Maternidade celestial e doçura iluminada. A interação sutil da luz com a natureza consagra a expectativa da vida em um aura poética.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Casual Externo', 'Gestação & Natureza', 'Conforto de alto padrão. O visual casual ganha brilho aspiracional de calmaria e estilo de campo limpo e convidativo.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', ''),
+('Natureza', 'Gestação & Natureza', 'Conexão orgânica, vitalidade profunda e espírito aventureiro chique. A beleza natural enriquece a foto com harmonia verde, acalmando o olhar.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', '');
+
+-- 7. CATEGORIA: NEWBORN
+INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES 
+('RN Menina / Deitado Ninho / Newborn Feminino', 'Newborn', 'Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.', 'Ambos', 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.', '');

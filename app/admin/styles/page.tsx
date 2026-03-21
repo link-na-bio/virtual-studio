@@ -174,7 +174,7 @@ export default function AdminStyles() {
               </div>
 
               <div className="flex gap-2 overflow-x-auto pb-4 mb-8 custom-scrollbar">
-                {['Todos', 'Retrato', 'Editorial', 'Comercial', 'Evento'].map((cat) => (
+                {['Todos', 'Retrato', 'Editorial', 'Comercial', 'Evento', 'Área da Saúde', 'Casual', 'Ensaio Profissional', 'Formatura', 'Gestação & Natureza', 'Newborn'].map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
@@ -303,6 +303,12 @@ export default function AdminStyles() {
                             <option value="Editorial">Editorial</option>
                             <option value="Comercial">Comercial</option>
                             <option value="Evento">Evento</option>
+                            <option value="Área da Saúde">Área da Saúde</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Ensaio Profissional">Ensaio Profissional</option>
+                            <option value="Formatura">Formatura</option>
+                            <option value="Gestação & Natureza">Gestação & Natureza</option>
+                            <option value="Newborn">Newborn</option>
                           </select>
                         </div>
                         <div className="space-y-2">
