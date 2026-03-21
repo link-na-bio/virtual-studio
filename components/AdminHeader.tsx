@@ -11,23 +11,38 @@ export default function AdminHeader() {
   const [hasNew, setHasNew] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  // Função para tocar um "Bipe" nativo do navegador (Sem precisar de MP3)
+  // Função para tocar um "Duplo Bipe" estilo Dinheiro na Conta (Mais alto e nítido)
   const playBeep = () => {
     try {
       const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioContext) return;
       const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gainNode = ctx.createGain();
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, ctx.currentTime); // Frequência do bipe
-      gainNode.gain.setValueAtTime(0.1, ctx.currentTime); // Volume
+      const playTone = (freq: number, startTime: number, duration: number, vol: number) => {
+        const osc = ctx.createOscillator();
+        const gainNode = ctx.createGain();
 
-      osc.connect(gainNode);
-      gainNode.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.15); // Duração curta
+        osc.type = 'sine'; // Tipo de onda
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        // Efeito de entrada e saída suave do som
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.linearRampToValueAtTime(vol, startTime + 0.05);
+        gainNode.gain.linearRampToValueAtTime(0, startTime + duration);
+
+        osc.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      };
+
+      const now = ctx.currentTime;
+      const volume = 0.8; // Volume aumentado para 80%
+
+      // Toca dois tons musicais em sequência
+      playTone(880, now, 0.15, volume);         // Primeiro tom
+      playTone(1108.73, now + 0.15, 0.3, volume); // Segundo tom (mais agudo e longo)
+
     } catch (e) {
       console.log('Áudio não suportado ou bloqueado no momento.');
     }
@@ -58,7 +73,7 @@ export default function AdminHeader() {
         (payload) => {
           setNotifications(prev => [payload.new, ...prev]);
           setHasNew(true);
-          playBeep(); // 🔔 Toca o bipe instantaneamente!
+          playBeep(); // 🔔 Toca o duplo bipe instantaneamente!
         }
       )
       .subscribe();
