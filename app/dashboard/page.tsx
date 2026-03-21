@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabaseClient';
 import {
   Camera, Home, Library, PlusCircle, User, CloudUpload, Check, CheckCheck,
   Archive, X, Send, Sparkles, LogOut, Clock, LayoutGrid, CheckCircle2,
-  ChevronRight, ChevronLeft, Info, Eye, Download, Zap
+  ChevronRight, ChevronLeft, Info, Eye, Download, Zap, MessageSquare, FileImage, Loader2, FileText
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -15,7 +15,7 @@ declare global { interface Window { JSZip: any; } }
 
 export default function Dashboard() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'home' | 'ensaios' | 'novo' | 'perfil'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'ensaios' | 'novo' | 'perfil' | 'mensagens'>('home');
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -44,6 +44,13 @@ export default function Dashboard() {
   const [windowWidth, setWindowWidth] = useState(1200);
 
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
+
+  // Estados do Chat (Mensagens do Cliente)
+  const [chatOrderId, setChatOrderId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const getOffset = (index: number) => {
     let offset = index - activePreview;
@@ -92,20 +99,17 @@ export default function Dashboard() {
     }
   }, [router]);
 
-  // 🔥 O ESCUTADOR REAL-TIME (Adeus F5!) 🔥
+  // ESCUTADOR REAL-TIME DOS PEDIDOS (PIX APROVADO)
   useEffect(() => {
     if (!userId) return;
     const channel = supabase
       .channel('cliente_pedidos_changes')
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'pedidos', filter: `user_id=eq.${userId}` }, (payload) => {
-        fetchPedidos(userId); // Recarrega os dados imediatamente
-
+        fetchPedidos(userId);
         if (payload.new.status === 'Ensaio Concluído') {
-          setAlertMessage("Pagamento Aprovado! Seu ensaio está liberado para download em Meus Ensaios.");
+          setAlertMessage("Pagamento Aprovado! O seu ensaio está liberado para download em Meus Ensaios.");
           setShowSuccessAlert(true);
           setTimeout(() => setShowSuccessAlert(false), 8000);
-
-          // Toca som se quiser
           if (typeof window !== 'undefined') {
             const audio = new Audio('/notification-sound.mp3');
             audio.play().catch(() => { });
@@ -116,6 +120,48 @@ export default function Dashboard() {
 
     return () => { supabase.removeChannel(channel); };
   }, [userId]);
+
+  // LÓGICA DO CHAT (MENSAGENS)
+  useEffect(() => {
+    if (!chatOrderId) return;
+
+    const fetchMessages = async () => {
+      const { data } = await supabase.from('mensagens').select('*').eq('order_id', chatOrderId).order('criado_em', { ascending: true });
+      setMessages(data || []);
+      setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+    };
+
+    fetchMessages();
+
+    // Real-time para mensagens
+    const channel = supabase.channel(`client_chat_${chatOrderId}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens', filter: `order_id=eq.${chatOrderId}` }, (payload) => {
+        setMessages(prev => [...prev, payload.new]);
+        setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+      }).subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [chatOrderId]);
+
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !chatOrderId || !userId) return;
+
+    setIsSendingMessage(true);
+    try {
+      await supabase.from('mensagens').insert({
+        user_id: userId,
+        order_id: chatOrderId,
+        conteudo: newMessage.trim(),
+        tipo: 'texto'
+      });
+      setNewMessage('');
+    } catch (err: any) {
+      alert('Erro ao enviar mensagem: ' + err.message);
+    } finally {
+      setIsSendingMessage(false);
+    }
+  };
 
   const handleLogout = async () => { await supabase.auth.signOut(); router.push('/login'); };
 
@@ -184,7 +230,6 @@ export default function Dashboard() {
     } catch (error: any) { alert("Erro ao carregar prévia: " + error.message); } finally { setIsFetchingPreview(false); }
   };
 
-  // 🔥 O BOTÃO DE DOWNLOAD FINAL 🔥
   const handleDownloadFinal = async (orderId: string) => {
     setIsDownloading(orderId);
     try {
@@ -193,7 +238,7 @@ export default function Dashboard() {
       if (error) throw error;
 
       const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
-      if (validFiles.length === 0) { alert("Arquivos não encontrados no servidor."); return; }
+      if (validFiles.length === 0) { alert("Ficheiros não encontrados no servidor."); return; }
 
       const urlPromises = validFiles.map(async (file) => {
         const { data, error: urlError } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
@@ -203,7 +248,7 @@ export default function Dashboard() {
 
       const fileData = await Promise.all(urlPromises);
 
-      if (!window.JSZip) { alert("Carregando sistema de compactação, aguarde um instante..."); return; }
+      if (!window.JSZip) { alert("A carregar sistema de ficheiros ZIP, aguarde um instante..."); return; }
 
       const zip = new window.JSZip();
       const folder = zip.folder(`Virtual_Studio_Ensaio_${orderId.slice(0, 8)}`);
@@ -271,7 +316,7 @@ export default function Dashboard() {
         {isPreviewOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-2xl flex flex-col">
             <div className="flex justify-between items-center p-6 border-b border-white/10 bg-studio-black/50">
-              <div><h3 className="text-2xl font-display uppercase tracking-widest text-studio-gold font-bold">Prévia do Ensaio</h3><p className="text-gray-400 text-xs mt-1">Protegido com marca d'água. Aprove para liberar a versão final em alta resolução sem marcas.</p></div>
+              <div><h3 className="text-2xl font-display uppercase tracking-widest text-studio-gold font-bold">Prévia do Ensaio</h3><p className="text-gray-400 text-xs mt-1">Protegido com marca de água. Aprove para libertar a versão final em alta resolução sem marcas.</p></div>
               <button onClick={() => setIsPreviewOpen(false)} className="text-white hover:text-studio-gold transition-colors p-2 bg-white/5 rounded-full"><X size={24} /></button>
             </div>
             <div className="flex-1 relative flex items-center justify-center overflow-hidden py-12 px-4 select-none">
@@ -303,7 +348,7 @@ export default function Dashboard() {
               ))}
             </div>
             <div className="p-6 border-t border-white/10 bg-studio-black/90 flex justify-center">
-              <button onClick={() => router.push(`/checkout?orderId=${selectedOrderId}`)} className="w-full max-w-lg py-5 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest text-sm md:text-base hover:bg-studio-gold-light transition-all rounded-xl shadow-[0_0_40px_rgba(212,175,55,0.4)] flex items-center justify-center gap-3"><CheckCircle2 size={24} /> Aprovar e Liberar Alta Resolução</button>
+              <button onClick={() => router.push(`/checkout?orderId=${selectedOrderId}`)} className="w-full max-w-lg py-5 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest text-sm md:text-base hover:bg-studio-gold-light transition-all rounded-xl shadow-[0_0_40px_rgba(212,175,55,0.4)] flex items-center justify-center gap-3"><CheckCircle2 size={24} /> Aprovar e Libertar Alta Resolução</button>
             </div>
           </motion.div>
         )}
@@ -325,8 +370,9 @@ export default function Dashboard() {
           </div>
           <nav className="flex flex-col gap-1">
             <button onClick={() => setActiveTab('home')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'home' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><Home size={18} /><span className="text-sm font-medium">Home</span></button>
-            <button onClick={() => setActiveTab('ensaios')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'ensaios' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><Library size={18} /><span className="text-sm font-medium">Meus Ensaios</span></button>
+            <button onClick={() => setActiveTab('ensaios')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'ensaios' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><Library size={18} /><span className="text-sm font-medium">Os Meus Ensaios</span></button>
             <button onClick={() => setActiveTab('novo')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'novo' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><PlusCircle size={18} /><span className="text-sm font-semibold">Novo Pedido</span></button>
+            <button onClick={() => setActiveTab('mensagens')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'mensagens' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><MessageSquare size={18} /><span className="text-sm font-medium">Mensagens</span></button>
             <button onClick={() => setActiveTab('perfil')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'perfil' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><User size={18} /><span className="text-sm font-medium">Perfil</span></button>
           </nav>
         </div>
@@ -336,7 +382,7 @@ export default function Dashboard() {
               {avatarUrl ? <Image src={avatarUrl} alt="Avatar" fill className="object-cover" /> : <div className="w-full h-full bg-studio-gold text-studio-black flex items-center justify-center font-bold text-lg">{userEmail?.charAt(0).toUpperCase()}</div>}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold truncate font-display tracking-widest">{userEmail ? userEmail.split('@')[0] : 'Usuário'}</p>
+              <p className="text-sm font-bold truncate font-display tracking-widest">{userEmail ? userEmail.split('@')[0] : 'Utilizador'}</p>
             </div>
             <div className="relative flex gap-2">
               <button onClick={handleLogout} title="Sair da conta"><LogOut className="text-red-500 cursor-pointer hover:text-red-400 transition-colors" size={18} /></button>
@@ -353,7 +399,7 @@ export default function Dashboard() {
 
         {activeTab === 'home' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="home" className="px-8">
-            <header className="mb-10"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">Bem-vindo ao Virtual Studio, <span className="text-studio-gold">{userEmail?.split('@')[0]}</span></h2><p className="text-gray-500 mt-2">Sua jornada para a imagem profissional perfeita começa aqui.</p></header>
+            <header className="mb-10"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">Bem-vindo ao Virtual Studio, <span className="text-studio-gold">{userEmail?.split('@')[0]}</span></h2><p className="text-gray-500 mt-2">A sua jornada para a imagem profissional perfeita começa aqui.</p></header>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
               <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:border-studio-gold/30 transition-colors group"><div className="flex justify-between items-start mb-4"><Clock className="text-gray-500 group-hover:text-studio-gold transition-colors" size={20} /><span className="text-2xl font-bold font-display text-white">{pedidos.filter(p => p.status === 'Aguardando Produção').length.toString().padStart(2, '0')}</span></div><p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Aguardando IA</p></div>
               <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:border-studio-gold/30 transition-colors group"><div className="flex justify-between items-start mb-4"><Zap className="text-gray-500 group-hover:text-studio-gold transition-colors" size={20} /><span className="text-2xl font-bold font-display text-white">{pedidos.filter(p => p.status === 'Em Produção').length.toString().padStart(2, '0')}</span></div><p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Em Produção</p></div>
@@ -378,7 +424,7 @@ export default function Dashboard() {
                                   (pedido.status === 'Prévia Disponível') ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
                                     'bg-orange-500/10 text-orange-400 border-orange-500/20'
                               }`}>
-                              {pedido.status}
+                              {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
                             </span>
                           </td>
                         </tr>
@@ -388,30 +434,17 @@ export default function Dashboard() {
                 </div>
               </section>
             )}
-
-            <section className="bg-studio-gold/5 border border-studio-gold/10 p-8 rounded-2xl">
-              <h3 className="text-lg font-bold font-display uppercase tracking-widest mb-8 flex items-center gap-3"><Info size={18} className="text-studio-gold" /> Como funciona o seu estúdio</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                {[
-                  { step: '01', title: 'Faça um pedido', desc: 'Escolha seu pacote e estilos favoritos para treinar nossa IA.' },
-                  { step: '02', title: 'Curadoria VIP', desc: 'Aguarde a IA e nossa curadoria manual (24h-48h).' },
-                  { step: '03', title: 'Liberação', desc: 'Escolha seu plano final, faça o pagamento e libere o download.' },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-4"><span className="text-studio-gold font-black text-2xl font-display opacity-40">{item.step}</span><div><h4 className="font-bold text-sm uppercase tracking-wider mb-2">{item.title}</h4><p className="text-xs text-gray-500 leading-relaxed font-light">{item.desc}</p></div></div>
-                ))}
-              </div>
-            </section>
           </motion.div>
         )}
 
         {activeTab === 'ensaios' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="ensaios" className="px-8">
-            <header className="mb-8"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">Meus Ensaios</h2></header>
+            <header className="mb-8"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">Os Meus Ensaios</h2></header>
             {pedidos.length === 0 ? (
               <div className="min-h-[400px] flex flex-col items-center justify-center text-center p-12 bg-white/5 border border-dashed border-white/10 rounded-2xl">
                 <div className="w-16 h-16 rounded-full bg-studio-gold/10 text-studio-gold flex items-center justify-center mb-6"><Archive size={32} /></div>
-                <h3 className="text-xl font-bold font-display uppercase tracking-widest">Você ainda não possui ensaios</h3>
-                <p className="text-gray-500 text-sm mt-3 max-w-xs leading-relaxed">Inicie um novo pedido para começar a transformar suas fotos com nossa tecnologia.</p>
+                <h3 className="text-xl font-bold font-display uppercase tracking-widest">Ainda não possui ensaios</h3>
+                <p className="text-gray-500 text-sm mt-3 max-w-xs leading-relaxed">Inicie um novo pedido para começar a transformar as suas fotos com a nossa tecnologia.</p>
                 <button onClick={() => setActiveTab('novo')} className="mt-8 px-8 py-3 bg-studio-gold text-studio-black font-bold uppercase tracking-widest hover:bg-studio-gold-light transition-all flex items-center gap-2"><PlusCircle size={18} /> Novo Pedido</button>
               </div>
             ) : (
@@ -425,7 +458,7 @@ export default function Dashboard() {
                               (pedido.status === 'Prévia Disponível') ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
                                 'bg-orange-500/10 text-orange-400 border-orange-500/20'
                           }`}>
-                          {pedido.status}
+                          {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
                         </span>
                         <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{formatDate(pedido.criado_em)}</span>
                       </div>
@@ -442,13 +475,119 @@ export default function Dashboard() {
           </motion.div>
         )}
 
+        {/* 💬 NOVO SEPARADOR DE MENSAGENS / CHAT CLIENTE 💬 */}
+        {activeTab === 'mensagens' && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="mensagens" className="px-4 md:px-8 h-full flex flex-col">
+            <header className="mb-6 shrink-0">
+              <h2 className="text-2xl font-bold font-display uppercase tracking-wider">Central de Suporte</h2>
+              <p className="text-gray-500 text-sm mt-1">Fale com a nossa equipa sobre os seus pedidos.</p>
+            </header>
+
+            {!chatOrderId ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-8">
+                {pedidos.length === 0 ? (
+                  <p className="text-gray-500 text-sm p-4 bg-white/5 rounded-xl border border-white/10">Nenhum pedido encontrado para solicitar suporte.</p>
+                ) : (
+                  pedidos.map(pedido => (
+                    <button
+                      key={pedido.id}
+                      onClick={() => setChatOrderId(pedido.id)}
+                      className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-studio-gold/50 transition-colors text-left group"
+                    >
+                      <div>
+                        <h3 className="text-studio-gold font-bold uppercase tracking-widest text-sm mb-1">Pedido #{pedido.id.slice(0, 8)}</h3>
+                        <p className="text-gray-400 text-[10px] uppercase">Pacote {pedido.pacote} • {pedido.status}</p>
+                      </div>
+                      <MessageSquare className="text-gray-500 group-hover:text-studio-gold transition-colors" />
+                    </button>
+                  ))
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col h-[550px] max-h-[65vh] md:max-h-[75vh] bg-[#121212] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative mb-8">
+                <div className="p-4 border-b border-white/10 bg-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <button onClick={() => setChatOrderId(null)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white">
+                      <ChevronLeft size={20} />
+                    </button>
+                    <div>
+                      <h3 className="font-bold text-sm text-white uppercase tracking-widest">Pedido #{chatOrderId.slice(0, 8)}</h3>
+                      <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Suporte Online</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#0a0a0a] custom-scrollbar">
+                  {messages.length === 0 ? (
+                    <div className="h-full flex flex-col items-center justify-center text-gray-500 opacity-50">
+                      <MessageSquare size={40} className="mb-2" />
+                      <p className="text-xs uppercase tracking-widest font-bold">Inicie a conversa</p>
+                      <p className="text-[10px] mt-2">A nossa equipa responderá o mais rápido possível.</p>
+                    </div>
+                  ) : (
+                    messages.map((msg, idx) => {
+                      const isMe = msg.user_id === userId;
+                      return (
+                        <div key={idx} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
+                          <div className={`max-w-[85%] md:max-w-[70%] rounded-2xl p-3 md:p-4 shadow-xl ${isMe ? 'bg-studio-gold text-black rounded-tr-sm' : 'bg-white/10 text-white rounded-tl-sm border border-white/5'}`}>
+                            {msg.tipo === 'comprovante' ? (
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2 mb-2 opacity-60">
+                                  <FileImage size={14} /> <span className="text-[10px] font-bold uppercase tracking-widest">Comprovativo Enviado</span>
+                                </div>
+                                {msg.conteudo.includes('.pdf') ? (
+                                  <a href={msg.conteudo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-black/20 p-3 rounded-lg hover:bg-black/30 transition-colors text-xs font-bold"><FileText size={16} /> Ver Ficheiro PDF</a>
+                                ) : (
+                                  <a href={msg.conteudo} target="_blank" rel="noopener noreferrer">
+                                    <img src={msg.conteudo} alt="Comprovante" className="rounded-lg w-full max-h-48 object-cover bg-black/20" />
+                                  </a>
+                                )}
+                              </div>
+                            ) : (
+                              <p className="text-xs md:text-sm leading-relaxed whitespace-pre-wrap font-medium">{msg.conteudo}</p>
+                            )}
+                          </div>
+                          <span className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mt-1 px-1">{new Date(msg.criado_em).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                      )
+                    })
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+
+                <form onSubmit={handleSendMessage} className="p-3 md:p-4 bg-white/5 border-t border-white/10">
+                  <div className="flex items-end gap-2 bg-[#0a0a0a] border border-white/10 rounded-xl p-1.5 focus-within:border-studio-gold/50 transition-colors">
+                    <textarea
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      placeholder="Escreva a sua mensagem para o suporte..."
+                      className="flex-1 bg-transparent border-none outline-none text-xs md:text-sm p-2 resize-none max-h-24 min-h-[40px] text-white custom-scrollbar"
+                      rows={1}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(e); }
+                      }}
+                    />
+                    <button
+                      type="submit"
+                      disabled={isSendingMessage || !newMessage.trim()}
+                      className="size-10 bg-studio-gold text-black rounded-lg flex items-center justify-center hover:bg-studio-gold-light transition-all disabled:opacity-50 shrink-0"
+                    >
+                      {isSendingMessage ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} className="ml-0.5" />}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+          </motion.div>
+        )}
+
         {activeTab === 'novo' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="novo" className="px-8">
-            <header className="mb-8"><h2 className="text-2xl font-bold font-display uppercase tracking-widest">Configurar Novo Ensaio</h2><p className="text-gray-500">Personalize seu pedido para obter o melhor resultado.</p></header>
+            <header className="mb-8"><h2 className="text-2xl font-bold font-display uppercase tracking-widest">Configurar Novo Ensaio</h2><p className="text-gray-500">Personalize o seu pedido para obter o melhor resultado.</p></header>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-12 pb-20">
                 <section>
-                  <div className="flex items-center gap-4 mb-8"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">1</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha seu Pacote</h3></div>
+                  <div className="flex items-center gap-4 mb-8"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">1</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Pacote</h3></div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
                       { id: 'essencial', title: 'Essencial', styles: '1 Estilo', price: 'R$ 89,90', icon: User },
@@ -513,7 +652,7 @@ export default function Dashboard() {
                     <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Fotos Env.</span><span className={`font-bold ${selectedFiles.length >= 5 ? 'text-emerald-400' : 'text-red-500'}`}>{selectedFiles.length}/10</span></div>
                   </div>
                   <button onClick={handleSendToProduction} disabled={isUploading} className="w-full py-4 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all disabled:opacity-50 rounded-lg shadow-xl shadow-studio-gold/10">
-                    {isUploading ? 'Enviando...' : 'Enviar para Produção'}
+                    {isUploading ? 'A enviar...' : 'Enviar para Produção'}
                   </button>
                 </div>
               </div>
@@ -523,7 +662,7 @@ export default function Dashboard() {
 
         {activeTab === 'perfil' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="perfil" className="max-w-4xl px-8">
-            <header className="mb-10"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">Meu Perfil</h2><p className="text-gray-500 mt-2">Gerencie suas informações e segurança da conta.</p></header>
+            <header className="mb-10"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">O Meu Perfil</h2><p className="text-gray-500 mt-2">Gira as suas informações e a segurança da conta.</p></header>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="space-y-6">
                 <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center">
@@ -556,7 +695,11 @@ export default function Dashboard() {
 
       <nav className="fixed bottom-0 left-0 right-0 h-20 bg-studio-black/90 backdrop-blur-2xl border-t border-white/5 z-[100] flex items-center justify-around px-2 md:hidden">
         {[
-          { id: 'home', icon: Home, label: 'Home' }, { id: 'ensaios', icon: Library, label: 'Ensaios' }, { id: 'novo', icon: PlusCircle, label: 'Novo', primary: true }, { id: 'perfil', icon: User, label: 'Perfil' },
+          { id: 'home', icon: Home, label: 'Home' },
+          { id: 'ensaios', icon: Library, label: 'Ensaios' },
+          { id: 'novo', icon: PlusCircle, label: 'Novo', primary: true },
+          { id: 'mensagens', icon: MessageSquare, label: 'Chat' },
+          { id: 'perfil', icon: User, label: 'Perfil' },
         ].map((item) => (
           <button key={item.id} onClick={() => setActiveTab(item.id as any)} className={`flex flex-col items-center justify-center gap-1 transition-all duration-300 relative ${item.primary ? 'w-14 h-14 -mt-10 bg-studio-gold text-studio-black rounded-full shadow-[0_0_20px_rgba(212,175,55,0.4)]' : activeTab === item.id ? 'text-studio-gold' : 'text-gray-500'}`}>
             <item.icon size={item.primary ? 28 : 22} strokeWidth={item.primary ? 3 : 2} />{!item.primary && <span className="text-[10px] font-bold uppercase tracking-wider">{item.label}</span>}
