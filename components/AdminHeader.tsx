@@ -37,11 +37,11 @@ export default function AdminHeader() {
       };
 
       const now = ctx.currentTime;
-      const volume = 0.8; // Volume aumentado para 80%
+      const volume = 1.0; // Volume aumentado para 100%
 
       // Toca dois tons musicais em sequência
-      playTone(880, now, 0.15, volume);         // Primeiro tom
-      playTone(1108.73, now + 0.15, 0.3, volume); // Segundo tom (mais agudo e longo)
+      playTone(880, now, 0.5, volume);         // Primeiro tom
+      playTone(1108.73, now + 0.5, 2.0, volume); // Segundo tom (mais agudo e longo)
 
     } catch (e) {
       console.log('Áudio não suportado ou bloqueado no momento.');
