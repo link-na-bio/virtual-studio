@@ -22,6 +22,7 @@ export default function AdminStyles() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const fetchStyles = async () => {
     setIsLoading(true);
@@ -68,6 +69,11 @@ export default function AdminStyles() {
     setEditingStyle(style);
     setSelectedFile(null);
     setPreviewUrl(style.img_url);
+    
+    // Força o scroll em caso de celulares ou listas longas
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
   };
 
   const closePanel = () => {
@@ -192,12 +198,18 @@ export default function AdminStyles() {
                   {filteredStyles.map((style) => (
                     <div key={style.id} className="group bg-studio-black border border-white/10 rounded-none overflow-hidden hover:border-studio-gold hover:shadow-[0_0_30px_rgba(212,175,55,0.1)] transition-all flex flex-col">
                       <div className="aspect-[4/5] overflow-hidden relative">
-                        <Image
-                          src={style.img_url}
-                          alt={style.titulo}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
+                        {style.img_url ? (
+                          <Image
+                            src={style.img_url}
+                            alt={style.titulo}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-white/5 flex items-center justify-center">
+                            <span className="text-slate-500 text-[9px] uppercase tracking-widest font-bold">Sem imagem</span>
+                          </div>
+                        )}
                         <div className="absolute top-4 left-4 flex gap-2">
                           <span className="bg-studio-gold text-studio-black text-[9px] font-bold uppercase tracking-widest px-3 py-1.5">{style.categoria}</span>
                           <span className="bg-black/60 backdrop-blur-md border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1.5">{style.genero}</span>
@@ -238,7 +250,7 @@ export default function AdminStyles() {
 
             {(editingStyle || isAddingNew) && (
               <aside className="w-full lg:w-[400px] shrink-0">
-                <form onSubmit={handleSave} className="sticky top-8 bg-studio-black border border-studio-gold/30 shadow-[0_0_50px_rgba(212,175,55,0.05)]">
+                <form ref={formRef} key={editingStyle?.id || (isAddingNew ? 'new' : 'empty')} onSubmit={handleSave} className="sticky top-8 bg-studio-black border border-studio-gold/30 shadow-[0_0_50px_rgba(212,175,55,0.05)]">
                   <div className="p-6 border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent flex items-center justify-between">
                     <h2 className="text-sm font-display font-bold uppercase tracking-widest text-studio-gold">
                       {isAddingNew ? 'Cadastrar Novo Estilo' : 'Editar Estilo'}
