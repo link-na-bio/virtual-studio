@@ -27,7 +27,7 @@ export default function Dashboard() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const avatarInputRef = useRef<HTMLInputElement>(null); // Ref para o upload do avatar
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   // Estados do Perfil
   const [newPassword, setNewPassword] = useState('');
@@ -55,7 +55,6 @@ export default function Dashboard() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatFileInputRef = useRef<HTMLInputElement>(null);
 
-  // 1. Recuperar Aba do Cache ao Carregar
   useEffect(() => {
     const savedTab = sessionStorage.getItem('activeTab');
     const savedOrderChat = sessionStorage.getItem('chatOrderId');
@@ -63,7 +62,6 @@ export default function Dashboard() {
     if (savedOrderChat) setChatOrderId(savedOrderChat);
   }, []);
 
-  // 2. Mudar de aba e salvar no cache
   const changeTab = (tab: 'home' | 'ensaios' | 'novo' | 'perfil' | 'mensagens') => {
     setActiveTab(tab);
     sessionStorage.setItem('activeTab', tab);
@@ -122,7 +120,6 @@ export default function Dashboard() {
     }
   }, [router]);
 
-  // ESCUTADOR REAL-TIME DOS PEDIDOS (PIX APROVADO)
   useEffect(() => {
     if (!userId) return;
     const channel = supabase
@@ -156,7 +153,6 @@ export default function Dashboard() {
 
     fetchMessages();
 
-    // Escutador de novas mensagens
     const channel = supabase.channel(`client_chat_${chatOrderId}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens', filter: `order_id=eq.${chatOrderId}` }, (payload) => {
         setMessages(prev => [...prev, payload.new]);
@@ -166,7 +162,6 @@ export default function Dashboard() {
     return () => { supabase.removeChannel(channel); };
   }, [chatOrderId]);
 
-  // Enviar Mensagem de Texto
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !chatOrderId || !userId) return;
@@ -187,7 +182,6 @@ export default function Dashboard() {
     }
   };
 
-  // Enviar Imagem no Chat
   const handleSendImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !chatOrderId || !userId) return;
@@ -242,7 +236,6 @@ export default function Dashboard() {
     } catch (error: any) { alert(`Falha no envio: ${error.message}`); } finally { setIsUploading(false); }
   };
 
-  // Funções de Perfil RESTAURADAS
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) { alert("As senhas não coincidem!"); return; }
@@ -518,120 +511,154 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* CHAT COM ENVIO DE IMAGEM */}
+        {/* 💬 NOVO CHAT: LAYOUT DUAS COLUNAS 💬 */}
         {activeTab === 'mensagens' && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="mensagens" className="px-4 md:px-8 h-full flex flex-col">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="mensagens" className="px-4 md:px-8 h-full flex flex-col pb-8">
             <header className="mb-6 shrink-0">
               <h2 className="text-2xl font-bold font-display uppercase tracking-wider">Central de Suporte</h2>
               <p className="text-gray-500 text-sm mt-1">Fale com a nossa equipa sobre os seus pedidos.</p>
             </header>
 
-            {!chatOrderId ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-8">
-                {pedidos.length === 0 ? (
-                  <p className="text-gray-500 text-sm p-4 bg-white/5 rounded-xl border border-white/10">Nenhum pedido encontrado para solicitar suporte.</p>
-                ) : (
-                  pedidos.map(pedido => (
-                    <button
-                      key={pedido.id}
-                      onClick={() => changeChatOrder(pedido.id)}
-                      className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-studio-gold/50 transition-colors text-left group"
-                    >
-                      <div>
-                        <h3 className="text-studio-gold font-bold uppercase tracking-widest text-sm mb-1">Pedido #{pedido.id.slice(0, 8)}</h3>
-                        <p className="text-gray-400 text-[10px] uppercase">Pacote {pedido.pacote} • {pedido.status}</p>
-                      </div>
-                      <MessageSquare className="text-gray-500 group-hover:text-studio-gold transition-colors" />
-                    </button>
-                  ))
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col h-[550px] max-h-[65vh] md:max-h-[75vh] bg-[#121212] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative mb-8">
-                <div className="p-4 border-b border-white/10 bg-white/5 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <button onClick={() => changeChatOrder(null)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white">
-                      <ChevronLeft size={20} />
-                    </button>
-                    <div>
-                      <h3 className="font-bold text-sm text-white uppercase tracking-widest">Pedido #{chatOrderId.slice(0, 8)}</h3>
-                      <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Suporte Online</p>
-                    </div>
-                  </div>
-                </div>
+            <div className="flex-1 flex flex-col md:flex-row gap-6 min-h-[500px] max-h-[70vh]">
 
-                <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#0a0a0a] custom-scrollbar">
-                  {messages.length === 0 ? (
-                    <div className="h-full flex flex-col items-center justify-center text-gray-500 opacity-50">
-                      <MessageSquare size={40} className="mb-2" />
-                      <p className="text-xs uppercase tracking-widest font-bold">Inicie a conversa</p>
-                      <p className="text-[10px] mt-2">A nossa equipa responderá o mais rápido possível.</p>
-                    </div>
+              {/* COLUNA ESQUERDA: Lista de Pedidos (Esconde no mobile se tiver chat aberto) */}
+              <div className={`w-full md:w-80 flex-col bg-[#121212] border border-white/5 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 ${chatOrderId ? 'hidden md:flex' : 'flex'}`}>
+                <div className="p-4 border-b border-white/5 bg-white/[0.02]">
+                  <h2 className="font-display font-bold uppercase tracking-widest text-studio-gold text-sm flex items-center gap-2">
+                    <MessageSquare size={16} /> Meus Pedidos
+                  </h2>
+                </div>
+                <div className="flex-1 overflow-y-auto custom-scrollbar">
+                  {pedidos.length === 0 ? (
+                    <div className="p-8 text-center text-xs text-gray-500">Nenhum pedido encontrado.</div>
                   ) : (
-                    messages.map((msg, idx) => {
-                      const isMe = msg.user_id === userId;
-                      return (
-                        <div key={idx} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
-                          <div className={`max-w-[85%] md:max-w-[70%] rounded-2xl p-3 md:p-4 shadow-xl ${isMe ? 'bg-studio-gold text-black rounded-tr-sm' : 'bg-white/10 text-white rounded-tl-sm border border-white/5'}`}>
-                            {msg.tipo === 'comprovante' || msg.tipo === 'imagem' ? (
-                              <div className="space-y-2">
-                                <div className="flex items-center gap-2 mb-2 opacity-60">
-                                  <FileImage size={14} /> <span className="text-[10px] font-bold uppercase tracking-widest">{msg.tipo === 'comprovante' ? 'Comprovativo' : 'Imagem'}</span>
-                                </div>
-                                {msg.conteudo.includes('.pdf') ? (
-                                  <a href={msg.conteudo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-black/20 p-3 rounded-lg hover:bg-black/30 transition-colors text-xs font-bold"><FileText size={16} /> Ver Ficheiro</a>
+                    pedidos.map(pedido => (
+                      <button
+                        key={pedido.id}
+                        onClick={() => changeChatOrder(pedido.id)}
+                        className={`w-full text-left p-4 border-b border-white/5 transition-all hover:bg-white/5 flex gap-3 ${chatOrderId === pedido.id ? 'bg-studio-gold/10 border-l-2 border-l-studio-gold' : 'border-l-2 border-l-transparent'}`}
+                      >
+                        <div className="size-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10">
+                          <Archive size={16} className="text-gray-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs font-bold truncate text-white">Pedido #{pedido.id.slice(0, 8)}</span>
+                            <span className="text-[9px] text-gray-500">{new Date(pedido.criado_em).toLocaleDateString('pt-BR')}</span>
+                          </div>
+                          <div className="text-[10px] text-gray-400 truncate uppercase tracking-widest">Pacote {pedido.pacote}</div>
+                          <div className="mt-1">
+                            <span className={`text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border ${pedido.status === 'Pagamento em Análise' ? 'text-blue-400 border-blue-400/30 bg-blue-400/10' : 'text-gray-400 border-gray-400/30'}`}>
+                              {pedido.status}
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* COLUNA DIREITA: Área do Chat */}
+              <div className={`flex-1 flex-col bg-[#121212] border border-white/5 rounded-2xl overflow-hidden shadow-2xl relative ${!chatOrderId ? 'hidden md:flex' : 'flex'}`}>
+                {!chatOrderId ? (
+                  <div className="h-full flex flex-col items-center justify-center text-gray-500 space-y-3">
+                    <div className="size-20 rounded-full bg-white/5 flex items-center justify-center mb-2 border border-white/10">
+                      <MessageSquare size={32} className="text-gray-600" />
+                    </div>
+                    <h3 className="font-display uppercase tracking-widest text-lg text-white font-bold">Suporte Online</h3>
+                    <p className="text-xs uppercase tracking-widest text-gray-500">Selecione um pedido na lateral para iniciar o chat</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="h-16 border-b border-white/10 bg-white/5 flex items-center justify-between px-4 md:px-6 z-10 shrink-0">
+                      <div className="flex items-center gap-3">
+                        <button onClick={() => changeChatOrder(null)} className="md:hidden p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white">
+                          <ChevronLeft size={20} />
+                        </button>
+                        <div className="size-10 rounded-full bg-studio-gold/10 border border-studio-gold/30 hidden md:flex items-center justify-center">
+                          <User size={18} className="text-studio-gold" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-sm text-white uppercase tracking-widest">Pedido #{chatOrderId.slice(0, 8)}</h3>
+                          <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Suporte Online</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#0a0a0a] custom-scrollbar">
+                      {messages.length === 0 ? (
+                        <div className="h-full flex flex-col items-center justify-center text-gray-500 opacity-50">
+                          <MessageSquare size={40} className="mb-2" />
+                          <p className="text-xs uppercase tracking-widest font-bold">Inicie a conversa</p>
+                          <p className="text-[10px] mt-2">A nossa equipa responderá o mais rápido possível.</p>
+                        </div>
+                      ) : (
+                        messages.map((msg, idx) => {
+                          const isMe = msg.user_id === userId;
+                          return (
+                            <div key={idx} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
+                              <div className={`max-w-[85%] md:max-w-[70%] rounded-2xl p-3 md:p-4 shadow-xl ${isMe ? 'bg-studio-gold text-black rounded-tr-sm' : 'bg-white/10 text-white rounded-tl-sm border border-white/5'}`}>
+                                {msg.tipo === 'comprovante' || msg.tipo === 'imagem' ? (
+                                  <div className="space-y-2">
+                                    <div className="flex items-center gap-2 mb-2 opacity-60">
+                                      <FileImage size={14} /> <span className="text-[10px] font-bold uppercase tracking-widest">{msg.tipo === 'comprovante' ? 'Comprovativo' : 'Imagem'}</span>
+                                    </div>
+                                    {msg.conteudo.includes('.pdf') ? (
+                                      <a href={msg.conteudo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-black/20 p-3 rounded-lg hover:bg-black/30 transition-colors text-xs font-bold"><FileText size={16} /> Ver Ficheiro</a>
+                                    ) : (
+                                      <a href={msg.conteudo} target="_blank" rel="noopener noreferrer">
+                                        <img src={msg.conteudo} alt="Anexo" className="rounded-lg w-full max-h-48 object-cover bg-black/20" />
+                                      </a>
+                                    )}
+                                  </div>
                                 ) : (
-                                  <a href={msg.conteudo} target="_blank" rel="noopener noreferrer">
-                                    <img src={msg.conteudo} alt="Anexo" className="rounded-lg w-full max-h-48 object-cover bg-black/20" />
-                                  </a>
+                                  <p className="text-xs md:text-sm leading-relaxed whitespace-pre-wrap font-medium">{msg.conteudo}</p>
                                 )}
                               </div>
-                            ) : (
-                              <p className="text-xs md:text-sm leading-relaxed whitespace-pre-wrap font-medium">{msg.conteudo}</p>
-                            )}
-                          </div>
-                          <span className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mt-1 px-1">{new Date(msg.criado_em).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
-                        </div>
-                      )
-                    })
-                  )}
-                  <div ref={messagesEndRef} />
-                </div>
+                              <span className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mt-1 px-1">{new Date(msg.criado_em).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                          )
+                        })
+                      )}
+                      <div ref={messagesEndRef} />
+                    </div>
 
-                <form onSubmit={handleSendMessage} className="p-3 md:p-4 bg-white/5 border-t border-white/10">
-                  <div className="flex items-end gap-2 bg-[#0a0a0a] border border-white/10 rounded-xl p-1.5 focus-within:border-studio-gold/50 transition-colors">
-                    {/* Botão de Anexo (Imagem) */}
-                    <input type="file" hidden ref={chatFileInputRef} onChange={handleSendImage} accept="image/*,.pdf" />
-                    <button
-                      type="button"
-                      onClick={() => chatFileInputRef.current?.click()}
-                      className="size-10 flex items-center justify-center text-gray-400 hover:text-studio-gold transition-colors shrink-0"
-                    >
-                      <Paperclip size={18} />
-                    </button>
+                    <form onSubmit={handleSendMessage} className="p-3 md:p-4 bg-white/5 border-t border-white/10">
+                      <div className="flex items-end gap-2 bg-[#0a0a0a] border border-white/10 rounded-xl p-1.5 focus-within:border-studio-gold/50 transition-colors">
+                        <input type="file" hidden ref={chatFileInputRef} onChange={handleSendImage} accept="image/*,.pdf" />
+                        <button
+                          type="button"
+                          onClick={() => chatFileInputRef.current?.click()}
+                          className="size-10 flex items-center justify-center text-gray-400 hover:text-studio-gold transition-colors shrink-0"
+                        >
+                          <Paperclip size={18} />
+                        </button>
 
-                    <textarea
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="Escreva a sua mensagem..."
-                      className="flex-1 bg-transparent border-none outline-none text-xs md:text-sm p-2 resize-none max-h-24 min-h-[40px] text-white custom-scrollbar"
-                      rows={1}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(e); }
-                      }}
-                    />
+                        <textarea
+                          value={newMessage}
+                          onChange={(e) => setNewMessage(e.target.value)}
+                          placeholder="Escreva a sua mensagem..."
+                          className="flex-1 bg-transparent border-none outline-none text-xs md:text-sm p-2 resize-none max-h-24 min-h-[40px] text-white custom-scrollbar"
+                          rows={1}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(e); }
+                          }}
+                        />
 
-                    <button
-                      type="submit"
-                      disabled={isSendingMessage || !newMessage.trim()}
-                      className="size-10 bg-studio-gold text-black rounded-lg flex items-center justify-center hover:bg-studio-gold-light transition-all disabled:opacity-50 shrink-0"
-                    >
-                      {isSendingMessage ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} className="ml-0.5" />}
-                    </button>
-                  </div>
-                </form>
+                        <button
+                          type="submit"
+                          disabled={isSendingMessage || !newMessage.trim()}
+                          className="size-10 bg-studio-gold text-black rounded-lg flex items-center justify-center hover:bg-studio-gold-light transition-all disabled:opacity-50 shrink-0"
+                        >
+                          {isSendingMessage ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} className="ml-0.5" />}
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                )}
               </div>
-            )}
+            </div>
           </motion.div>
         )}
 
@@ -714,7 +741,6 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* 👤 ABA PERFIL RESTAURADA E COMPLETA 👤 */}
         {activeTab === 'perfil' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="perfil" className="max-w-4xl px-8">
             <header className="mb-10"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">O Meu Perfil</h2><p className="text-gray-500 mt-2">Gira as suas informações e a segurança da conta.</p></header>
@@ -725,15 +751,12 @@ export default function Dashboard() {
                     <div className="w-full h-full rounded-full bg-studio-gold/10 flex items-center justify-center overflow-hidden border-2 border-studio-gold/30">
                       {avatarUrl ? <Image src={avatarUrl} alt="Avatar" fill className="object-cover" /> : <User size={64} className="text-studio-gold opacity-50" />}
                     </div>
-                    {/* Botão de Câmera RESTAURADO */}
                     <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-0 right-0 w-10 h-10 bg-studio-gold text-studio-black rounded-full flex items-center justify-center border-4 border-[#121212] hover:scale-110 transition-transform"><Camera size={18} /></button>
                     <input type="file" ref={avatarInputRef} hidden accept="image/*" onChange={handleAvatarUpload} />
                   </div>
                   <h3 className="font-bold text-lg font-display uppercase tracking-widest">{userEmail?.split('@')[0]}</h3><p className="text-gray-500 text-xs truncate mt-1">{userEmail}</p>
                 </div>
               </div>
-
-              {/* Formulário de Segurança RESTAURADO */}
               <div className="md:col-span-2 space-y-6">
                 <form onSubmit={handleUpdatePassword} className="bg-white/5 border border-white/10 p-8 rounded-2xl">
                   <h3 className="text-lg font-bold font-display uppercase tracking-widest mb-6 flex items-center gap-3"><Zap size={18} className="text-studio-gold" /> Segurança da Conta</h3>
