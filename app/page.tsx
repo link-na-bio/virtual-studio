@@ -33,7 +33,6 @@ const faqs = [
   }
 ];
 
-// O Array original com os seus prints de tela
 const testimonials = [
   { id: 1, name: "Roberto T.", img: "/01.jpeg" },
   { id: 2, name: "Camila", img: "/02.jpeg" },
@@ -73,7 +72,6 @@ export default function LandingPage() {
   const filter2 = useTransform(s2, [0, 0.3], ["grayscale(100%)", "grayscale(0%)"]);
   const filter3 = useTransform(s3, [0, 0.3], ["grayscale(100%)", "grayscale(0%)"]);
 
-  // Função matemática para o loop infinito
   const getOffset = (index: number) => {
     let offset = index - activeTestimonial;
     const total = testimonials.length;
@@ -97,7 +95,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-studio-black overflow-x-hidden">
+    <div className="min-h-screen bg-studio-black overflow-x-hidden selection:bg-studio-gold selection:text-studio-black">
       {/* Header */}
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-studio-black/90 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'}`}>
         <nav className="container mx-auto px-6 flex justify-between items-center">
@@ -113,7 +111,7 @@ export default function LandingPage() {
             <li><a className="hover:text-studio-gold transition" href="#precos">Pacotes</a></li>
             <li><a className="hover:text-studio-gold transition" href="#contato">Contato</a></li>
           </ul>
-          <Link href="/login" className="bg-studio-gold text-studio-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition">
+          <Link href="/login" className="bg-studio-gold text-studio-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
             Começar Agora
           </Link>
         </nav>
@@ -167,12 +165,12 @@ export default function LandingPage() {
             transition={{ delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link href="/signup" className="inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-8 py-3.5 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-xl shadow-studio-gold/20 rounded-lg">
+            <Link href="/login" className="inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-8 py-3.5 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-[0_0_20px_rgba(212,175,55,0.3)] rounded-lg">
               SOLICITAR MEU ENSAIO <ArrowRight size={16} />
             </Link>
-            <button className="border border-white/30 backdrop-blur-sm px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition text-center opacity-50 cursor-default">
+            <a href="#galeria" className="border border-white/30 backdrop-blur-sm px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition text-center rounded-lg">
               Ver Galeria
-            </button>
+            </a>
           </motion.div>
         </div>
       </section>
@@ -274,7 +272,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* NOVA SEÇÃO DE DEPOIMENTOS: IMAGENS 3D (PRINTS ORIGINAIS) - CORRIGIDA E À PROVA DE FALHAS */}
+      {/* DEPOIMENTOS: IMAGENS 3D */}
       <section className="py-24 bg-studio-black relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-studio-gold/5 to-transparent pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
@@ -288,15 +286,11 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* O Carrossel 3D CoverFlow */}
-          {/* Flexbox centraliza todos os itens absolutos com perfeição */}
           <div className="relative h-[600px] w-full max-w-6xl mx-auto flex items-center justify-center overflow-hidden">
 
             {testimonials.map((test, index) => {
               const offset = getOffset(index);
               const absOffset = Math.abs(offset);
-
-              // Constantes para controlar se o cartão aparece na tela
               const isActive = absOffset <= 2;
               const isCenter = offset === 0;
               const distanceX = windowWidth < 768 ? 140 : 250;
@@ -309,7 +303,6 @@ export default function LandingPage() {
                   style={{ pointerEvents: isActive ? "auto" : "none" }}
                   initial={false}
                   animate={{
-                    // Animação usando números puros, sem travar o React!
                     x: offset * distanceX,
                     scale: isActive ? 1 - absOffset * 0.15 : 0.5,
                     zIndex: 20 - absOffset,
@@ -324,7 +317,6 @@ export default function LandingPage() {
                     className="object-contain"
                     priority={isCenter}
                   />
-                  {/* Máscara preta escurecendo as imagens laterais */}
                   {!isCenter && (
                     <div className="absolute inset-0 bg-black/60 transition-all duration-300 hover:bg-black/40" />
                   )}
@@ -332,7 +324,6 @@ export default function LandingPage() {
               );
             })}
 
-            {/* Setas de navegação */}
             <button
               onClick={prevTestimonial}
               className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-studio-black/80 backdrop-blur-md border border-studio-gold/50 flex items-center justify-center text-studio-gold hover:bg-studio-gold hover:text-black transition-all shadow-xl z-50 cursor-pointer"
@@ -347,15 +338,14 @@ export default function LandingPage() {
             </button>
           </div>
 
-          {/* Pontos de Navegação Inferiores */}
           <div className="flex justify-center items-center gap-3 mt-8 relative z-50">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveTestimonial(i)}
                 className={`transition-all duration-300 rounded-full cursor-pointer h-2 ${activeTestimonial === i
-                    ? 'w-10 bg-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]'
-                    : 'w-2 bg-white/20 hover:bg-white/40'
+                  ? 'w-10 bg-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]'
+                  : 'w-2 bg-white/20 hover:bg-white/40'
                   }`}
                 aria-label={`Ir para depoimento ${i + 1}`}
               />
@@ -407,171 +397,177 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Pacote 1: ESSENCIAL */}
-            <motion.div
-              ref={cardRef1}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
-            >
-              <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <motion.div 
-                  className="w-full h-full"
-                  style={{ filter: windowWidth < 768 ? filter1 : "none" }}
-                >
-                  <Image 
-                    src="/corporativo.png" 
-                    alt="Essencial Package" 
-                    fill 
-                    className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0' : ''}`} 
-                  />
-                </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 flex flex-col">
-                  <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">ESSENCIAL</span>
-                  <span className="text-white font-display text-2xl font-bold">R$ 89,90</span>
-                </div>
-              </div>
-              <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-lg mb-4 text-white font-bold uppercase tracking-tight">O Começo da Sua Nova Versão</h3>
-                <p className="text-gray-400 mb-8 leading-relaxed font-light text-sm flex-grow">
-                  Para testar a tecnologia ou atualizar o LinkedIn com praticidade e sofisticação imediata.
-                </p>
-                <div className="space-y-3 pt-6 border-t border-white/5">
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> <strong>10 fotos</strong> em Alta Resolução
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Escolha de 1 estilo fotográfico
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Curadoria manual de qualidade
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Sem marca d'água
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Entrega em até 72h
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Licença Comercial
+            <Link href="/login" className="block">
+              <motion.div
+                ref={cardRef1}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex flex-col h-full bg-studio-gray/10 border border-white/5 hover:border-studio-gold hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] transition-all duration-500 rounded-3xl group overflow-hidden cursor-pointer"
+              >
+                <div className="relative aspect-[3/4] w-full overflow-hidden">
+                  <motion.div
+                    className="w-full h-full"
+                    style={{ filter: windowWidth < 768 ? filter1 : "none" }}
+                  >
+                    <Image
+                      src="/corporativo.png"
+                      alt="Essencial Package"
+                      fill
+                      className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0 group-hover:scale-105' : ''}`}
+                    />
+                  </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 flex flex-col">
+                    <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">ESSENCIAL</span>
+                    <span className="text-white font-display text-2xl font-bold">R$ 89,90</span>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+                <div className="p-8 flex flex-col flex-grow">
+                  <h3 className="text-lg mb-4 text-white font-bold uppercase tracking-tight">O Começo da Sua Nova Versão</h3>
+                  <p className="text-gray-400 mb-8 leading-relaxed font-light text-sm flex-grow">
+                    Para testar a tecnologia ou atualizar o LinkedIn com praticidade e sofisticação imediata.
+                  </p>
+                  <div className="space-y-3 pt-6 border-t border-white/5">
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> <strong>10 fotos</strong> em Alta Resolução
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Escolha de 1 estilo fotográfico
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Curadoria manual de qualidade
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Sem marca d'água
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Entrega em até 72h
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Licença Comercial
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
 
             {/* Pacote 2: PREMIUM */}
-            <motion.div
-              ref={cardRef2}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="flex flex-col bg-studio-gray/10 border-2 border-studio-gold shadow-[0_0_40px_rgba(195,157,93,0.1)] transition-all duration-500 rounded-3xl group overflow-hidden relative"
-            >
-              <div className="absolute top-4 right-4 z-20">
-                <span className="bg-studio-gold text-studio-black text-[10px] font-black px-3 py-1 uppercase tracking-widest rounded-full shadow-lg">Mais Vendido</span>
-              </div>
-              <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <motion.div 
-                  className="w-full h-full"
-                  style={{ filter: windowWidth < 768 ? filter2 : "none" }}
-                >
-                  <Image 
-                    src="/editorial-de-moda.png" 
-                    alt="Premium Package" 
-                    fill 
-                    className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0' : ''}`} 
-                  />
-                </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 flex flex-col">
-                  <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">PREMIUM</span>
-                  <span className="text-white font-display text-2xl font-bold">R$ 149,90</span>
+            <Link href="/login" className="block">
+              <motion.div
+                ref={cardRef2}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="flex flex-col h-full bg-studio-gray/10 border-2 border-studio-gold shadow-[0_0_40px_rgba(195,157,93,0.15)] hover:shadow-[0_0_60px_rgba(195,157,93,0.3)] hover:-translate-y-2 transition-all duration-500 rounded-3xl group overflow-hidden relative cursor-pointer"
+              >
+                <div className="absolute top-4 right-4 z-20">
+                  <span className="bg-studio-gold text-studio-black text-[10px] font-black px-3 py-1 uppercase tracking-widest rounded-full shadow-lg">Mais Vendido</span>
                 </div>
-              </div>
-              <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-lg mb-4 text-white font-bold uppercase tracking-tight">Identidade Visual Completa</h3>
-                <p className="text-gray-400 mb-8 leading-relaxed font-light text-sm flex-grow">
-                  O pacote ideal para profissionais que querem variedade para o Instagram e material corporativo.
-                </p>
-                <div className="space-y-3 pt-6 border-t border-white/5">
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Star size={14} className="text-studio-gold fill-studio-gold" /> <strong>25 fotos</strong> em Alta Resolução
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <CheckCheck size={14} className="text-studio-gold" /> Escolha de até 3 estilos fotográficos
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <CheckCheck size={14} className="text-studio-gold" /> Curadoria manual de qualidade
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <CheckCheck size={14} className="text-studio-gold" /> Sem marca d'água
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <CheckCheck size={14} className="text-studio-gold" /> Entrega em até 72h
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <CheckCheck size={14} className="text-studio-gold" /> Licença Comercial
+                <div className="relative aspect-[3/4] w-full overflow-hidden">
+                  <motion.div
+                    className="w-full h-full"
+                    style={{ filter: windowWidth < 768 ? filter2 : "none" }}
+                  >
+                    <Image
+                      src="/editorial-de-moda.png"
+                      alt="Premium Package"
+                      fill
+                      className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0 group-hover:scale-105' : ''}`}
+                    />
+                  </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 flex flex-col">
+                    <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">PREMIUM</span>
+                    <span className="text-white font-display text-2xl font-bold">R$ 149,90</span>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+                <div className="p-8 flex flex-col flex-grow">
+                  <h3 className="text-lg mb-4 text-white font-bold uppercase tracking-tight">Identidade Visual Completa</h3>
+                  <p className="text-gray-400 mb-8 leading-relaxed font-light text-sm flex-grow">
+                    O pacote ideal para profissionais que querem variedade para o Instagram e material corporativo.
+                  </p>
+                  <div className="space-y-3 pt-6 border-t border-white/5">
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Star size={14} className="text-studio-gold fill-studio-gold" /> <strong>25 fotos</strong> em Alta Resolução
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <CheckCheck size={14} className="text-studio-gold" /> Escolha de até 3 estilos fotográficos
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <CheckCheck size={14} className="text-studio-gold" /> Curadoria manual de qualidade
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <CheckCheck size={14} className="text-studio-gold" /> Sem marca d'água
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <CheckCheck size={14} className="text-studio-gold" /> Entrega em até 72h
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <CheckCheck size={14} className="text-studio-gold" /> Licença Comercial
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
 
             {/* Pacote 3: ELITE */}
-            <motion.div
-              ref={cardRef3}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-col bg-studio-gray/10 border border-white/5 hover:border-studio-gold/30 transition-all duration-500 rounded-3xl group overflow-hidden"
-            >
-              <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <motion.div 
-                  className="w-full h-full"
-                  style={{ filter: windowWidth < 768 ? filter3 : "none" }}
-                >
-                  <Image 
-                    src="/estilo-cinematográfico.jpeg" 
-                    alt="Elite Package" 
-                    fill 
-                    className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0' : ''}`} 
-                  />
-                </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 flex flex-col">
-                  <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">ELITE</span>
-                  <span className="text-white font-display text-2xl font-bold">R$ 247,90</span>
-                </div>
-              </div>
-              <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-lg mb-4 text-white font-bold uppercase tracking-tight">Domínio Editorial e Rebranding Total</h3>
-                <p className="text-gray-400 mb-8 leading-relaxed font-light text-sm flex-grow">
-                  Para CEOs e palestrantes que precisam de um arsenal completo para rebranding total.
-                </p>
-                <div className="space-y-3 pt-6 border-t border-white/5">
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Zap size={14} className="text-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]" /> <strong>50 fotos</strong> lendárias
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Acesso total (até 5 estilos)
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300 font-bold text-studio-gold">
-                    <Sparkles size={14} /> Curadoria VIP e Refinamento de IA
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Sem marca d'água
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Entrega em até 72h
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-300">
-                    <Check size={14} className="text-studio-gold" /> Licença Comercial
+            <Link href="/login" className="block">
+              <motion.div
+                ref={cardRef3}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="flex flex-col h-full bg-studio-gray/10 border border-white/5 hover:border-studio-gold hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] transition-all duration-500 rounded-3xl group overflow-hidden cursor-pointer"
+              >
+                <div className="relative aspect-[3/4] w-full overflow-hidden">
+                  <motion.div
+                    className="w-full h-full"
+                    style={{ filter: windowWidth < 768 ? filter3 : "none" }}
+                  >
+                    <Image
+                      src="/estilo-cinematográfico.jpeg"
+                      alt="Elite Package"
+                      fill
+                      className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0 group-hover:scale-105' : ''}`}
+                    />
+                  </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 flex flex-col">
+                    <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">ELITE</span>
+                    <span className="text-white font-display text-2xl font-bold">R$ 247,90</span>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+                <div className="p-8 flex flex-col flex-grow">
+                  <h3 className="text-lg mb-4 text-white font-bold uppercase tracking-tight">Domínio Editorial e Rebranding Total</h3>
+                  <p className="text-gray-400 mb-8 leading-relaxed font-light text-sm flex-grow">
+                    Para CEOs e palestrantes que precisam de um arsenal completo para rebranding total.
+                  </p>
+                  <div className="space-y-3 pt-6 border-t border-white/5">
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Zap size={14} className="text-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]" /> <strong>50 fotos</strong> lendárias
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Acesso total (até 5 estilos)
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300 font-bold text-studio-gold">
+                      <Sparkles size={14} /> Curadoria VIP e Refinamento de IA
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Sem marca d'água
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Entrega em até 72h
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-300">
+                      <Check size={14} className="text-studio-gold" /> Licença Comercial
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
           </div>
 
           {/* Botão Único Final */}
@@ -581,9 +577,9 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="mt-20 text-center px-4"
           >
-            <Link 
-              href="/signup"
-              className="inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-8 py-3.5 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-xl shadow-studio-gold/20 rounded-lg"
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-8 py-3.5 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-[0_0_30px_rgba(212,175,55,0.4)] rounded-lg"
             >
               SOLICITAR MEU ENSAIO <ArrowRight size={16} />
             </Link>
@@ -592,7 +588,7 @@ export default function LandingPage() {
 
           <div className="mt-24 border-t border-white/10 pt-20">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">POR QUE ESCOLHER A VIRTUAL STUDIO?</h2>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">POR QUE ESCOLHER O VIRTUAL STUDIO?</h2>
               <p className="text-studio-gold tracking-widest uppercase text-sm font-light">Evolua sua imagem com Inteligência</p>
             </div>
 
