@@ -62,6 +62,11 @@ export default function AdminStyles() {
     setIsAddingNew(true);
     setSelectedFile(null);
     setPreviewUrl(null);
+    
+    // Força o scroll em caso de celulares ou listas longas
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
   };
 
   const handleEdit = (style: any) => {
