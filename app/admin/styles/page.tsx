@@ -25,9 +25,8 @@ export default function AdminStyles() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const defaultCategories = ['Retrato', 'Editorial', 'Comercial', 'Evento', 'Área da Saúde', 'Casual', 'Ensaio Profissional', 'Formatura', 'Gestação & Natureza', 'Newborn'];
   const uniqueCategories = Array.from(new Set(styles.map(s => s.categoria))).filter(Boolean) as string[];
-  const allCategories = Array.from(new Set([...defaultCategories, ...uniqueCategories])).sort();
+  const allCategories = uniqueCategories.sort();
   const filterCategories = ['Todos', ...allCategories];
 
   const fetchStyles = async () => {
@@ -68,7 +67,7 @@ export default function AdminStyles() {
     setIsAddingNew(true);
     setSelectedFile(null);
     setPreviewUrl(null);
-    setShowNewCategoryInput(false);
+    setShowNewCategoryInput(allCategories.length === 0);
   };
 
   const handleEdit = (style: any) => {
@@ -151,6 +150,29 @@ export default function AdminStyles() {
     }
   };
 
+  const handleDeleteCategory = async () => {
+    if (activeCategory === 'Todos') return;
+    
+    const count = styles.filter(s => s.categoria === activeCategory).length;
+    
+    if (!confirm(`ATENÇÃO: Tem certeza que deseja apagar a categoria "${activeCategory}" e TODOS os seus ${count} estilos vinculados? Esta ação é irreversível e excluirá as imagens do portfólio.`)) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const { error } = await supabase.from('estilos').delete().eq('categoria', activeCategory);
+      if (error) throw error;
+      
+      alert(`Categoria e todos os seus estilos apagados com sucesso!`);
+      setActiveCategory('Todos');
+      fetchStyles();
+    } catch (err: any) {
+      alert('Erro ao apagar categoria: ' + err.message);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden bg-studio-black text-white">
       <AdminSidebar />
@@ -185,19 +207,32 @@ export default function AdminStyles() {
                 <p className="text-slate-500 text-xs tracking-widest uppercase">Curadoria de portfólio para a sua Inteligência Artificial</p>
               </div>
 
-              <div className="relative w-full sm:max-w-xs mb-8">
-                <select
-                  value={activeCategory}
-                  onChange={(e) => setActiveCategory(e.target.value)}
-                  className="w-full h-full min-h-[44px] px-4 pr-10 bg-[#121212] border border-white/10 rounded-none focus:border-studio-gold outline-none text-[10px] font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
-                >
-                  {filterCategories.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-studio-gold">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="relative w-full sm:max-w-xs">
+                  <select
+                    value={activeCategory}
+                    onChange={(e) => setActiveCategory(e.target.value)}
+                    className="w-full h-full min-h-[44px] px-4 pr-10 bg-[#121212] border border-white/10 rounded-none focus:border-studio-gold outline-none text-[10px] font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
+                  >
+                    {filterCategories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-studio-gold">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                  </div>
                 </div>
+
+                {activeCategory !== 'Todos' && (
+                  <button
+                    onClick={handleDeleteCategory}
+                    className="h-[44px] px-4 border border-rose-500/30 text-rose-500 hover:bg-rose-500 hover:text-white transition-all rounded-none text-[10px] font-bold uppercase tracking-widest flex items-center gap-2"
+                    title={`Excluir categoria ${activeCategory} e todos seus estilos`}
+                  >
+                    <Trash2 size={16} />
+                    <span className="hidden sm:inline">Excluir Categoria</span>
+                  </button>
+                )}
               </div>
 
               {isLoading ? (
@@ -332,7 +367,7 @@ export default function AdminStyles() {
                                 name="categoria_select"
                                 required
                                 className="w-full px-4 py-3 bg-[#121212] border border-white/10 focus:border-studio-gold outline-none text-xs font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
-                                defaultValue={editingStyle?.categoria || 'Retrato'}
+                                defaultValue={editingStyle?.categoria || (allCategories.length > 0 ? allCategories[0] : '')}
                               >
                                 {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                               </select>
