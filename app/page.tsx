@@ -233,7 +233,7 @@ export default function LandingPage() {
                   src={style.img}
                   alt={style.title}
                   fill
-                  className="object-cover transition duration-700 group-hover:scale-110"
+                  className="object-contain transition duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                 />
               </div>

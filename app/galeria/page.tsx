@@ -119,7 +119,7 @@ export default function GalleryPage() {
                         src={item.img_url}
                         alt={item.titulo}
                         fill
-                        className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:blur-[2px] opacity-80 group-hover:opacity-100 select-none pointer-events-none"
+                        className="object-contain transition-all duration-700 group-hover:scale-110 group-hover:blur-[2px] opacity-80 group-hover:opacity-100 select-none pointer-events-none"
                         referrerPolicy="no-referrer"
                         draggable={false}
                       />

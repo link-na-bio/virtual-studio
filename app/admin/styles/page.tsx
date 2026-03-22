@@ -212,7 +212,7 @@ export default function AdminStyles() {
                             src={style.img_url}
                             alt={style.titulo}
                             fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                            className="object-contain group-hover:scale-105 transition-transform duration-700"
                           />
                         ) : (
                           <div className="w-full h-full bg-white/5 flex items-center justify-center">
@@ -284,7 +284,7 @@ export default function AdminStyles() {
                       >
                         {previewUrl ? (
                           <>
-                            <Image src={previewUrl} alt="Preview" fill className="object-cover" />
+                            <Image src={previewUrl} alt="Preview" fill className="object-contain" />
                             <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all backdrop-blur-sm">
                               <UploadCloud size={32} className="text-studio-gold mb-2" />
                               <span className="text-white text-[10px] font-bold uppercase tracking-widest">Trocar Imagem</span>
