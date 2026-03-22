@@ -22,6 +22,8 @@ export default function Dashboard() {
 
   // Filtro de Gênero
   const [genderFilter, setGenderFilter] = useState<'Feminino' | 'Masculino'>('Feminino');
+  // Filtro de Categoria
+  const [categoryFilter, setCategoryFilter] = useState<string>('Todos');
 
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -375,8 +377,14 @@ export default function Dashboard() {
     return null;
   };
 
-  // Filtragem dos estilos baseada no Gênero selecionado (ESSA LINHA QUE FALTAVA!)
-  const displayStyles = dbStyles.filter(s => s.genero === genderFilter || s.genero === 'Ambos');
+  // Categorias Dinâmicas
+  const availableCategories = ['Todos', ...Array.from(new Set(dbStyles.map(s => s.categoria).filter(Boolean)))];
+
+  // Filtragem dos estilos baseada no Gênero e Categoria
+  const displayStyles = dbStyles.filter(s => 
+    (s.genero === genderFilter || s.genero === 'Ambos') &&
+    (categoryFilter === 'Todos' || s.categoria === categoryFilter)
+  );
 
   return (
     <div className="flex min-h-screen bg-studio-black text-white relative">
@@ -731,19 +739,36 @@ export default function Dashboard() {
                       <span className="text-gray-500 text-xs font-bold tracking-widest uppercase">Selecionados: <span className={selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}>{selectedStyles.length}/{getStyleLimit()}</span></span>
                     </div>
 
-                    <div className="flex bg-[#121212] border border-white/10 rounded-lg p-1 w-fit mb-6">
-                      <button onClick={() => setGenderFilter('Feminino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Feminino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Feminino</button>
-                      <button onClick={() => setGenderFilter('Masculino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Masculino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Masculino</button>
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                      <div className="flex bg-[#121212] border border-white/10 rounded-lg p-1 w-fit shrink-0">
+                        <button onClick={() => setGenderFilter('Feminino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Feminino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Feminino</button>
+                        <button onClick={() => setGenderFilter('Masculino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Masculino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Masculino</button>
+                      </div>
+
+                      <div className="relative w-full sm:max-w-[240px]">
+                        <select
+                          value={categoryFilter}
+                          onChange={(e) => setCategoryFilter(e.target.value)}
+                          className="w-full h-full min-h-[44px] px-4 pr-10 bg-[#121212] border border-white/10 rounded-lg focus:border-studio-gold outline-none text-[10px] font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
+                        >
+                          {availableCategories.map((cat: any) => (
+                            <option key={cat} value={cat}>{cat}</option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-studio-gold">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="relative group">
                       <button type="button" onClick={() => scrollStyles('left')} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-10 h-10 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-studio-gold hover:border-studio-gold transition-all shadow-xl opacity-0 group-hover:opacity-100 hidden md:flex"><ChevronLeft size={20} className="pr-[2px] pt-[1px]" /></button>
 
                       <div ref={stylesScrollRef} className="flex overflow-x-auto snap-x gap-4 pb-6 no-scrollbar scroll-smooth">
-                        {dbStyles.filter(s => s.genero === genderFilter || s.genero === 'Ambos').length === 0 ? (
+                        {displayStyles.length === 0 ? (
                           <p className="text-gray-500 text-xs italic p-4">Nenhum estilo disponível nesta categoria.</p>
                         ) : (
-                          dbStyles.filter(s => s.genero === genderFilter || s.genero === 'Ambos').map((style) => (
+                          displayStyles.map((style) => (
                             <div key={style.id} onClick={() => toggleStyle(style.titulo)} className={`min-w-[180px] h-[240px] snap-start relative rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${selectedStyles.includes(style.titulo) ? 'border-studio-gold scale-[0.98]' : 'border-white/5 hover:border-studio-gold/40'}`}>
                               <Image src={style.img_url} alt={style.titulo} fill className="object-cover" unoptimized />
                               <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-4 transition-all ${selectedStyles.includes(style.titulo) ? 'bg-studio-gold/20' : 'opacity-80'}`}>
