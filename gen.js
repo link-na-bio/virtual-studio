@@ -203,8 +203,8 @@ Impacto visual: Presença enigmática e ousada em atmosfera industrial.
 
 41/50
 Categoria: Lifestyle
-Nome do estilo: Lifestyle 41/50
-Impacto visual: Charme caloroso, sorriso espontâneo e elegância sem esforço.
+Nome do estilo: Lifestyle URBANO
+Impacto visual: Estilo urbano moderno com atitude e sofisticação em cenário de metrópole.
 
 42/50
 Categoria: Lifestyle
@@ -454,8 +454,8 @@ Impacto visual: Sofisticação corporativa de altíssimo nível com brilho execu
 
 41/50
 Categoria: Lifestyle
-Nome do estilo: Lifestyle 41/50
-Impacto visual: Visão estratégica, simbologia de poder e estilo marcante.
+Nome do estilo: Lifestyle URBANO
+Impacto visual: Estilo urbano moderno com atitude e sofisticação em cenário de metrópole.
 
 42/50
 Categoria: Lifestyle
