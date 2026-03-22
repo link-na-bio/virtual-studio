@@ -45,8 +45,8 @@ export default function GalleryPage() {
             <ChevronLeft size={20} className="group-hover:-translate-x-1 transition" />
             <span className="uppercase tracking-widest text-xs font-display">Voltar para Home</span>
           </Link>
-          <div className="relative w-32 h-10">
-            <Image src="/logo.png" alt="Logo" fill className="object-contain" />
+          <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
+            <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
           </div>
           <Link href="/login" className="hidden md:block bg-studio-gold text-studio-black px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-studio-gold-light transition ring-4 ring-studio-gold/10">
             Quero o meu
@@ -140,9 +140,9 @@ export default function GalleryPage() {
                      <div className="w-0 group-hover:w-20 h-[2px] bg-studio-gold mt-4 transition-all duration-500"></div>
                   </div>
 
-                  {/* Badge de Lente */}
-                  <div className="absolute top-8 right-8 w-12 h-12 rounded-full border border-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                     <Camera size={18} className="text-studio-gold" />
+                  {/* Marca d'água */}
+                  <div className="absolute top-8 right-8 w-16 h-8 opacity-40 group-hover:opacity-100 transition-all duration-500 pointer-events-none drop-shadow-md">
+                     <Image src="/logo.png" alt="Virtual Studio" fill className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500" unoptimized />
                   </div>
                 </motion.div>
               ))}
