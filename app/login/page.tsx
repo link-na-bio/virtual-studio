@@ -26,9 +26,16 @@ export default function Login() {
     setSuccessMessage(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      router.push('/dashboard');
+
+      // O Porteiro VIP: Verifica se é o seu e-mail de Admin
+      if (data.user?.email === 'brunomeueditor@gmail.com') {
+        router.push('/admin/orders'); // Manda o chefe para o Admin
+      } else {
+        router.push('/dashboard'); // Manda os clientes para o Dashboard deles
+      }
+
     } catch (err: any) {
       setError('E-mail ou senha incorretos.');
     } finally {
