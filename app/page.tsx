@@ -222,10 +222,10 @@ export default function LandingPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-4">
           {[
-            { title: 'Retrato Corporativo', img: '/corporativo.png', offset: false },
-            { title: 'Editorial de Moda', img: '/editorial-de-moda.png', offset: true },
+            { title: 'Casual', img: 'https://ruildppqtxrgycgsactu.supabase.co/storage/v1/object/public/estilos_imagens/1774210309215.jpg', offset: false },
+            { title: 'Estúdio', img: '/editorial-de-moda.png', offset: true },
             { title: 'Lifestyle Urbano', img: '/lifestyleurbano.png', offset: false },
-            { title: 'Estilo Cinematográfico', img: '/estilo-cinematográfico.jpeg', offset: true }
+            { title: 'Executivo/Corporativo', img: 'https://ruildppqtxrgycgsactu.supabase.co/storage/v1/object/public/estilos_imagens/1774208652539.jpg', offset: true }
           ].map((style, i) => (
             <div key={i} className={`relative group h-[500px] overflow-hidden ${style.offset ? 'md:mt-12' : ''}`}>
               <div className="absolute inset-0 bg-studio-black scale-[1.08] translate-y-3 origin-center">
