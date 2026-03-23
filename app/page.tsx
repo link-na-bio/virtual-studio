@@ -12,6 +12,10 @@ const faqs = [
     answer: "Nosso sistema de IA avançado analisa suas fotos para criar um modelo digital personalizado. Em seguida, nossos artistas aplicam curadoria humana para gerar retratos profissionais que mantêm sua essência real e autoridade visual."
   },
   {
+    question: "Como funciona a escolha dos Estilos?",
+    answer: "Você não escolhe apenas uma 'pose rígida', você escolhe uma Direção de Arte. Se você escolher o estilo 'Corporativo Executivo', a nossa IA atua como um fotógrafo real: ela manterá a estética, as roupas e o cenário luxuoso daquele estilo, mas gerará variações naturais de ângulos, iluminação e expressões (sorrisos, olhares focados, planos fechados e abertos). Você recebe um ensaio fotográfico dinâmico e realista do mesmo momento."
+  },
+  {
     question: "Quantas fotos eu preciso enviar?",
     answer: "Recomendamos o envio de 10 a 20 fotos de diferentes ângulos, iluminações e expressões. Quanto mais variadas as fotos, melhor nossa IA poderá aprender sua fisionomia para resultados perfeitos."
   },

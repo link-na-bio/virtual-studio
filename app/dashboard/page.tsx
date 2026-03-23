@@ -737,12 +737,20 @@ export default function Dashboard() {
 
                 {selectedPackage && (
                   <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                    <div className="flex justify-between items-end mb-6">
+                    <div className="flex justify-between items-end mb-4">
                       <div className="flex items-center gap-4">
                         <span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">2</span>
                         <h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Estilo visual</h3>
                       </div>
                       <span className="text-gray-500 text-xs font-bold tracking-widest uppercase">Selecionados: <span className={selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}>{selectedStyles.length}/{getStyleLimit()}</span></span>
+                    </div>
+
+                    <div className="mb-6 p-4 bg-studio-gold/5 border border-studio-gold/20 rounded-xl flex items-start gap-3">
+                      <Info size={18} className="text-studio-gold shrink-0 mt-0.5" />
+                      <p className="text-xs text-gray-300 leading-relaxed font-light">
+                        <strong className="text-studio-gold uppercase tracking-wider text-[10px] block mb-1">Dica: Direção de Arte</strong>
+                        Você não escolhe uma simples "pose rígida". A IA atua como um fotógrafo real: ela <strong>manterá a estética e o cenário</strong> do estilo, mas gerará variações de iluminação, ângulos e expressões (olhares focados, sorrisos).
+                      </p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 mb-6">
