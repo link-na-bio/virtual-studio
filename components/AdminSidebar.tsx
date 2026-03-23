@@ -28,7 +28,6 @@ const navItems = [
   { label: 'Financeiro', icon: CreditCard, href: '/admin/finance' },
   { label: 'System', type: 'header' },
   { label: 'Configurações', icon: Settings, href: '/admin/settings' },
-  { label: 'Relatórios', icon: BarChart3, href: '/admin/reports' },
 ];
 
 export default function AdminSidebar() {
