@@ -204,15 +204,11 @@ export default function AdminOrders() {
     }
   };
 
-  // =========================================================================
-  // NOVA FUNÇÃO: VER COMPROVANTE DO PIX
-  // =========================================================================
   const handleViewComprovante = async (orderId: string, userId: string) => {
     const actionKey = `comprovante-${orderId}`;
     setActiveAction(prev => ({ ...prev, [actionKey]: true }));
 
     try {
-      // Busca a mensagem do tipo comprovante para este pedido
       const { data, error } = await supabase
         .from('mensagens')
         .select('conteudo')
@@ -236,11 +232,9 @@ export default function AdminOrders() {
     }
   };
 
-  // NOVA FUNÇÃO: APROVAR O PIX DENTRO DO MODAL
   const handleApprovePix = async () => {
     setIsApproving(true);
     try {
-      // Muda o status para Ensaio Concluído, liberando para o cliente!
       await handleStatusChange(comprovanteModal.orderId, 'Ensaio Concluído');
       setComprovanteModal({ isOpen: false, url: '', orderId: '' });
       alert('PIX Aprovado! O ensaio final foi liberado para o cliente.');
@@ -256,7 +250,7 @@ export default function AdminOrders() {
     return new Date(dateString).toLocaleDateString('pt-BR');
   };
 
-  const handleDownloadAll = async () => { /* ... (Mantive o código do ZIP inalterado, ele continua funcionando perfeitamente) ... */
+  const handleDownloadAll = async () => {
     if (!downloadModal.files.length) return;
     if (!window.JSZip) { alert('A biblioteca de compactação ainda está carregando.'); return; }
     setIsZipping(true);
@@ -295,7 +289,6 @@ export default function AdminOrders() {
 
             <div className="p-6 bg-studio-black/50 flex flex-col items-center">
               <p className="text-xs text-gray-400 uppercase tracking-widest mb-4">Comprovante anexado pelo cliente:</p>
-              {/* Visualizador do Comprovante (Imagem ou PDF se o navegador suportar nativamente) */}
               <div className="relative w-full max-w-sm h-[400px] border border-white/10 rounded-xl overflow-hidden bg-black flex items-center justify-center">
                 {comprovanteModal.url.includes('.pdf') ? (
                   <iframe src={comprovanteModal.url} className="w-full h-full" title="PDF do Comprovante" />
@@ -324,7 +317,7 @@ export default function AdminOrders() {
         </div>
       )}
 
-      {/* Modal de Download de Fotos (Ocultado aqui no chat para economizar espaço, mas está rodando no background igual no seu código) */}
+      {/* Modal de Download de Fotos */}
       {downloadModal.isOpen && (
         <div className="fixed inset-0 z-[40] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-[#121212] border border-white/10 w-full max-w-lg overflow-hidden shadow-2xl">
@@ -401,7 +394,7 @@ export default function AdminOrders() {
                     <tr className="bg-white/5 text-gray-500 uppercase text-[10px] font-bold tracking-widest font-display">
                       <th className="px-6 py-4">ID</th>
                       <th className="px-6 py-4">Cliente</th>
-                      <th className="px-6 py-4">Pacote</th>
+                      <th className="px-6 py-4">Pacote & Estilos</th>
                       <th className="px-6 py-4">Status</th>
                       <th className="px-6 py-4">Data</th>
                       <th className="px-6 py-4 text-right">Ações</th>
@@ -420,7 +413,23 @@ export default function AdminOrders() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4"><span className="text-[10px] font-bold uppercase tracking-widest text-white">{order.pacote}</span></td>
+
+                        {/* A MÁGICA DOS ESTILOS ACONTECE AQUI */}
+                        <td className="px-6 py-4">
+                          <div className="flex flex-col items-start gap-1.5">
+                            <span className="text-[11px] font-black uppercase tracking-widest text-white">{order.pacote}</span>
+                            {order.estilos && order.estilos.length > 0 && (
+                              <div className="flex flex-wrap gap-1 max-w-[200px]">
+                                {order.estilos.map((estilo: string, i: number) => (
+                                  <span key={i} className="px-1.5 py-0.5 bg-studio-gold/10 border border-studio-gold/30 text-studio-gold rounded text-[8px] uppercase tracking-wider whitespace-nowrap">
+                                    {estilo}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </td>
+
                         <td className="px-6 py-4">
                           {activeAction[`status-${order.id}`] ? (
                             <div className="flex items-center gap-2 text-studio-gold"><Loader2 size={14} className="animate-spin" /><span className="text-[10px] font-bold uppercase tracking-widest">Atualizando...</span></div>
@@ -446,7 +455,6 @@ export default function AdminOrders() {
                         <td className="px-6 py-4 text-[11px] font-bold text-slate-400 tabular-nums">{formatDate(order.criado_em)}</td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2">
-                            {/* O BOTÃO MÁGICO APARECE AQUI SE ESTIVER EM ANÁLISE */}
                             {order.status === 'Pagamento em Análise' ? (
                               <button
                                 onClick={() => handleViewComprovante(order.id, order.user_id)}
