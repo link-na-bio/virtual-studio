@@ -435,7 +435,7 @@ export default function LandingPage() {
                   </p>
                   <div className="space-y-3 pt-6 border-t border-white/5">
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Check size={14} className="text-studio-gold" /> <strong>10 fotos</strong> em Alta Resolução
+                      <Check size={14} className="text-studio-gold" /> <strong>10 fotos</strong>em Alta Resolução
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
                       <Check size={14} className="text-studio-gold" /> Escolha de 1 estilo fotográfico
