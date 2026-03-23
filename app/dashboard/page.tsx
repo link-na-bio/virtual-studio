@@ -740,7 +740,7 @@ export default function Dashboard() {
                     <div className="flex justify-between items-end mb-6">
                       <div className="flex items-center gap-4">
                         <span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">2</span>
-                        <h3 className="text-xl font-bold font-display uppercase tracking-widest">Selecione os Estilos</h3>
+                        <h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Estilo visual</h3>
                       </div>
                       <span className="text-gray-500 text-xs font-bold tracking-widest uppercase">Selecionados: <span className={selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}>{selectedStyles.length}/{getStyleLimit()}</span></span>
                     </div>
@@ -813,7 +813,7 @@ export default function Dashboard() {
                 )}
 
                 <section>
-                  <div className="flex items-center gap-4 mb-6"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">3</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">Fotos de Referência</h3></div>
+                  <div className="flex items-center gap-4 mb-6"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">3</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">suas Fotos de Referência</h3></div>
 
                   <input type="file" multiple accept="image/jpeg, image/png, image/webp" hidden ref={fileInputRef} onChange={handleFileChange} />
                   <div onDragOver={(e) => e.preventDefault()} onDrop={handleDrop} onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-white/10 p-12 flex flex-col items-center justify-center text-center bg-white/5 hover:border-studio-gold/30 transition-all cursor-pointer group rounded-2xl">
