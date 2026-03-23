@@ -87,13 +87,12 @@ export default function Signup() {
       <div className="w-full max-w-md relative z-10 bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/10 p-8 sm:p-10 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
 
         {/* Cabeçalho do Card */}
-        <div className="flex flex-col items-center mb-8">
-          {/* AQUI ESTÁ A LOGO GRANDE PADRONIZADA (w-28 h-28) */}
-          <div className="relative w-28 h-28 mb-3">
-            <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+        <div className="flex flex-col items-center mb-8 -mt-12">
+          <div className="relative w-[200px] h-[120px] mb-[-10px]">
+            <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain drop-shadow-2xl" priority />
           </div>
-          <h2 className="text-xl font-display font-bold text-white tracking-[0.2em] uppercase">Virtual Studio</h2>
-          <p className="text-studio-gold text-[10px] uppercase tracking-widest mt-1">Crie sua Conta Premium</p>
+          <h2 className="text-xl font-display font-bold text-white tracking-[0.2em] uppercase">Crie sua Conta Premium</h2>
+          <p className="text-studio-gold text-[10px] uppercase tracking-widest mt-1"></p>
         </div>
 
         {/* Mensagens de Feedback */}
