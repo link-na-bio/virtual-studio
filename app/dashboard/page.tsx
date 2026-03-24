@@ -73,6 +73,11 @@ export default function Dashboard() {
   const [activePreview, setActivePreview] = useState(0);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
+  
+  // NOVOS ESTADOS PARA GALERIA
+  const [selectedEnsaioForGallery, setSelectedEnsaioForGallery] = useState<string | null>(null);
+  const [galleryPhotos, setGalleryPhotos] = useState<string[]>([]);
+  const [isFetchingGallery, setIsFetchingGallery] = useState(false);
 
   // Estados do Chat (Mensagens e Imagens)
   const [messages, setMessages] = useState<any[]>([]);
@@ -343,6 +348,40 @@ export default function Dashboard() {
     } catch (error: any) { alert("Erro ao carregar prévia: " + error.message); } finally { setIsFetchingPreview(false); }
   };
 
+  const handleViewGallery = async (orderId: string) => {
+    setIsFetchingGallery(true);
+    setSelectedEnsaioForGallery(orderId);
+    try {
+      const path = `${userId}/${orderId}/`;
+      const { data: files, error } = await supabase.storage.from('previa_ensaios').list(path);
+      if (error) throw error;
+      const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
+      if (validFiles.length === 0) { alert("Nenhuma foto encontrada."); return; }
+      const urlPromises = validFiles.map(async (file) => {
+        const { data, error } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
+        if (error) throw error; return data.signedUrl;
+      });
+      setGalleryPhotos(await Promise.all(urlPromises));
+    } catch (error: any) { alert("Erro ao carregar galeria: " + error.message); } finally { setIsFetchingGallery(false); }
+  };
+
+  const handleDownloadSinglePhoto = async (url: string, filename: string) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const href = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(href);
+    } catch (e: any) {
+      alert("Erro ao baixar foto: " + e.message);
+    }
+  };
+
   const handleDownloadFinal = async (orderId: string) => {
     setIsDownloading(orderId);
     try {
@@ -389,6 +428,11 @@ export default function Dashboard() {
     }
   };
 
+  const handleCloseGallery = () => {
+    setSelectedEnsaioForGallery(null);
+    setGalleryPhotos([]);
+  };
+
   if (!isMounted) return null;
 
   if (isLoading) return <div className="min-h-screen bg-studio-black flex items-center justify-center"><div className="w-10 h-10 border-4 border-studio-gold border-t-transparent rounded-full animate-spin"></div></div>;
@@ -396,7 +440,11 @@ export default function Dashboard() {
   const renderActionButtons = (pedido: any) => {
     if (pedido.status === 'Prévia Disponível') {
       return (
-        <button onClick={() => handleOpenPreview(pedido.id)} disabled={isFetchingPreview} className="relative z-50 w-full py-3 bg-studio-gold text-studio-black font-bold uppercase tracking-widest text-[10px] hover:bg-studio-gold-light transition-all flex items-center justify-center gap-2 group/btn cursor-pointer disabled:opacity-50 rounded-xl">
+        <button 
+          onClick={() => handleOpenPreview(pedido.id)} 
+          disabled={isFetchingPreview} 
+          className="relative z-50 w-full py-3 bg-studio-gold text-studio-black font-bold uppercase tracking-widest text-[10px] hover:bg-studio-gold-light transition-all flex items-center justify-center gap-2 group/btn cursor-pointer disabled:opacity-50 rounded-xl"
+        >
           {isFetchingPreview && selectedOrderId === pedido.id ? <Loader2 size={14} className="animate-spin" /> : <Eye size={14} className="group-hover/btn:scale-110 transition-transform" />} Visualizar Prévia
         </button>
       );
@@ -409,14 +457,23 @@ export default function Dashboard() {
       );
     }
     if (pedido.status === 'Ensaio Concluído' || pedido.status === 'Finalizado') {
+      const isSelected = selectedEnsaioForGallery === pedido.id;
       return (
         <button
-          onClick={() => handleDownloadFinal(pedido.id)}
-          disabled={isDownloading === pedido.id}
-          className="relative z-50 w-full py-3 bg-emerald-500 text-black font-bold uppercase tracking-widest text-[10px] hover:bg-emerald-400 transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.2)] disabled:opacity-50 cursor-pointer rounded-xl"
+          onClick={() => handleViewGallery(pedido.id)}
+          disabled={isFetchingGallery && selectedEnsaioForGallery === pedido.id}
+          className={`relative z-50 w-full py-3 font-bold uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer rounded-xl ${
+            isSelected 
+              ? 'bg-studio-gold text-studio-black shadow-[0_0_15px_rgba(212,175,55,0.2)]' 
+              : 'bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
+          }`}
         >
-          {isDownloading === pedido.id ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
-          Baixar Fotos em Alta
+          {isFetchingGallery && selectedEnsaioForGallery === pedido.id ? (
+            <Loader2 size={14} className="animate-spin" />
+          ) : (
+            <Eye size={14} />
+          )}
+          {isSelected ? 'Visualizando Ensaio' : 'Visualizar Ensaio'}
         </button>
       );
     }
@@ -438,7 +495,7 @@ export default function Dashboard() {
         {isPreviewOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-2xl flex flex-col">
             <div className="flex justify-between items-center p-6 border-b border-white/10 bg-studio-black/50">
-              <div><h3 className="text-2xl font-display uppercase tracking-widest text-studio-gold font-bold">Prévia do Ensaio</h3><p className="text-gray-400 text-xs mt-1">Protegido com marca de água. Aprove para libertar a versão final em alta resolução sem marcas.</p></div>
+              <div><h3 className="text-2xl font-display uppercase tracking-widest text-studio-gold font-bold">Prévia do Ensaio</h3><p className="text-gray-400 text-xs mt-1">Protegido com marca de água. Aprove para libertar a version final em alta resolução sem marcas.</p></div>
               <button onClick={() => setIsPreviewOpen(false)} className="text-white hover:text-studio-gold transition-colors p-2 bg-white/5 rounded-full"><X size={24} /></button>
             </div>
             <div className="flex-1 relative flex items-center justify-center overflow-hidden py-12 px-4 select-none">
@@ -557,7 +614,18 @@ export default function Dashboard() {
 
         {activeTab === 'ensaios' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="ensaios" className="px-8">
-            <header className="mb-8"><h2 className="text-3xl font-bold font-display uppercase tracking-wider">Os Meus Ensaios</h2></header>
+            <header className="mb-8 flex justify-between items-center">
+              <h2 className="text-3xl font-bold font-display uppercase tracking-wider">Os Meus Ensaios</h2>
+              {selectedEnsaioForGallery && (
+                <button 
+                  onClick={handleCloseGallery}
+                  className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2"
+                >
+                  <X size={14} /> Fechar Galeria
+                </button>
+              )}
+            </header>
+            
             {pedidos.length === 0 ? (
               <div className="min-h-[400px] flex flex-col items-center justify-center text-center p-12 bg-white/5 border border-dashed border-white/10 rounded-2xl">
                 <div className="w-16 h-16 rounded-full bg-studio-gold/10 text-studio-gold flex items-center justify-center mb-6"><Archive size={32} /></div>
@@ -566,40 +634,104 @@ export default function Dashboard() {
                 <button onClick={() => changeTab('novo')} className="mt-8 px-8 py-3 bg-studio-gold text-studio-black font-bold uppercase tracking-widest hover:bg-studio-gold-light transition-all flex items-center gap-2"><PlusCircle size={18} /> Novo Pedido</button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {pedidos.map((pedido) => (
-                  <div key={pedido.id} className={`relative bg-white/5 border rounded-2xl overflow-hidden flex flex-col transition-all ${pedido.status === 'Ensaio Concluído' ? 'border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'border-white/10 hover:border-studio-gold/30'}`}>
-                    <div className="p-6 flex-1 flex flex-col relative z-10">
-                      <div className="flex justify-between items-start mb-4">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${(pedido.status === 'Ensaio Concluído') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
-                          (pedido.status === 'Pagamento em Análise') ? 'bg-blue-900/20 text-blue-400 border-blue-400/30 animate-pulse' :
-                            (pedido.status === 'Prévia Disponível') ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
-                              'bg-orange-500/10 text-orange-400 border-orange-500/20'
-                          }`}>
-                          {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
-                        </span>
-                        <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{formatDate(pedido.criado_em)}</span>
+              <div className="flex flex-col lg:flex-row gap-8">
+                {/* LISTA DE ENSAIOS */}
+                <div className={selectedEnsaioForGallery ? "w-full lg:w-80 shrink-0" : "w-full"}>
+                  <div className={selectedEnsaioForGallery ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"}>
+                    {pedidos.map((pedido) => (
+                      <div key={pedido.id} className={`relative bg-white/5 border rounded-2xl overflow-hidden flex flex-col transition-all ${selectedEnsaioForGallery === pedido.id ? 'border-studio-gold shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-studio-gold/5' : (pedido.status === 'Ensaio Concluído' ? 'border-emerald-500/30' : 'border-white/10 hover:border-studio-gold/30')}`}>
+                        <div className="p-6 flex-1 flex flex-col relative z-10">
+                          <div className="flex justify-between items-start mb-4">
+                            <span className={`px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest border ${(pedido.status === 'Ensaio Concluído') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                              (pedido.status === 'Pagamento em Análise') ? 'bg-blue-900/20 text-blue-400 border-blue-400/30 animate-pulse' :
+                                (pedido.status === 'Prévia Disponível') ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
+                                  'bg-orange-500/10 text-orange-400 border-orange-500/20'
+                              }`}>
+                              {pedido.status === 'Finalizado' ? 'Ensaio Concluído' : pedido.status}
+                            </span>
+                            <span className="text-[8px] text-gray-500 font-bold uppercase tracking-widest">{formatDate(pedido.criado_em)}</span>
+                          </div>
+
+                          <h4 className="text-sm font-bold font-display uppercase tracking-widest text-studio-gold mb-2">{pedido.pacote}</h4>
+
+                          {!selectedEnsaioForGallery && (
+                            <div className="flex flex-wrap gap-2 mb-6">
+                              {pedido.estilos?.map((estilo: string) => (
+                                <span key={estilo} className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[9px] uppercase tracking-wider text-gray-400">{estilo}</span>
+                              ))}
+                            </div>
+                          )}
+
+                          <div className="mt-auto relative z-50">
+                            {renderActionButtons(pedido)}
+                          </div>
+                        </div>
+
+                        {!selectedEnsaioForGallery && (
+                          <div className="p-4 bg-white/5 border-t border-white/10 flex justify-between items-center relative z-10">
+                            <div className="flex items-center gap-2 text-[8px] text-gray-500 uppercase tracking-widest font-bold"><Camera size={12} className="text-studio-gold" /> ID: {pedido.id.slice(0, 8)}</div>
+                            <ChevronRight size={14} className="text-gray-600 group-hover:text-studio-gold group-hover:translate-x-1 transition-all" />
+                          </div>
+                        )}
                       </div>
+                    ))}
+                  </div>
+                </div>
 
-                      <h4 className="text-lg font-bold font-display uppercase tracking-widest text-studio-gold mb-2">{pedido.pacote}</h4>
-
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {pedido.estilos?.map((estilo: string) => (
-                          <span key={estilo} className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[9px] uppercase tracking-wider text-gray-400">{estilo}</span>
-                        ))}
+                {/* GALERIA DE FOTOS */}
+                {selectedEnsaioForGallery && (
+                  <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col min-h-[500px] shadow-2xl">
+                    <div className="p-6 border-b border-white/10 bg-white/[0.02] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shrink-0">
+                      <div>
+                        <h3 className="font-display font-bold uppercase tracking-widest text-studio-gold flex items-center gap-2">
+                          <LayoutGrid size={18} /> Galeria do Ensaio
+                        </h3>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Pedido #{selectedEnsaioForGallery.slice(0, 8)}</p>
                       </div>
-
-                      <div className="mt-auto relative z-50">
-                        {renderActionButtons(pedido)}
+                      <div className="flex items-center gap-3 w-full md:w-auto">
+                        <button 
+                          onClick={() => handleDownloadFinal(selectedEnsaioForGallery)}
+                          disabled={isDownloading === selectedEnsaioForGallery}
+                          className="flex-1 md:flex-none px-6 py-2 bg-emerald-500 text-black rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-400 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                        >
+                          {isDownloading === selectedEnsaioForGallery ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+                          Baixar Tudo (ZIP)
+                        </button>
                       </div>
                     </div>
 
-                    <div className="p-4 bg-white/5 border-t border-white/10 flex justify-between items-center relative z-10">
-                      <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase tracking-widest font-bold"><Camera size={14} className="text-studio-gold" /> ID: {pedido.id.slice(0, 8)}</div>
-                      <ChevronRight size={16} className="text-gray-600 group-hover:text-studio-gold group-hover:translate-x-1 transition-all" />
+                    <div className="flex-1 p-6 overflow-y-auto max-h-[70vh] custom-scrollbar bg-[#0a0a0a]">
+                      {isFetchingGallery ? (
+                        <div className="h-full flex flex-col items-center justify-center space-y-4 opacity-50">
+                          <Loader2 size={40} className="animate-spin text-studio-gold" />
+                          <p className="text-xs uppercase tracking-widest font-bold">Gerando sua galeria...</p>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                          {galleryPhotos.map((url, idx) => (
+                            <div key={idx} className="group relative aspect-[4/5] rounded-xl overflow-hidden bg-white/5 border border-white/5 shadow-xl">
+                              <img 
+                                src={url} 
+                                alt={`Foto ${idx + 1}`} 
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                loading="lazy"
+                              />
+                              <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                                <button 
+                                  onClick={() => handleDownloadSinglePhoto(url, `VIRTUAL_STUDIO_${selectedEnsaioForGallery.slice(0, 8)}_${idx + 1}.jpg`)}
+                                  className="w-12 h-12 bg-studio-gold text-studio-black rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+                                  title="Baixar Foto"
+                                >
+                                  <Download size={22} />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             )}
           </motion.div>
