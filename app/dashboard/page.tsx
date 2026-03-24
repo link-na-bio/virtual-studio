@@ -640,7 +640,7 @@ export default function Dashboard() {
                           <td className="px-6 py-4 font-bold uppercase tracking-widest text-xs text-studio-gold">{pedido.pacote}</td>
                           <td className="px-6 py-4 text-gray-500 text-xs">{formatDate(pedido.criado_em)}</td>
                           <td className="px-6 py-4">
-                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${(pedido.status === 'Ensaio Concluído' || pedido.status === 'Finalizado') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border whitespace-nowrap ${(pedido.status === 'Ensaio Concluído' || pedido.status === 'Finalizado') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
                               (pedido.status === 'Pagamento em Análise') ? 'bg-blue-900/20 text-blue-400 border-blue-400/30' :
                                 (pedido.status === 'Prévia Disponível') ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/20' :
                                   'bg-orange-500/10 text-orange-400 border-orange-500/20'
