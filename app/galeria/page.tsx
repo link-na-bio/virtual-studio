@@ -132,16 +132,18 @@ export default function GalleryPage() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-90"></div>
 
-                  {/* Overlay Informativo */}
-                  <div className="absolute bottom-10 left-10 right-10 transition-all duration-500 group-hover:bottom-12">
-                    <span className="text-studio-gold text-[10px] uppercase font-bold tracking-widest mb-2 block">{item.categoria?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : item.categoria}</span>
-                    <h3 className="text-2xl md:text-3xl font-display font-bold group-hover:text-studio-gold-light transition line-clamp-2">{item.titulo}</h3>
-                    <div className="w-0 group-hover:w-20 h-[2px] bg-studio-gold mt-4 transition-all duration-500"></div>
+                  {/* Logo no centro (Marca d'água principal) */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-all duration-700 z-10">
+                    <div className="relative w-32 h-16">
+                      <Image src="/logo.2.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                    </div>
                   </div>
 
-                  {/* Marca d'água */}
-                  <div className="absolute top-8 right-8 w-16 h-8 opacity-40 group-hover:opacity-100 transition-all duration-500 pointer-events-none drop-shadow-md">
-                    <Image src="/logo.2.png" alt="Virtual Studio" fill className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500" unoptimized />
+                  {/* Categoria na parte inferior */}
+                  <div className="absolute bottom-6 left-0 right-0 text-center transition-all duration-500 z-20 group-hover:bottom-8">
+                    <span className="text-studio-gold text-[10px] uppercase font-bold tracking-[0.3em] block drop-shadow-md">
+                      {item.categoria?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : item.categoria}
+                    </span>
                   </div>
                 </motion.div>
               ))}
