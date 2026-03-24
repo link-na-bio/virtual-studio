@@ -32,7 +32,8 @@ export default function Dashboard() {
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<null | 'essencial' | 'premium' | 'elite'>(null);
+  // ADICIONADO: 'amostra' aos pacotes permitidos
+  const [selectedPackage, setSelectedPackage] = useState<null | 'amostra' | 'essencial' | 'premium' | 'elite'>(null);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -131,7 +132,6 @@ export default function Dashboard() {
       if (!session) {
         router.push('/login');
       } else if (session.user.email === 'brunomeueditor@gmail.com') {
-        // Se você logou pelo Google e caiu no painel de cliente, o sistema te joga pro Admin na mesma hora!
         router.push('/admin/orders');
       } else {
         setUserId(session.user.id);
@@ -140,10 +140,10 @@ export default function Dashboard() {
         setIsLoading(false);
         fetchPedidos(session.user.id);
         fetchDbStyles();
-        
+
         // Verifica restrição
         if (session.user.email) {
-          const { data } = await supabase.from('usuarios_restritos').select('email').eq('email', session.user.email).single();
+          const { data } = await supabase.from('usuarios_restritos').select('email').eq('email', session.user.email).maybeSingle();
           if (data) {
             setIsRestricted(true);
             if (sessionStorage.getItem('activeTab') === 'novo') {
@@ -261,14 +261,31 @@ export default function Dashboard() {
 
   const handleLogout = async () => { await supabase.auth.signOut(); router.push('/login'); };
 
-  const getStyleLimit = () => { if (selectedPackage === 'essencial') return 1; if (selectedPackage === 'premium') return 3; if (selectedPackage === 'elite') return 5; return 0; };
-  const toggleStyle = (style: string) => { const limit = getStyleLimit(); if (selectedStyles.includes(style)) { setSelectedStyles(selectedStyles.filter(s => s !== style)); } else if (selectedStyles.length < limit) { setSelectedStyles([...selectedStyles, style]); } else { alert(`O pacote ${selectedPackage} permite apenas ${limit} estilos.`); } };
+  // ADICIONADO: Lógica de limite e valores para o pacote Amostra
+  const getStyleLimit = () => {
+    if (selectedPackage === 'amostra') return 1;
+    if (selectedPackage === 'essencial') return 1;
+    if (selectedPackage === 'premium') return 3;
+    if (selectedPackage === 'elite') return 5;
+    return 0;
+  };
+
+  const totalAmount = selectedPackage === 'amostra' ? 19.90 : selectedPackage === 'essencial' ? 89.90 : selectedPackage === 'premium' ? 149.90 : selectedPackage === 'elite' ? 247.90 : 0;
+
+  const toggleStyle = (style: string) => { const limit = getStyleLimit(); if (selectedStyles.includes(style)) { setSelectedStyles(selectedStyles.filter(s => s !== style)); } else if (selectedStyles.length < limit) { setSelectedStyles([...selectedStyles, style]); } else { alert(`O pacote escolhido permite apenas ${limit} estilo(s).`); } };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => { if (e.target.files) { const newFiles = Array.from(e.target.files); setSelectedFiles([...selectedFiles, ...newFiles].slice(0, 10)); } };
   const handleDrop = (e: React.DragEvent) => { e.preventDefault(); if (e.dataTransfer.files) { const newFiles = Array.from(e.dataTransfer.files); setSelectedFiles([...selectedFiles, ...newFiles].slice(0, 10)); } };
   const removeFile = (index: number) => { setSelectedFiles(prev => prev.filter((_, i) => i !== index)); };
 
   const handleSendToProduction = async () => {
+    // 1. O CADEADO DE SEGURANÇA MÁXIMA
+    if (isRestricted) {
+      alert("Operação bloqueada. A sua conta está suspensa para novos pedidos.");
+      return;
+    }
+
     if (!selectedPackage || selectedStyles.length === 0 || selectedFiles.length < 5) { alert("Preencha todos os campos obrigatórios e envie no mínimo 5 fotos."); return; }
+
     setIsUploading(true);
     try {
       const { data: orderData, error: dbError } = await supabase.from('pedidos').insert({ user_id: userId, user_email: userEmail, pacote: selectedPackage, estilos: selectedStyles, status: 'Aguardando Produção' }).select().single();
@@ -749,148 +766,174 @@ export default function Dashboard() {
               </div>
             ) : (
               <>
-            <header className="mb-8"><h2 className="text-2xl font-bold font-display uppercase tracking-widest">Configurar Novo Ensaio</h2><p className="text-gray-500">Personalize o seu pedido para obter o melhor resultado.</p></header>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-12 pb-20">
-                <section>
-                  <div className="flex items-center gap-4 mb-8"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">1</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Pacote</h3></div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {[
-                      { id: 'essencial', title: 'Essencial', styles: '1 Estilo', price: 'R$ 89,90', icon: User },
-                      { id: 'premium', title: 'Premium', styles: '3 Estilos', price: 'R$ 149,90', icon: Sparkles, popular: true },
-                      { id: 'elite', title: 'Elite', styles: '5 Estilos', price: 'R$ 247,90', icon: Zap },
-                    ].map((pkg) => (
-                      <button key={pkg.id} onClick={() => { setSelectedPackage(pkg.id as any); setSelectedStyles([]); }} className={`p-6 border text-left rounded-xl transition-all relative overflow-hidden group ${selectedPackage === pkg.id ? 'border-studio-gold bg-studio-gold/5 shadow-lg' : 'border-white/10 hover:border-studio-gold/30'}`}>
-                        {pkg.popular && <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[8px] font-bold px-2 py-0.5 uppercase tracking-tighter">Mais Vendido</div>}
-                        {selectedPackage === pkg.id && <div className="absolute top-2 right-2 text-studio-gold"><CheckCircle2 size={16} /></div>}
-                        <pkg.icon className={`mb-4 transition-colors ${selectedPackage === pkg.id ? 'text-studio-gold' : 'text-gray-500'}`} size={24} />
-                        <h4 className="font-bold uppercase tracking-widest text-sm mb-1">{pkg.title}</h4>
-                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-4">{pkg.styles}</p>
-                        <p className={`text-xs font-bold ${selectedPackage === pkg.id ? 'text-studio-gold' : 'text-gray-400'}`}>{pkg.price}</p>
-                      </button>
-                    ))}
-                  </div>
-                </section>
+                <header className="mb-8"><h2 className="text-2xl font-bold font-display uppercase tracking-widest">Configurar Novo Ensaio</h2><p className="text-gray-500">Personalize o seu pedido para obter o melhor resultado.</p></header>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-2 space-y-12 pb-20">
+                    <section>
+                      <div className="flex items-center gap-4 mb-8"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">1</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Pacote</h3></div>
 
-                {selectedPackage && (
-                  <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                    <div className="flex justify-between items-end mb-4">
-                      <div className="flex items-center gap-4">
-                        <span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">2</span>
-                        <h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Estilo visual</h3>
-                      </div>
-                      <span className="text-gray-500 text-xs font-bold tracking-widest uppercase">Selecionados: <span className={selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}>{selectedStyles.length}/{getStyleLimit()}</span></span>
-                    </div>
-
-                    <div className="mb-6 p-4 bg-studio-gold/5 border border-studio-gold/20 rounded-xl flex items-start gap-3">
-                      <Info size={18} className="text-studio-gold shrink-0 mt-0.5" />
-                      <p className="text-xs text-gray-300 leading-relaxed font-light">
-                        <strong className="text-studio-gold uppercase tracking-wider text-[10px] block mb-1">Dica: Direção de Arte</strong>
-                        Você não escolhe uma simples "pose rígida". A IA atua como um fotógrafo real: ela <strong>manterá a estética e o cenário</strong> do estilo, mas gerará variações de iluminação, ângulos e expressões (olhares focados, sorrisos).
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                      <div className="flex bg-[#121212] border border-white/10 rounded-lg p-1 w-fit shrink-0">
-                        <button onClick={() => setGenderFilter('Feminino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Feminino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Feminino</button>
-                        <button onClick={() => setGenderFilter('Masculino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Masculino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Masculino</button>
-                      </div>
-
-                      <div className="relative w-full sm:max-w-[240px]">
-                        <select
-                          value={categoryFilter}
-                          onChange={(e) => setCategoryFilter(e.target.value)}
-                          className="w-full h-full min-h-[44px] px-4 pr-10 bg-[#121212] border border-white/10 rounded-lg focus:border-studio-gold outline-none text-[10px] font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
-                        >
-                          {availableCategories.map((cat: any) => (
-                            <option key={cat} value={cat}>{cat?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : cat}</option>
-                          ))}
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-studio-gold">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="relative group">
-                      <button type="button" onClick={() => scrollStyles('left')} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-10 h-10 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-studio-gold hover:border-studio-gold transition-all shadow-xl opacity-0 group-hover:opacity-100 hidden md:flex"><ChevronLeft size={20} className="pr-[2px] pt-[1px]" /></button>
-
-                      <div ref={stylesScrollRef} className="flex overflow-x-auto snap-x gap-4 pb-6 no-scrollbar scroll-smooth">
-                        {displayStyles.length === 0 ? (
-                          <p className="text-gray-500 text-xs italic p-4">Nenhum estilo disponível nesta categoria.</p>
-                        ) : (
-                          displayStyles.map((style) => (
-                            <div key={style.id} onClick={() => toggleStyle(style.titulo)} className={`min-w-[180px] h-[240px] snap-start relative rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${selectedStyles.includes(style.titulo) ? 'border-studio-gold scale-[0.98]' : 'border-white/5 hover:border-studio-gold/40'}`}>
-                              <Image src={style.img_url} alt={style.titulo} fill className="object-contain" unoptimized />
-                              <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-4 transition-all ${selectedStyles.includes(style.titulo) ? 'bg-studio-gold/20' : 'opacity-80'}`}>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-white">{style.titulo}</p>
-                                {selectedStyles.includes(style.titulo) && <div className="absolute top-2 right-2 bg-studio-gold text-studio-black rounded-full p-1"><Check size={10} strokeWidth={4} /></div>}
-                              </div>
+                      {/* ADICIONADO: Banner de Destaque para a Amostra Premium */}
+                      <div
+                        onClick={() => { setSelectedPackage('amostra'); setSelectedStyles([]); }}
+                        className={`mb-6 border-2 rounded-2xl p-6 relative overflow-hidden transition-all group cursor-pointer ${selectedPackage === 'amostra' ? 'border-studio-gold bg-studio-gold/5 shadow-[0_0_30px_rgba(212,175,55,0.15)]' : 'border-white/10 bg-[#121212] hover:border-studio-gold/50'}`}
+                      >
+                        <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[10px] font-bold px-4 py-1.5 uppercase tracking-widest rounded-bl-xl">NOVO</div>
+                        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
+                          <div className="flex items-center gap-4">
+                            <div className="w-14 h-14 rounded-full bg-studio-gold/10 flex items-center justify-center text-studio-gold shrink-0 border border-studio-gold/20">
+                              <Sparkles size={24} />
                             </div>
-                          ))
-                        )}
-                      </div>
-
-                      <button type="button" onClick={() => scrollStyles('right')} className="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 w-10 h-10 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-studio-gold hover:border-studio-gold transition-all shadow-xl opacity-0 group-hover:opacity-100 hidden md:flex"><ChevronRight size={20} className="pl-[2px] pt-[1px]" /></button>
-                    </div>
-
-                    {selectedStyles.length > 0 && (
-                      <div className="mt-2 mb-4 p-5 border border-white/10 bg-[#121212] rounded-xl">
-                        <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-3 flex items-center gap-2">
-                          <Info size={14} className="text-studio-gold" /> Detalhes dos Estilos Escolhidos
-                        </h4>
-                        <div className="space-y-3">
-                          {selectedStyles.map(st => {
-                            const styleInfo = dbStyles.find(d => d.titulo === st);
-                            if (!styleInfo?.descricao) return null;
-                            return (
-                              <div key={st} className="text-xs text-gray-300 leading-relaxed bg-white/5 p-3 rounded-lg border border-white/5 flex flex-col gap-1">
-                                <strong className="text-white uppercase tracking-widest">{st}</strong>
-                                <p>{styleInfo.descricao}</p>
-                              </div>
-                            );
-                          })}
+                            <div>
+                              <h4 className="text-lg font-bold font-display uppercase tracking-widest text-studio-gold flex items-center gap-2">Amostra Premium <span className="text-sm">💎</span></h4>
+                              <p className="text-xs text-gray-400 mt-1 max-w-sm leading-relaxed">Ainda na dúvida? Teste o poder da nossa IA com 1 Estilo (1 Foto de alta definição). <strong className="text-white font-normal">O valor é descontado caso faça um upgrade depois.</strong></p>
+                            </div>
+                          </div>
+                          <div className="text-left md:text-right shrink-0 bg-white/5 md:bg-transparent p-4 md:p-0 rounded-xl w-full md:w-auto">
+                            <p className="text-2xl font-bold text-white tracking-wider">R$ 19,90</p>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mt-1">Teste de Confiança</p>
+                          </div>
                         </div>
+                        {selectedPackage === 'amostra' && <div className="absolute inset-0 border-2 border-studio-gold rounded-2xl pointer-events-none"></div>}
                       </div>
+
+                      {/* Pacotes Originais */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {[
+                          { id: 'essencial', title: 'Essencial', styles: '1 Estilo', price: 'R$ 89,90', icon: User },
+                          { id: 'premium', title: 'Premium', styles: '3 Estilos', price: 'R$ 149,90', icon: Sparkles, popular: true },
+                          { id: 'elite', title: 'Elite', styles: '5 Estilos', price: 'R$ 247,90', icon: Zap },
+                        ].map((pkg) => (
+                          <button key={pkg.id} onClick={() => { setSelectedPackage(pkg.id as any); setSelectedStyles([]); }} className={`p-6 border text-left rounded-xl transition-all relative overflow-hidden group ${selectedPackage === pkg.id ? 'border-studio-gold bg-studio-gold/5 shadow-lg' : 'border-white/10 hover:border-studio-gold/30'}`}>
+                            {pkg.popular && <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[8px] font-bold px-2 py-0.5 uppercase tracking-tighter">Mais Vendido</div>}
+                            {selectedPackage === pkg.id && <div className="absolute top-2 right-2 text-studio-gold"><CheckCircle2 size={16} /></div>}
+                            <pkg.icon className={`mb-4 transition-colors ${selectedPackage === pkg.id ? 'text-studio-gold' : 'text-gray-500'}`} size={24} />
+                            <h4 className="font-bold uppercase tracking-widest text-sm mb-1">{pkg.title}</h4>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-4">{pkg.styles}</p>
+                            <p className={`text-xs font-bold ${selectedPackage === pkg.id ? 'text-studio-gold' : 'text-gray-400'}`}>{pkg.price}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </section>
+
+                    {selectedPackage && (
+                      <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="flex justify-between items-end mb-4">
+                          <div className="flex items-center gap-4">
+                            <span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">2</span>
+                            <h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Estilo visual</h3>
+                          </div>
+                          <span className="text-gray-500 text-xs font-bold tracking-widest uppercase">Selecionados: <span className={selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}>{selectedStyles.length}/{getStyleLimit()}</span></span>
+                        </div>
+
+                        <div className="mb-6 p-4 bg-studio-gold/5 border border-studio-gold/20 rounded-xl flex items-start gap-3">
+                          <Info size={18} className="text-studio-gold shrink-0 mt-0.5" />
+                          <p className="text-xs text-gray-300 leading-relaxed font-light">
+                            <strong className="text-studio-gold uppercase tracking-wider text-[10px] block mb-1">Dica: Direção de Arte</strong>
+                            Você não escolhe uma simples "pose rígida". A IA atua como um fotógrafo real: ela <strong>manterá a estética e o cenário</strong> do estilo, mas gerará variações de iluminação, ângulos e expressões (olhares focados, sorrisos).
+                          </p>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                          <div className="flex bg-[#121212] border border-white/10 rounded-lg p-1 w-fit shrink-0">
+                            <button onClick={() => setGenderFilter('Feminino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Feminino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Feminino</button>
+                            <button onClick={() => setGenderFilter('Masculino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Masculino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Masculino</button>
+                          </div>
+
+                          <div className="relative w-full sm:max-w-[240px]">
+                            <select
+                              value={categoryFilter}
+                              onChange={(e) => setCategoryFilter(e.target.value)}
+                              className="w-full h-full min-h-[44px] px-4 pr-10 bg-[#121212] border border-white/10 rounded-lg focus:border-studio-gold outline-none text-[10px] font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
+                            >
+                              {availableCategories.map((cat: any) => (
+                                <option key={cat} value={cat}>{cat?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : cat}</option>
+                              ))}
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-studio-gold">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="relative group">
+                          <button type="button" onClick={() => scrollStyles('left')} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-10 h-10 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-studio-gold hover:border-studio-gold transition-all shadow-xl opacity-0 group-hover:opacity-100 hidden md:flex"><ChevronLeft size={20} className="pr-[2px] pt-[1px]" /></button>
+
+                          <div ref={stylesScrollRef} className="flex overflow-x-auto snap-x gap-4 pb-6 no-scrollbar scroll-smooth">
+                            {displayStyles.length === 0 ? (
+                              <p className="text-gray-500 text-xs italic p-4">Nenhum estilo disponível nesta categoria.</p>
+                            ) : (
+                              displayStyles.map((style) => (
+                                <div key={style.id} onClick={() => toggleStyle(style.titulo)} className={`min-w-[180px] h-[240px] snap-start relative rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${selectedStyles.includes(style.titulo) ? 'border-studio-gold scale-[0.98]' : 'border-white/5 hover:border-studio-gold/40'}`}>
+                                  <Image src={style.img_url} alt={style.titulo} fill className="object-contain" unoptimized />
+                                  <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-4 transition-all ${selectedStyles.includes(style.titulo) ? 'bg-studio-gold/20' : 'opacity-80'}`}>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-white">{style.titulo}</p>
+                                    {selectedStyles.includes(style.titulo) && <div className="absolute top-2 right-2 bg-studio-gold text-studio-black rounded-full p-1"><Check size={10} strokeWidth={4} /></div>}
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </div>
+
+                          <button type="button" onClick={() => scrollStyles('right')} className="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 w-10 h-10 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-studio-gold hover:border-studio-gold transition-all shadow-xl opacity-0 group-hover:opacity-100 hidden md:flex"><ChevronRight size={20} className="pl-[2px] pt-[1px]" /></button>
+                        </div>
+
+                        {selectedStyles.length > 0 && (
+                          <div className="mt-2 mb-4 p-5 border border-white/10 bg-[#121212] rounded-xl">
+                            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-3 flex items-center gap-2">
+                              <Info size={14} className="text-studio-gold" /> Detalhes dos Estilos Escolhidos
+                            </h4>
+                            <div className="space-y-3">
+                              {selectedStyles.map(st => {
+                                const styleInfo = dbStyles.find(d => d.titulo === st);
+                                if (!styleInfo?.descricao) return null;
+                                return (
+                                  <div key={st} className="text-xs text-gray-300 leading-relaxed bg-white/5 p-3 rounded-lg border border-white/5 flex flex-col gap-1">
+                                    <strong className="text-white uppercase tracking-widest">{st}</strong>
+                                    <p>{styleInfo.descricao}</p>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                      </motion.section>
                     )}
 
-                  </motion.section>
-                )}
+                    <section>
+                      <div className="flex items-center gap-4 mb-6"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">3</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">suas Fotos de Referência</h3></div>
 
-                <section>
-                  <div className="flex items-center gap-4 mb-6"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">3</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">suas Fotos de Referência</h3></div>
-
-                  <input type="file" multiple accept="image/jpeg, image/png, image/webp" hidden ref={fileInputRef} onChange={handleFileChange} />
-                  <div onDragOver={(e) => e.preventDefault()} onDrop={handleDrop} onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-white/10 p-12 flex flex-col items-center justify-center text-center bg-white/5 hover:border-studio-gold/30 transition-all cursor-pointer group rounded-2xl">
-                    <div className="w-16 h-16 rounded-full bg-studio-gold/5 text-studio-gold flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-studio-gold/10 transition-all"><CloudUpload size={32} /></div>
-                    <h4 className="text-lg font-bold font-display uppercase tracking-widest">Arraste aqui as suas fotos</h4>
-                    <p className="text-gray-500 text-xs mt-2 max-w-xs">Precisamos de 5 a 10 fotos nítidas do seu rosto para o treinamento perfeito.</p>
-                  </div>
-                  {selectedFiles.length > 0 && (
-                    <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mt-8">
-                      {selectedFiles.map((file, index) => (
-                        <div key={index} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 group">
-                          <Image src={URL.createObjectURL(file)} alt={`Preview ${index}`} fill className="object-cover" />
-                          <button onClick={(e) => { e.stopPropagation(); removeFile(index); }} className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"><X size={12} /></button>
+                      <input type="file" multiple accept="image/jpeg, image/png, image/webp" hidden ref={fileInputRef} onChange={handleFileChange} />
+                      <div onDragOver={(e) => e.preventDefault()} onDrop={handleDrop} onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-white/10 p-12 flex flex-col items-center justify-center text-center bg-white/5 hover:border-studio-gold/30 transition-all cursor-pointer group rounded-2xl">
+                        <div className="w-16 h-16 rounded-full bg-studio-gold/5 text-studio-gold flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-studio-gold/10 transition-all"><CloudUpload size={32} /></div>
+                        <h4 className="text-lg font-bold font-display uppercase tracking-widest">Arraste aqui as suas fotos</h4>
+                        <p className="text-gray-500 text-xs mt-2 max-w-xs">Precisamos de 5 a 10 fotos nítidas do seu rosto para o treinamento perfeito.</p>
+                      </div>
+                      {selectedFiles.length > 0 && (
+                        <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mt-8">
+                          {selectedFiles.map((file, index) => (
+                            <div key={index} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 group">
+                              <Image src={URL.createObjectURL(file)} alt={`Preview ${index}`} fill className="object-cover" />
+                              <button onClick={(e) => { e.stopPropagation(); removeFile(index); }} className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"><X size={12} /></button>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-              </div>
-
-              <div className="space-y-6">
-                <div className="bg-white/5 border border-white/10 p-6 rounded-2xl sticky top-8">
-                  <h3 className="text-lg font-bold mb-6 font-display uppercase tracking-widest border-b border-white/5 pb-4">Resumo do Pedido</h3>
-                  <div className="space-y-4 mb-8">
-                    <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Pacote</span><span className="font-bold text-white uppercase">{selectedPackage || 'Não selecionado'}</span></div>
-                    <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Estilos</span><span className={`font-bold ${selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}`}>{selectedStyles.length}/{getStyleLimit()}</span></div>
-                    <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Fotos Env.</span><span className={`font-bold ${selectedFiles.length >= 5 ? 'text-emerald-400' : 'text-red-500'}`}>{selectedFiles.length}/10</span></div>
+                      )}
+                    </section>
                   </div>
-                      <div className="p-6 bg-white/5 border-t border-white/10">
+
+                  <div className="space-y-6">
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl sticky top-8">
+                      <h3 className="text-lg font-bold mb-6 font-display uppercase tracking-widest border-b border-white/5 pb-4">Resumo do Pedido</h3>
+                      <div className="space-y-4 mb-8">
+                        <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Pacote</span><span className="font-bold text-white uppercase">{selectedPackage || 'Não selecionado'}</span></div>
+                        <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Estilos</span><span className={`font-bold ${selectedStyles.length === getStyleLimit() ? 'text-studio-gold' : 'text-white'}`}>{selectedStyles.length}/{getStyleLimit()}</span></div>
+                        <div className="flex justify-between items-center text-xs"><span className="text-gray-500 uppercase tracking-widest">Fotos Env.</span><span className={`font-bold ${selectedFiles.length >= 5 ? 'text-emerald-400' : 'text-red-500'}`}>{selectedFiles.length}/10</span></div>
+                      </div>
+                      <div className="p-6 bg-white/5 border-t border-white/10 -mx-6 -mb-6 rounded-b-2xl">
                         <div className="flex justify-between items-center font-bold font-display uppercase tracking-widest text-lg mb-6"><span>Total:</span><span className="text-studio-gold">R$ {totalAmount.toFixed(2).replace('.', ',')}</span></div>
-                        <button onClick={handleNovoPedido} disabled={!selectedPackage || selectedStyles.length < getStyleLimit() || selectedFiles.length < 5 || isUploading} className="w-full py-4 bg-studio-gold text-studio-black font-bold uppercase tracking-widest hover:bg-studio-gold-light transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                          {isUploading ? <><Loader2 size={18} className="animate-spin" /> Processando Imagens...</> : <><Sparkles size={18} /> Confirmar e Gerar Ensaio</>}
+                        <button onClick={handleSendToProduction} disabled={!selectedPackage || selectedStyles.length < getStyleLimit() || selectedFiles.length < 5 || isUploading} className="w-full py-4 bg-studio-gold text-studio-black font-bold uppercase tracking-widest hover:bg-studio-gold-light transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-xl">
+                          {isUploading ? <><Loader2 size={18} className="animate-spin" /> Processando Imagens...</> : <><Sparkles size={18} /> Confirmar Pedido</>}
                         </button>
                       </div>
                     </div>
