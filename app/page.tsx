@@ -107,7 +107,7 @@ export default function LandingPage() {
             <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
               <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
-            <span className="font-display text-lg tracking-widest hidden md:block">VIRTUAL STUDIO</span>
+            <span className="font-display text-lg tracking-widest hidden md:block"></span>
           </div>
           <ul className="hidden md:flex gap-8 text-sm uppercase tracking-widest font-display">
             <li><a className="hover:text-studio-gold transition" href="#galeria">Estilos</a></li>
@@ -691,7 +691,7 @@ export default function LandingPage() {
             <div className="relative w-[280px] h-[280px] mx-auto -mt-10 -mb-24">
               <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" />
             </div>
-            <h4 className="font-display tracking-[0.3em] text-xl relative z-10">VIRTUAL STUDIO</h4>
+            <h4 className="font-display tracking-[0.3em] text-xl relative z-10"></h4>
           </div>
           <div className="mb-6 relative z-10">
             <a href="mailto:suporte@virtualstudio.click" className="text-studio-gold hover:text-studio-gold-light transition-all text-sm tracking-[0.2em] font-display uppercase">
