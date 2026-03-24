@@ -89,7 +89,7 @@ export default function Signup() {
         {/* Cabeçalho do Card */}
         <div className="flex flex-col items-center mb-8 -mt-12">
           <div className="relative w-[200px] h-[120px] mb-[-10px]">
-            <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain drop-shadow-2xl" priority />
+            <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain drop-shadow-2xl" priority />
           </div>
           <h2 className="text-xl font-display font-bold text-white tracking-[0.2em] uppercase">Crie sua Conta Premium</h2>
           <p className="text-studio-gold text-[10px] uppercase tracking-widest mt-1"></p>

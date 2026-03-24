@@ -585,7 +585,7 @@ export default function Dashboard() {
         <div className="p-8 flex flex-col items-center text-center border-b border-white/5 mb-4">
           <div className="flex flex-col items-center">
             <div className="relative w-[150px] h-[150px] -mt-[40px] -mb-[60px] flex items-center justify-center pointer-events-none">
-              <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+              <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
             <div className="h-[1px] w-2/3 bg-gradient-to-r from-transparent via-studio-gold/50 to-transparent mt-2 mb-1"></div>
             <p className="text-studio-gold text-[20px] uppercase tracking-widest">Área VIP</p>
@@ -615,7 +615,7 @@ export default function Dashboard() {
 
       <main className="flex-1 overflow-y-auto bg-[#121212] pt-20 pb-24 md:pt-8 md:pb-8 relative">
         <header className="fixed top-0 left-0 right-0 h-16 bg-studio-black/80 backdrop-blur-xl border-b border-white/5 z-[100] flex items-center justify-between px-6 md:hidden">
-          <div className="flex items-center gap-2"><div className="relative w-40 h-[60px]"><Image src="/logo.png" alt="Logo" fill className="object-contain object-left" priority /></div><h1 className="text-white text-xs font-bold font-display tracking-widest leading-none hidden sm:block">VIRTUAL STUDIO</h1></div>
+          <div className="flex items-center gap-2"><div className="relative w-40 h-[60px]"><Image src="/logo.2.png" alt="Logo" fill className="object-contain object-left" priority /></div><h1 className="text-white text-xs font-bold font-display tracking-widest leading-none hidden sm:block">VIRTUAL STUDIO</h1></div>
           <button onClick={handleLogout} className="p-2 bg-white/5 rounded-lg border border-white/10 text-red-500"><LogOut size={16} /></button>
         </header>
 

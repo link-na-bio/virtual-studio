@@ -105,7 +105,7 @@ export default function LandingPage() {
         <nav className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
-              <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+              <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
             <span className="font-display text-lg tracking-widest hidden md:block">VIRTUAL STUDIO</span>
           </div>
@@ -689,7 +689,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-6">
           <div className="mb-10">
             <div className="relative w-[280px] h-[280px] mx-auto -mt-10 -mb-24">
-              <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" />
+              <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" />
             </div>
             <h4 className="font-display tracking-[0.3em] text-xl relative z-10">VIRTUAL STUDIO</h4>
           </div>

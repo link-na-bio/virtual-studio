@@ -46,7 +46,7 @@ export default function GalleryPage() {
             <span className="uppercase tracking-widest text-xs font-display">Voltar para Home</span>
           </Link>
           <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
-            <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+            <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
           </div>
           <Link href="/login" className="hidden md:block bg-studio-gold text-studio-black px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-studio-gold-light transition ring-4 ring-studio-gold/10">
             Quero o meu
@@ -141,7 +141,7 @@ export default function GalleryPage() {
 
                   {/* Marca d'água */}
                   <div className="absolute top-8 right-8 w-16 h-8 opacity-40 group-hover:opacity-100 transition-all duration-500 pointer-events-none drop-shadow-md">
-                    <Image src="/logo.png" alt="Virtual Studio" fill className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500" unoptimized />
+                    <Image src="/logo.2.png" alt="Virtual Studio" fill className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500" unoptimized />
                   </div>
                 </motion.div>
               ))}
@@ -168,7 +168,7 @@ export default function GalleryPage() {
         <div className="container mx-auto px-6">
           <div className="mb-10">
             <div className="relative w-[280px] h-[280px] mx-auto -mt-10 -mb-24">
-              <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" />
+              <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" />
             </div>
             <h4 className="font-display tracking-[0.3em] text-xl relative z-10">VIRTUAL STUDIO</h4>
           </div>

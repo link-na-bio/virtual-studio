@@ -103,7 +103,7 @@ export default function Login() {
         {/* Cabeçalho do Card */}
         <div className="flex flex-col items-center mb-8 -mt-12">
           <div className="relative w-[200px] h-[120px] mb-[-10px]">
-            <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain drop-shadow-2xl" priority />
+            <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain drop-shadow-2xl" priority />
           </div>
           <h2 className="text-xl font-display font-bold text-white tracking-[0.2em] uppercase">
             {view === 'login' ? 'Acesso à Plataforma' : 'Recuperar Senha'}

@@ -302,7 +302,7 @@ function CheckoutContent() {
         <div className="p-6">
           <div className="flex items-center gap-2 mb-8">
             <div className="relative w-10 h-10 flex items-center justify-center">
-              <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+              <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
             <div>
               <h1 className="text-white text-sm font-bold">VIRTUAL STUDIO</h1>
