@@ -14,7 +14,7 @@ const oswald = Oswald({
 
 export const metadata: Metadata = {
   title: 'VIRTUAL STUDIO | Ensaios com IA',
-  description: 'A Nova Era da Fotografia Profissional. Transforme suas fotos em obras de arte cinematográficas.',
+  description: 'A Nova Era da Fotografia Profissional. Transforme suas fotos em obras de arte.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
