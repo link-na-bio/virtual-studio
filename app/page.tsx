@@ -537,7 +537,7 @@ export default function LandingPage() {
                     style={{ filter: windowWidth < 768 ? filter3 : "none" }}
                   >
                     <Image
-                      src="/estilo-cinematográfico.jpeg"
+                      src="/img2594.jpg"
                       alt="Elite Package"
                       fill
                       className={`object-cover object-top transition-all duration-700 ${windowWidth >= 768 ? 'grayscale group-hover:grayscale-0 group-hover:scale-105' : ''}`}
