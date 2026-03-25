@@ -115,7 +115,7 @@ export default function LandingPage() {
             <li><a className="hover:text-studio-gold transition" href="#precos">Pacotes</a></li>
             <li><a className="hover:text-studio-gold transition" href="#contato">Contato</a></li>
           </ul>
-          <Link href="/login" className="bg-studio-gold text-studio-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+          <Link href="/signup" className="bg-studio-gold text-studio-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
             Começar Agora
           </Link>
         </nav>
@@ -169,7 +169,7 @@ export default function LandingPage() {
             transition={{ delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link href="/login" className="inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-8 py-3.5 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-[0_0_20px_rgba(212,175,55,0.3)] rounded-lg">
+            <Link href="/signup" className="inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-8 py-3.5 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-[0_0_20px_rgba(212,175,55,0.3)] rounded-lg">
               SOLICITAR MEU ENSAIO <ArrowRight size={16} />
             </Link>
             <Link href="/galeria" className="border border-white/30 backdrop-blur-sm px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition text-center rounded-lg">
@@ -406,7 +406,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Pacote 1: ESSENCIAL */}
-            <Link href="/login" className="block">
+            <Link href="/signup" className="block">
               <motion.div
                 ref={cardRef1}
                 initial={{ opacity: 0, y: 20 }}
@@ -461,7 +461,7 @@ export default function LandingPage() {
             </Link>
 
             {/* Pacote 2: PREMIUM */}
-            <Link href="/login" className="block">
+            <Link href="/signup" className="block">
               <motion.div
                 ref={cardRef2}
                 initial={{ opacity: 0, y: 20 }}
@@ -520,7 +520,7 @@ export default function LandingPage() {
             </Link>
 
             {/* Pacote 3: ELITE */}
-            <Link href="/login" className="block">
+            <Link href="/signup" className="block">
               <motion.div
                 ref={cardRef3}
                 initial={{ opacity: 0, y: 20 }}
@@ -553,10 +553,10 @@ export default function LandingPage() {
                   </p>
                   <div className="space-y-3 pt-6 border-t border-white/5">
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Zap size={14} className="text-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]" /> <strong>50 fotos</strong> lendárias
+                      <Zap size={14} className="text-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]" /> <strong>50 fotos</strong> em Alta Resolução
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Check size={14} className="text-studio-gold" /> Acesso total (até 5 estilos)
+                      <Check size={14} className="text-studio-gold" /> Escolha de até 5 estilos fotográficos
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300 font-bold text-studio-gold">
                       <Sparkles size={14} /> Retoque FINO avançado
@@ -584,14 +584,14 @@ export default function LandingPage() {
             className="mt-20 flex flex-col items-center justify-center px-4 max-w-2xl mx-auto"
           >
             <Link
-              href="/login"
+              href="/signup"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-10 py-4 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-[0_0_30px_rgba(212,175,55,0.4)] rounded-lg mb-8"
             >
               SOLICITAR MEU ENSAIO <ArrowRight size={18} />
             </Link>
 
             {/* CTA Amostra VIP */}
-            <Link href="/login" className="block w-full">
+            <Link href="/signup" className="block w-full">
               <div className="border border-white/10 hover:border-studio-gold/50 bg-[#121212]/80 backdrop-blur-sm rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden text-left">
                 <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[10px] font-bold px-4 py-1.5 uppercase tracking-widest rounded-bl-xl">NOVO</div>
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-6">

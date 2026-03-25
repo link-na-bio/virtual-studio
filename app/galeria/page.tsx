@@ -48,7 +48,7 @@ export default function GalleryPage() {
           <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
             <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
           </div>
-          <Link href="/login" className="hidden md:block bg-studio-gold text-studio-black px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-studio-gold-light transition ring-4 ring-studio-gold/10">
+          <Link href="/signup" className="hidden md:block bg-studio-gold text-studio-black px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-studio-gold-light transition ring-4 ring-studio-gold/10">
             Quero o meu
           </Link>
         </div>
@@ -158,7 +158,7 @@ export default function GalleryPage() {
         <div className="container mx-auto px-6 text-center relative z-10">
           <Star size={40} className="text-studio-gold fill-studio-gold mx-auto mb-8 animate-pulse" />
           <h2 className="text-4xl md:text-6xl font-bold mb-10 italic">PRONTO PARA A SUA <br /> <span className="text-studio-gold">MELHOR VERSÃO?</span></h2>
-          <Link href="/login" className="inline-flex items-center gap-4 px-12 py-6 bg-studio-gold text-studio-black font-extrabold uppercase tracking-[0.2em] hover:bg-studio-gold-light hover:scale-105 transition-all shadow-2xl shadow-studio-gold/30 rounded-xl text-sm md:text-lg group">
+          <Link href="/signup" className="inline-flex items-center gap-4 px-12 py-6 bg-studio-gold text-studio-black font-extrabold uppercase tracking-[0.2em] hover:bg-studio-gold-light hover:scale-105 transition-all shadow-2xl shadow-studio-gold/30 rounded-xl text-sm md:text-lg group">
             CRIAR MEU ENSAIO <ArrowRight size={24} className="group-hover:translate-x-2 transition" />
           </Link>
           <p className="mt-8 text-gray-500 text-sm tracking-[0.3em] font-light uppercase">Resultados reais em pouco tempo</p>
