@@ -292,7 +292,7 @@ export default function Dashboard() {
 
     // TRAVA DE SEGURANÇA EXTRA: Impede a compra da Amostra se o cliente já tiver pedidos
     if (selectedPackage === 'amostra' && pedidos.length > 0) {
-      alert("A Amostra Premium só está disponível para o seu primeiro pedido! Por favor, escolha um dos nossos pacotes completos.");
+      alert("A Amostra VIP só está disponível para o seu primeiro pedido! Por favor, escolha um dos nossos pacotes completos.");
       return;
     }
 
@@ -473,8 +473,8 @@ export default function Dashboard() {
           onClick={() => handleViewGallery(pedido.id)}
           disabled={isFetchingGallery && selectedEnsaioForGallery === pedido.id}
           className={`relative z-50 w-full py-3 font-bold uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer rounded-xl ${isSelected
-              ? 'bg-studio-gold text-studio-black shadow-[0_0_15px_rgba(212,175,55,0.2)]'
-              : 'bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
+            ? 'bg-studio-gold text-studio-black shadow-[0_0_15px_rgba(212,175,55,0.2)]'
+            : 'bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
             }`}
         >
           {isFetchingGallery && selectedEnsaioForGallery === pedido.id ? (
@@ -965,7 +965,7 @@ export default function Dashboard() {
                     <section>
                       <div className="flex items-center gap-4 mb-8"><span className="w-8 h-8 rounded-full bg-studio-gold text-studio-black flex items-center justify-center font-bold">1</span><h3 className="text-xl font-bold font-display uppercase tracking-widest">Escolha o seu Pacote</h3></div>
 
-                      {/* ADICIONADO: Banner de Destaque para a Amostra Premium (SÓ APARECE NA 1ª VEZ) */}
+                      {/* ADICIONADO: Banner de Destaque para a Amostra VIP (SÓ APARECE NA 1ª VEZ) */}
                       {pedidos.length === 0 && (
                         <div
                           onClick={() => { setSelectedPackage('amostra'); setSelectedStyles([]); }}
@@ -978,7 +978,7 @@ export default function Dashboard() {
                                 <Sparkles size={24} />
                               </div>
                               <div>
-                                <h4 className="text-lg font-bold font-display uppercase tracking-widest text-studio-gold flex items-center gap-2">Amostra Premium <span className="text-sm">💎</span></h4>
+                                <h4 className="text-lg font-bold font-display uppercase tracking-widest text-studio-gold flex items-center gap-2">Amostra VIP <span className="text-sm">💎</span></h4>
                                 <p className="text-xs text-gray-400 mt-1 max-w-sm leading-relaxed">Ainda na dúvida? Teste o poder da nossa IA com 1 Estilo (1 Foto de alta definição). <strong className="text-white font-normal">O valor é descontado caso faça um upgrade depois.</strong></p>
                               </div>
                             </div>

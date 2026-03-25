@@ -429,7 +429,6 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                   <div className="absolute bottom-6 left-6 flex flex-col">
                     <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">ESSENCIAL</span>
-                    <span className="text-white font-display text-2xl font-bold">R$ 89,90</span>
                   </div>
                 </div>
                 <div className="p-8 flex flex-col flex-grow">
@@ -439,7 +438,7 @@ export default function LandingPage() {
                   </p>
                   <div className="space-y-3 pt-6 border-t border-white/5">
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Check size={14} className="text-studio-gold" /> <strong>10 fotos</strong>em Alta Resolução
+                      <Check size={14} className="text-studio-gold" /> <strong>10 fotos</strong> em Alta Resolução
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
                       <Check size={14} className="text-studio-gold" /> Escolha de 1 estilo fotográfico
@@ -489,7 +488,6 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                   <div className="absolute bottom-6 left-6 flex flex-col">
                     <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">PREMIUM</span>
-                    <span className="text-white font-display text-2xl font-bold">R$ 149,90</span>
                   </div>
                 </div>
                 <div className="p-8 flex flex-col flex-grow">
@@ -546,7 +544,6 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-studio-black/80 via-transparent to-transparent"></div>
                   <div className="absolute bottom-6 left-6 flex flex-col">
                     <span className="text-studio-gold font-display text-xl tracking-[0.2em] font-bold">ELITE</span>
-                    <span className="text-white font-display text-2xl font-bold">R$ 247,90</span>
                   </div>
                 </div>
                 <div className="p-8 flex flex-col flex-grow">
@@ -579,19 +576,42 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          {/* Botão Único Final */}
+          {/* Botão Único Final e Amostra VIP */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-20 text-center px-4"
+            className="mt-20 flex flex-col items-center justify-center px-4 max-w-2xl mx-auto"
           >
             <Link
               href="/login"
-              className="inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-8 py-3.5 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-[0_0_30px_rgba(212,175,55,0.4)] rounded-lg"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-studio-gold text-studio-black px-10 py-4 font-bold uppercase tracking-widest hover:scale-105 transition-transform text-center text-sm shadow-[0_0_30px_rgba(212,175,55,0.4)] rounded-lg mb-8"
             >
-              SOLICITAR MEU ENSAIO <ArrowRight size={16} />
+              SOLICITAR MEU ENSAIO <ArrowRight size={18} />
             </Link>
+
+            {/* CTA Amostra VIP */}
+            <Link href="/login" className="block w-full">
+              <div className="border border-white/10 hover:border-studio-gold/50 bg-[#121212]/80 backdrop-blur-sm rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden text-left">
+                <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[10px] font-bold px-4 py-1.5 uppercase tracking-widest rounded-bl-xl">NOVO</div>
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-studio-gold/10 flex items-center justify-center text-studio-gold shrink-0 border border-studio-gold/20 group-hover:scale-110 transition-transform">
+                      <Sparkles size={20} />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold font-display uppercase tracking-widest text-white group-hover:text-studio-gold transition-colors">Amostra VIP <span className="text-sm">💎</span></h4>
+                      <p className="text-xs text-gray-400 mt-1 max-w-sm leading-relaxed">Ainda na dúvida? Faça um Teste de Confiança com 1 estilo (1 foto em alta definição). O valor é descontado caso faça um upgrade depois.</p>
+                    </div>
+                  </div>
+                  <div className="shrink-0 bg-white/5 sm:bg-transparent p-4 sm:p-0 rounded-xl w-full sm:w-auto text-center sm:text-right border border-white/5 sm:border-none">
+                    <p className="text-2xl font-bold text-studio-gold tracking-wider">R$ 19,90</p>
+                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mt-1">Ver a Mágica Acontecer</p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+
             <p className="mt-8 text-gray-500 text-sm italic font-light tracking-widest uppercase">Comece agora sua jornada definitiva de imagem</p>
           </motion.div>
 
