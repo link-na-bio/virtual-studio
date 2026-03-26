@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-// 👇 Olha o Sparkles adicionado aqui nesta linha!
-import { Search, Plus, Trash2, X, UploadCloud, Loader2, Sparkles } from 'lucide-react';
+import { Search, Plus, Trash2, X, UploadCloud, Loader2, Sparkles, Copy, CheckCheck } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
 import { supabase } from '@/lib/supabaseClient';
 
@@ -21,6 +20,9 @@ export default function AdminStyles() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
+
+  // Estado para feedback visual ao copiar o prompt
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -86,6 +88,16 @@ export default function AdminStyles() {
     setShowNewCategoryInput(false);
   };
 
+  const handleCopyPrompt = (promptText: string, id: string) => {
+    if (!promptText) {
+      alert("Este estilo ainda não possui um prompt de IA salvo.");
+      return;
+    }
+    navigator.clipboard.writeText(promptText);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSaving(true);
@@ -98,6 +110,7 @@ export default function AdminStyles() {
     const descricao = formData.get('descricao') as string;
     const genero = formData.get('genero') as string;
     const dica_roupa = formData.get('dica_roupa') as string;
+    const prompt = formData.get('prompt') as string; // NOVO CAMPO DE PROMPT
 
     try {
       let finalImgUrl = editingStyle?.img_url || '';
@@ -120,11 +133,13 @@ export default function AdminStyles() {
       }
 
       if (isAddingNew) {
-        const { error } = await supabase.from('estilos').insert([{ titulo, categoria, descricao, genero, dica_roupa, img_url: finalImgUrl }]);
+        // Inserindo o novo campo 'prompt' no banco de dados
+        const { error } = await supabase.from('estilos').insert([{ titulo, categoria, descricao, genero, dica_roupa, prompt, img_url: finalImgUrl }]);
         if (error) throw error;
         alert('Estilo adicionado com sucesso!');
       } else if (editingStyle) {
-        const { error } = await supabase.from('estilos').update({ titulo, categoria, descricao, genero, dica_roupa, img_url: finalImgUrl }).eq('id', editingStyle.id);
+        // Atualizando o campo 'prompt' no banco de dados
+        const { error } = await supabase.from('estilos').update({ titulo, categoria, descricao, genero, dica_roupa, prompt, img_url: finalImgUrl }).eq('id', editingStyle.id);
         if (error) throw error;
         alert('Estilo atualizado!');
       }
@@ -132,7 +147,7 @@ export default function AdminStyles() {
       closePanel();
       fetchStyles();
     } catch (err: any) {
-      alert('Erro ao salvar: ' + err.message);
+      alert('Erro ao salvar: ' + err.message + '\n\nVerifique se criou a coluna "prompt" na tabela estilos do Supabase!');
     } finally {
       setIsSaving(false);
     }
@@ -260,9 +275,20 @@ export default function AdminStyles() {
                         </div>
                       </div>
                       <div className="p-4 flex flex-col flex-1">
-                        <h3 className="text-sm font-display uppercase tracking-widest font-bold mb-1 truncate">{style.titulo}</h3>
-                        <p className="text-slate-500 text-[9px] leading-relaxed mb-4 flex-1 line-clamp-2">{style.descricao}</p>
-                        <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-display uppercase tracking-widest font-bold mb-3 truncate">{style.titulo}</h3>
+
+                        {/* NOVO BOTÃO DE COPIAR PROMPT AQUI */}
+                        <div className="mb-4 mt-auto">
+                          <button
+                            onClick={() => handleCopyPrompt(style.prompt, style.id)}
+                            className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-[9px] uppercase tracking-widest font-bold transition-all flex items-center justify-center gap-2 rounded-sm"
+                          >
+                            {copiedId === style.id ? <CheckCheck size={12} className="text-emerald-400" /> : <Copy size={12} className="text-studio-gold" />}
+                            {copiedId === style.id ? <span className="text-emerald-400">Prompt Copiado!</span> : 'Copiar Prompt da IA'}
+                          </button>
+                        </div>
+
+                        <div className="flex items-center gap-2 pt-3 border-t border-white/5">
                           <button
                             onClick={() => handleEdit(style)}
                             className="flex-1 py-2 border border-studio-gold/30 text-studio-gold text-[9px] uppercase tracking-widest font-bold hover:bg-studio-gold hover:text-studio-black transition-all"
@@ -411,14 +437,28 @@ export default function AdminStyles() {
                         </div>
                       </div>
 
+                      {/* NOVO CAMPO: PROMPT DE IA */}
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Descrição Comercial</label>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                          <Sparkles size={12} className="text-studio-gold" /> Prompt de Geração (IA)
+                        </label>
+                        <textarea
+                          name="prompt"
+                          placeholder="Cole aqui o prompt em inglês da Midjourney/Stable Diffusion..."
+                          className="w-full px-4 py-3 bg-[#121212] border border-white/10 focus:border-studio-gold outline-none text-xs leading-relaxed text-white resize-none transition-colors custom-scrollbar font-mono"
+                          rows={3}
+                          defaultValue={editingStyle?.prompt || ''}
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Descrição Comercial (Para o cliente)</label>
                         <textarea
                           name="descricao"
                           required
-                          placeholder="Descreva o impacto visual deste estilo..."
+                          placeholder="Descreva o impacto visual deste estilo para o cliente..."
                           className="w-full px-4 py-3 bg-[#121212] border border-white/10 focus:border-studio-gold outline-none text-xs leading-relaxed text-white resize-none transition-colors custom-scrollbar"
-                          rows={3}
+                          rows={2}
                           defaultValue={editingStyle?.descricao || ''}
                         />
                       </div>
@@ -429,7 +469,7 @@ export default function AdminStyles() {
                           name="dica_roupa"
                           required
                           placeholder="Ex: Use blazers escuros e evite estampas..."
-                          className="w-full flex-1 min-h-[100px] px-4 py-3 bg-studio-gold/5 border border-studio-gold/30 focus:border-studio-gold outline-none text-xs leading-relaxed text-white resize-none transition-colors custom-scrollbar"
+                          className="w-full flex-1 min-h-[60px] px-4 py-3 bg-studio-gold/5 border border-studio-gold/30 focus:border-studio-gold outline-none text-xs leading-relaxed text-white resize-none transition-colors custom-scrollbar"
                           defaultValue={editingStyle?.dica_roupa || 'Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.'}
                         />
                       </div>
