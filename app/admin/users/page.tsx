@@ -189,7 +189,7 @@ export default function AdminUsers() {
 
 
         {/* Page Content */}
-        <div className="p-8 space-y-8 mx-auto w-full">
+        <div className="p-4 pt-16 md:p-8 space-y-8 mx-auto w-full">
 
           <div className="flex items-center justify-between mb-2">
             <div>

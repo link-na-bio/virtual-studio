@@ -50,7 +50,7 @@ export default function AdminSettings() {
       <main className="flex-1 flex flex-col overflow-y-auto bg-[#121212]">
         <AdminHeader />
         
-        <div className="p-8 space-y-8 mx-auto w-full max-w-7xl">
+        <div className="p-4 md:p-8 space-y-8 mx-auto w-full max-w-7xl">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl font-display uppercase tracking-widest font-bold mb-2 flex items-center gap-3">

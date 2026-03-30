@@ -193,7 +193,7 @@ export default function AdminStyles() {
       <AdminSidebar />
 
       <main className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-20 bg-studio-black border-b border-white/5 flex items-center justify-between px-8 bg-gradient-to-b from-white/[0.02] to-transparent sticky top-0 z-50">
+        <header className="h-20 bg-studio-black border-b border-white/5 flex items-center justify-between px-4 pr-16 md:px-8 bg-gradient-to-b from-white/[0.02] to-transparent sticky top-0 z-50">
           <div className="flex items-center gap-4 flex-1">
             <div className="relative w-full max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -214,7 +214,7 @@ export default function AdminStyles() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-8 bg-[#121212]">
+        <div className="flex-1 overflow-y-auto p-4 pt-16 md:p-8 bg-[#121212]">
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="flex-1">
               <div className="mb-10">

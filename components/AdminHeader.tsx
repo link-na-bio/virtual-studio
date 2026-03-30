@@ -72,7 +72,7 @@ export default function AdminHeader() {
   };
 
   return (
-    <header className="h-20 bg-studio-black border-b border-white/5 flex items-center justify-between px-8 bg-gradient-to-b from-white/[0.02] to-transparent sticky top-0 z-50">
+    <header className="h-20 bg-studio-black border-b border-white/5 flex items-center justify-between px-4 pr-16 md:px-8 bg-gradient-to-b from-white/[0.02] to-transparent sticky top-0 z-50">
 
       {/* 🎵 ÁUDIO PRÉ-CARREGADO ESCONDIDO 🎵 */}
       <audio ref={audioRef} src="/alerta.mp3" preload="auto" className="hidden" />

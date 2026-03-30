@@ -172,10 +172,10 @@ export default function AdminMessages() {
 
 
         {/* Layout do Chat (Sidebar de Contatos + Área de Mensagens) */}
-        <div className="flex-1 flex overflow-hidden p-6 gap-6">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden p-4 pt-16 md:p-6 gap-6">
 
           {/* COLUNA ESQUERDA: Lista de Pedidos/Clientes */}
-          <div className="w-80 flex flex-col bg-[#121212] border border-white/5 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0">
+          <div className="w-full md:w-80 h-1/2 md:h-auto flex flex-col bg-[#121212] border border-white/5 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0">
             <div className="p-4 border-b border-white/5 bg-white/[0.02]">
               <h2 className="font-display font-bold uppercase tracking-widest text-studio-gold text-sm flex items-center gap-2 mb-4">
                 <MessageSquare size={16} /> Caixa de Entrada

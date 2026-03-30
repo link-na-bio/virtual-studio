@@ -189,7 +189,7 @@ export default function AdminFinance() {
       <main className="flex-1 flex flex-col overflow-y-auto bg-[#121212]">
         <AdminHeader />
 
-        <div className="p-8 space-y-8 mx-auto w-full">
+        <div className="p-4 md:p-8 space-y-8 mx-auto w-full">
           {/* Header */}
           <div className="flex items-center justify-between mb-2">
             <div>

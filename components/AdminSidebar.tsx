@@ -14,7 +14,9 @@ import {
   User,
   LogOut,
   Bell,
-  CheckCheck
+  CheckCheck,
+  Menu,
+  X
 } from 'lucide-react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabaseClient';
@@ -34,6 +36,7 @@ export default function AdminSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const [adminEmail, setAdminEmail] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   // =============== NOTIFICATIONS LOGIC =================
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -118,7 +121,29 @@ export default function AdminSidebar() {
   const adminName = adminEmail ? adminEmail.split('@')[0] : 'Admin';
 
   return (
-    <aside className="w-64 flex-shrink-0 border-r border-white/5 bg-studio-black flex flex-col h-screen sticky top-0 z-[100] relative">
+    <>
+      {/* Mobile Toggle Button */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden fixed top-4 right-4 z-[200] p-2 bg-studio-black border border-white/10 rounded flex items-center justify-center text-studio-gold shadow-lg"
+      >
+        {isOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/80 z-[140] backdrop-blur-sm"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Sidebar Content */}
+      <aside className={`
+        w-64 flex-shrink-0 border-r border-white/5 bg-studio-black flex flex-col h-screen 
+        fixed md:relative top-0 left-0 z-[150] transition-transform duration-300
+        ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
       <audio ref={audioRef} src="/alerta.mp3" preload="auto" className="hidden" />
 
       <div className="p-8 flex flex-col items-center text-center border-b border-white/5 mb-4">
@@ -150,6 +175,7 @@ export default function AdminSidebar() {
             <Link
               key={i}
               href={item.href!}
+              onClick={() => setIsOpen(false)} // close the sidebar on mobile when navigating
               className={`flex items-center gap-3 px-4 py-3 rounded-none transition-all group relative ${isActive
                 ? 'bg-studio-gold/5 text-studio-gold'
                 : 'text-gray-500 hover:text-studio-gold hover:bg-white/[0.02]'
@@ -236,6 +262,7 @@ export default function AdminSidebar() {
           </button>
         </div>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }
