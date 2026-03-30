@@ -59,6 +59,7 @@ function CheckoutContent() {
 
   const [pedido, setPedido] = useState<any>(null);
   const [previewPhotos, setPreviewPhotos] = useState<string[]>([]);
+  const [dynamicPrices, setDynamicPrices] = useState<any>(null);
 
   // Estados do Modal PIX e Comprovante
   const [showPixModal, setShowPixModal] = useState(false);
@@ -97,6 +98,12 @@ function CheckoutContent() {
         if (orderData.user_id !== currentUserId) throw new Error("Acesso negado.");
 
         setPedido(orderData);
+
+        // Fetch preços dinâmicos
+        const { data: configData } = await supabase.from('plataforma_config').select('*').eq('id', 1).single();
+        if (configData) {
+          setDynamicPrices(configData);
+        }
 
         const path = `${currentUserId}/${orderId}/`;
         const { data: files, error: filesError } = await supabase.storage.from('previa_ensaios').list(path);
@@ -209,6 +216,19 @@ function CheckoutContent() {
   }
 
   const pacoteInfo = pedido?.pacote ? PACOTES_INFO[pedido.pacote.toLowerCase()] : PACOTES_INFO['premium'];
+  
+  if (pacoteInfo && dynamicPrices) {
+    if (pedido?.pacote?.toLowerCase() === 'essencial' || pedido?.pacote?.toLowerCase() === 'basico') {
+      pacoteInfo.preco = dynamicPrices.preco_essencial || pacoteInfo.preco;
+    } else if (pedido?.pacote?.toLowerCase() === 'premium' || pedido?.pacote?.toLowerCase() === 'popular') {
+      pacoteInfo.preco = dynamicPrices.preco_premium || pacoteInfo.preco;
+    } else if (pedido?.pacote?.toLowerCase() === 'elite' || pedido?.pacote?.toLowerCase() === 'pro') {
+      pacoteInfo.preco = dynamicPrices.preco_elite || pacoteInfo.preco;
+    } else if (pedido?.pacote?.toLowerCase() === 'amostra') {
+      pacoteInfo.preco = dynamicPrices.preco_amostra || pacoteInfo.preco;
+    }
+  }
+
   const PacoteIcon = pacoteInfo.icon;
 
   return (

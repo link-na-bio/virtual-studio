@@ -58,6 +58,8 @@ export default function Dashboard() {
   const [pedidos, setPedidos] = useState<any[]>([]);
   const [dbStyles, setDbStyles] = useState<any[]>([]);
   const [isRestricted, setIsRestricted] = useState(false);
+  const [dynamicPrices, setDynamicPrices] = useState<any>(null);
+  const [isMaintenanceGlobal, setIsMaintenanceGlobal] = useState(false);
 
   const fetchDbStyles = async () => {
     const { data, error } = await supabase.from('estilos').select('*').order('criado_em', { ascending: false });
@@ -94,8 +96,8 @@ export default function Dashboard() {
   }, []);
 
   const changeTab = (tab: 'home' | 'ensaios' | 'novo' | 'perfil' | 'mensagens') => {
-    if (tab === 'novo' && isRestricted) {
-      alert("Acesso bloqueado, consulte o suporte.");
+    if (tab === 'novo' && (isRestricted || isMaintenanceGlobal)) {
+      alert(isMaintenanceGlobal ? "O sistema está em modo de manutenção." : "Acesso bloqueado, consulte o suporte.");
       return;
     }
     setActiveTab(tab);
@@ -156,6 +158,13 @@ export default function Dashboard() {
               sessionStorage.setItem('activeTab', 'home');
             }
           }
+        }
+
+        // Fetch configs
+        const { data: configData } = await supabase.from('plataforma_config').select('*').eq('id', 1).single();
+        if (configData) {
+          setDynamicPrices(configData);
+          setIsMaintenanceGlobal(configData.manutencao);
         }
       }
     };
@@ -276,7 +285,10 @@ export default function Dashboard() {
     return 0;
   };
 
-  const totalAmount = selectedPackage === 'amostra' ? 19.90 : selectedPackage === 'essencial' ? 89.90 : selectedPackage === 'premium' ? 149.90 : selectedPackage === 'elite' ? 247.90 : 0;
+  const totalAmount = selectedPackage === 'amostra' ? (dynamicPrices?.preco_amostra || 19.90) : 
+                      selectedPackage === 'essencial' ? (dynamicPrices?.preco_essencial || 89.90) : 
+                      selectedPackage === 'premium' ? (dynamicPrices?.preco_premium || 149.90) : 
+                      selectedPackage === 'elite' ? (dynamicPrices?.preco_elite || 247.90) : 0;
 
   const toggleStyle = (style: string) => { const limit = getStyleLimit(); if (selectedStyles.includes(style)) { setSelectedStyles(selectedStyles.filter(s => s !== style)); } else if (selectedStyles.length < limit) { setSelectedStyles([...selectedStyles, style]); } else { alert(`O pacote escolhido permite apenas ${limit} estilo(s).`); } };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => { if (e.target.files) { const newFiles = Array.from(e.target.files); setSelectedFiles([...selectedFiles, ...newFiles].slice(0, 10)); } };
@@ -285,8 +297,8 @@ export default function Dashboard() {
 
   const handleSendToProduction = async () => {
     // 1. O CADEADO DE SEGURANÇA MÁXIMA
-    if (isRestricted) {
-      alert("Operação bloqueada. A sua conta está suspensa para novos pedidos.");
+    if (isRestricted || isMaintenanceGlobal) {
+      alert(isMaintenanceGlobal ? "Sistema em manutenção, não é possível criar pedidos temporariamente." : "Operação bloqueada. A sua conta está suspensa para novos pedidos.");
       return;
     }
 

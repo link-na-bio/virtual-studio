@@ -49,6 +49,17 @@ export default function AdminFinance() {
   const fetchFinanceData = async () => {
     setIsLoading(true);
     try {
+      // Fetch dynamic plan prices first
+      const { data: configData } = await supabase.from('plataforma_config').select('*').eq('id', 1).single();
+      
+      const dynamicPrices = {
+        'Essencial': configData?.preco_essencial || 89.90,
+        'Premium': configData?.preco_premium || 149.90,
+        'Elite': configData?.preco_elite || 247.90,
+        'Amostra Premium': configData?.preco_amostra || 19.90,
+        'Amostra': configData?.preco_amostra || 19.90,
+      };
+
       const { data, error } = await supabase
         .from('pedidos')
         .select('id, user_email, pacote, status, criado_em')
@@ -83,7 +94,7 @@ export default function AdminFinance() {
           if (pkgName.includes('Premium')) pkgName = 'Premium';
           if (pkgName.includes('Elite')) pkgName = 'Elite';
 
-          const val = PLAN_PRICES[pkgName] || 0;
+          const val = dynamicPrices[pkgName as keyof typeof dynamicPrices] || 0;
 
           // Agregações
           totalRevenue += val;
