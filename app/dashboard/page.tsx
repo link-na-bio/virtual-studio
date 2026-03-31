@@ -212,7 +212,7 @@ export default function Dashboard() {
     }
   }, [router]);
 
-  // Listener de Pedidos
+  // Listener de Pedidos e Configurações
   useEffect(() => {
     if (!userId) return;
     const channel = supabase
@@ -231,8 +231,27 @@ export default function Dashboard() {
       })
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    const configChannel = supabase
+      .channel('plataforma_config_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'plataforma_config', filter: 'id=eq.1' }, (payload) => {
+        if (payload.new) {
+          setDynamicPrices(payload.new);
+          setIsMaintenanceGlobal(payload.new.manutencao);
+        }
+      })
+      .subscribe();
+
+    return () => { 
+      supabase.removeChannel(channel); 
+      supabase.removeChannel(configChannel);
+    };
   }, [userId]);
+
+  const getPriceDisplay = (key: string, fallback: string) => {
+    if (!dynamicPrices) return fallback;
+    const preco = dynamicPrices[`preco_${key}`];
+    return preco ? `R$ ${preco.toFixed(2).replace('.', ',')}` : fallback;
+  };
 
   // LÓGICA DO CHAT REAL-TIME
   useEffect(() => {
@@ -1025,7 +1044,7 @@ export default function Dashboard() {
                               </div>
                             </div>
                             <div className="text-left md:text-right shrink-0 bg-white/5 md:bg-transparent p-4 md:p-0 rounded-xl w-full md:w-auto">
-                              <p className="text-2xl font-bold text-white tracking-wider">R$ 19,90</p>
+                              <p className="text-2xl font-bold text-white tracking-wider">{getPriceDisplay('amostra', 'R$ 19,90')}</p>
                               <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mt-1">Teste de Confiança</p>
                             </div>
                           </div>
@@ -1035,9 +1054,9 @@ export default function Dashboard() {
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {[
-                          { id: 'essencial', title: 'Essencial (10 fotos)', styles: '1 Estilo', price: 'R$ 89,90', icon: User },
-                          { id: 'premium', title: 'Premium (25 fotos)', styles: '3 Estilos', price: 'R$ 149,90', icon: Sparkles, popular: true },
-                          { id: 'elite', title: 'Elite (50 fotos)', styles: '5 Estilos', price: 'R$ 247,90', icon: Zap },
+                          { id: 'essencial', title: 'Essencial (10 fotos)', styles: '1 Estilo', price: getPriceDisplay('essencial', 'R$ 89,90'), icon: User },
+                          { id: 'premium', title: 'Premium (25 fotos)', styles: '3 Estilos', price: getPriceDisplay('premium', 'R$ 149,90'), icon: Sparkles, popular: true },
+                          { id: 'elite', title: 'Elite (50 fotos)', styles: '5 Estilos', price: getPriceDisplay('elite', 'R$ 247,90'), icon: Zap },
                         ].map((pkg) => (
                           <button key={pkg.id} onClick={() => { setSelectedPackage(pkg.id as any); setSelectedStyles([]); }} className={`p-6 border text-left rounded-xl transition-all relative overflow-hidden group ${selectedPackage === pkg.id ? 'border-studio-gold bg-studio-gold/5 shadow-lg' : 'border-white/10 hover:border-studio-gold/30'}`}>
                             {pkg.popular && <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[8px] font-bold px-2 py-0.5 uppercase tracking-tighter">Mais Vendido</div>}
