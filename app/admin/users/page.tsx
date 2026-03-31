@@ -6,9 +6,6 @@ import {
   Search,
   Filter,
   Download,
-  Eye,
-  Edit,
-  Ban,
   TrendingUp,
   List,
   ChevronLeft,
@@ -33,13 +30,13 @@ export default function AdminUsers() {
   const [newUsersThisMonth, setNewUsersThisMonth] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
 
-  // Estado para usuários com pedidos pausados (agora tracking por e-mail, via Supabase)
+  // Estado para usuários com pedidos pausados
   const [pausedUsers, setPausedUsers] = useState<Set<string>>(new Set());
 
   const fetchRestrictedUsers = async () => {
     try {
       const { data, error } = await supabase.from('usuarios_restritos').select('email');
-      if (error && error.code !== '42P01') throw error; // Ignora se a tabela não existir ainda
+      if (error && error.code !== '42P01') throw error;
       if (data) {
         setPausedUsers(new Set(data.map(d => d.email)));
       }
@@ -53,12 +50,12 @@ export default function AdminUsers() {
       alert("Acesso Negado: Administradores e CEOs não podem ter pedidos bloqueados.");
       return;
     }
-    
+
     try {
       if (pausedUsers.has(user.email)) {
         const { error } = await supabase.from('usuarios_restritos').delete().eq('email', user.email);
         if (error) throw error;
-        
+
         setPausedUsers(prev => {
           const next = new Set(prev);
           next.delete(user.email);
@@ -68,7 +65,7 @@ export default function AdminUsers() {
       } else {
         const { error } = await supabase.from('usuarios_restritos').insert({ email: user.email });
         if (error) throw error;
-        
+
         setPausedUsers(prev => {
           const next = new Set(prev);
           next.add(user.email);
@@ -84,72 +81,66 @@ export default function AdminUsers() {
   const fetchUsersAndOrders = async () => {
     setIsLoading(true);
     try {
-      // 1. Buscar utilizadores (como o Auth não permite listagem direta sem admin key server-side, 
-      // vamos extrair os utilizadores únicos a partir da tabela de pedidos)
-      // Idealmente, num futuro, pode criar uma tabela 'profiles' sincronizada com o Auth.
-      const { data: pedidosData, error } = await supabase
+      // 1. Buscar a lista de TODOS os usuários cadastrados através do túnel seguro (RPC)
+      const { data: authUsers, error: rpcError } = await supabase.rpc('listar_todos_usuarios');
+      if (rpcError) throw rpcError;
+
+      // 2. Buscar os pedidos para contabilizar quantos cada cliente tem
+      const { data: pedidosData, error: pedidosError } = await supabase
         .from('pedidos')
-        .select('user_id, user_email, criado_em, status');
+        .select('user_id');
+      if (pedidosError) throw pedidosError;
 
-      if (error) throw error;
-
+      // Mapa para contagem rápida de pedidos por user_id
+      const orderCounts: Record<string, number> = {};
       if (pedidosData) {
-        // Agrupar pedidos por utilizador
-        const userMap = new Map();
-
         pedidosData.forEach((pedido: any) => {
-          if (!userMap.has(pedido.user_id)) {
-            userMap.set(pedido.user_id, {
-              id: pedido.user_id,
-              email: pedido.user_email,
-              name: pedido.user_email.split('@')[0], // Nome provisório
-              access: pedido.user_email === 'brunomeueditor@gmail.com' ? 'Admin' : 'Client',
-              orders: 1,
-              joined: pedido.criado_em, // Pega a data do primeiro pedido
-              avatar: null
-            });
-          } else {
-            const user = userMap.get(pedido.user_id);
-            user.orders += 1;
-            // Atualiza a data de entrada se este pedido for mais antigo
-            if (new Date(pedido.criado_em) < new Date(user.joined)) {
-              user.joined = pedido.criado_em;
-            }
-          }
+          orderCounts[pedido.user_id] = (orderCounts[pedido.user_id] || 0) + 1;
         });
-
-        // Garantir que o Admin aparece, mesmo sem pedidos
-        if (!userMap.has('admin-bruno')) {
-          userMap.set('admin-bruno', {
-            id: 'admin-bruno',
-            email: 'brunomeueditor@gmail.com',
-            name: 'Bruno (CEO)',
-            access: 'Admin',
-            orders: 0,
-            joined: new Date().toISOString(),
-            avatar: null
-          });
-        }
-
-        const uniqueUsers = Array.from(userMap.values());
-
-        // Ordenar por mais recentes
-        uniqueUsers.sort((a, b) => new Date(b.joined).getTime() - new Date(a.joined).getTime());
-
-        setUsers(uniqueUsers);
-        setFilteredUsers(uniqueUsers);
-
-        // Calcular Métricas
-        setTotalUsers(uniqueUsers.length);
-        setTotalOrders(pedidosData.length);
-
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        const recentes = uniqueUsers.filter(u => new Date(u.joined) >= thirtyDaysAgo).length;
-        setNewUsersThisMonth(recentes);
       }
+
+      // 3. Montar a lista final unindo os dados
+      let uniqueUsers = (authUsers || []).map((u: any) => ({
+        id: u.id,
+        email: u.email,
+        name: u.email.split('@')[0],
+        access: u.email === 'brunomeueditor@gmail.com' ? 'Admin' : 'Cliente VIP',
+        orders: orderCounts[u.id] || 0, // Se não tiver pedidos, fica 0
+        joined: u.criado_em,
+        avatar: null
+      }));
+
+      // Garantir que o Admin aparece destacado
+      if (!uniqueUsers.some(u => u.email === 'brunomeueditor@gmail.com')) {
+        uniqueUsers.push({
+          id: 'admin-bruno',
+          email: 'brunomeueditor@gmail.com',
+          name: 'Bruno (CEO)',
+          access: 'Admin',
+          orders: 0,
+          joined: new Date().toISOString(),
+          avatar: null
+        });
+      }
+
+      // Ordenar por mais recentes primeiro
+      uniqueUsers.sort((a, b) => new Date(b.joined).getTime() - new Date(a.joined).getTime());
+
+      setUsers(uniqueUsers);
+      setFilteredUsers(uniqueUsers);
+
+      // Calcular Métricas Gerais
+      setTotalUsers(uniqueUsers.length);
+      setTotalOrders(pedidosData ? pedidosData.length : 0);
+
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const recentes = uniqueUsers.filter(u => new Date(u.joined) >= thirtyDaysAgo).length;
+      setNewUsersThisMonth(recentes);
+
     } catch (err: any) {
-      console.error('Erro ao buscar utilizadores:', err.message);
+      console.error('Erro ao buscar dados:', err.message);
+      alert('Erro ao carregar lista de usuários. Verifique se a função RPC foi criada corretamente.');
     } finally {
       setIsLoading(false);
     }
@@ -185,8 +176,6 @@ export default function AdminUsers() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-y-auto bg-[#121212]">
-
-
 
         {/* Page Content */}
         <div className="p-4 pt-16 md:p-8 space-y-8 mx-auto w-full">
@@ -281,57 +270,56 @@ export default function AdminUsers() {
                   <tbody className="divide-y divide-white/5">
                     {filteredUsers.map((user, idx) => {
                       const isPaused = pausedUsers.has(user.email);
-                      
+
                       return (
-                      <tr key={idx} className="hover:bg-white/5 transition-colors group">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-4">
-                            <div className="size-10 rounded-full border border-studio-gold/20 bg-studio-gold/5 flex items-center justify-center flex-shrink-0 text-studio-gold">
-                              {user.avatar ? (
-                                <Image src={user.avatar} alt="avatar" fill className="object-cover rounded-full" />
+                        <tr key={idx} className="hover:bg-white/5 transition-colors group">
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-4">
+                              <div className="size-10 rounded-full border border-studio-gold/20 bg-studio-gold/5 flex items-center justify-center flex-shrink-0 text-studio-gold">
+                                {user.avatar ? (
+                                  <Image src={user.avatar} alt="avatar" fill className="object-cover rounded-full" />
+                                ) : (
+                                  <span className="font-bold text-xs uppercase">{user.name.charAt(0)}</span>
+                                )}
+                              </div>
+                              <div>
+                                <p className="text-sm font-bold text-white uppercase tracking-wider">{user.name}</p>
+                                <p className="text-[10px] text-slate-500 lowercase tracking-wider">{user.email}</p>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td className="px-6 py-4">
+                            <span className={`px-3 py-1 rounded text-[9px] font-bold uppercase tracking-wider border ${user.access === 'Admin' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/30' :
+                                isPaused ? 'bg-amber-500/10 text-amber-500 border-amber-500/30' :
+                                  'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                              }`}>
+                              {user.access === 'Admin' ? 'CEO / Admin' : isPaused ? 'Bloqueado (Pedidos)' : 'Cliente VIP'}
+                            </span>
+                          </td>
+
+                          <td className="px-6 py-4">
+                            <span className="text-xs font-bold text-slate-300 bg-white/10 px-3 py-1 rounded">{user.orders}</span>
+                          </td>
+
+                          <td className="px-6 py-4">
+                            <span className="text-xs text-slate-500 font-medium tabular-nums">{user.joined ? formatDate(user.joined) : '-'}</span>
+                          </td>
+
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex justify-end gap-2">
+                              {isPaused ? (
+                                <button onClick={() => togglePauseUser(user)} className="p-2 border border-white/10 transition-all text-amber-500 hover:border-amber-400 hover:bg-amber-500/10" title="Desbloquear Pedidos">
+                                  <Unlock size={16} />
+                                </button>
                               ) : (
-                                <span className="font-bold text-xs uppercase">{user.name.charAt(0)}</span>
+                                <button onClick={() => togglePauseUser(user)} className="p-2 border border-white/10 transition-all text-slate-400 hover:border-amber-500 hover:text-amber-500" title="Bloquear Novos Pedidos">
+                                  <Lock size={16} />
+                                </button>
                               )}
                             </div>
-                            <div>
-                              <p className="text-sm font-bold text-white uppercase tracking-wider">{user.name}</p>
-                              <p className="text-[10px] text-slate-500 lowercase tracking-wider">{user.email}</p>
-                            </div>
-                          </div>
-                        </td>
-
-                        <td className="px-6 py-4">
-                          <span className={`px-3 py-1 rounded text-[9px] font-bold uppercase tracking-wider border ${
-                            user.access === 'Admin' ? 'bg-studio-gold/10 text-studio-gold border-studio-gold/30' : 
-                            isPaused ? 'bg-amber-500/10 text-amber-500 border-amber-500/30' :
-                            'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                          }`}>
-                            {user.access === 'Admin' ? 'CEO / Admin' : isPaused ? 'Bloqueado (Pedidos)' : 'Cliente VIP'}
-                          </span>
-                        </td>
-
-                        <td className="px-6 py-4">
-                          <span className="text-xs font-bold text-slate-300 bg-white/10 px-3 py-1 rounded">{user.orders}</span>
-                        </td>
-
-                        <td className="px-6 py-4">
-                          <span className="text-xs text-slate-500 font-medium tabular-nums">{formatDate(user.joined)}</span>
-                        </td>
-
-                        <td className="px-6 py-4 text-right">
-                          <div className="flex justify-end gap-2">
-                            {isPaused ? (
-                              <button onClick={() => togglePauseUser(user)} className="p-2 border border-white/10 transition-all text-amber-500 hover:border-amber-400 hover:bg-amber-500/10" title="Desbloquear Pedidos">
-                                <Unlock size={16} />
-                              </button>
-                            ) : (
-                              <button onClick={() => togglePauseUser(user)} className="p-2 border border-white/10 transition-all text-slate-400 hover:border-amber-500 hover:text-amber-500" title="Bloquear Novos Pedidos">
-                                <Lock size={16} />
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
                       );
                     })}
                   </tbody>
