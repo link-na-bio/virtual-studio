@@ -20,7 +20,6 @@ import {
   Receipt
 } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
-import AdminHeader from '@/components/AdminHeader';
 import { supabase } from '@/lib/supabaseClient';
 
 const PLAN_PRICES: Record<string, number> = {
@@ -198,7 +197,6 @@ export default function AdminFinance() {
       <AdminSidebar />
 
       <main className="flex-1 flex flex-col overflow-y-auto bg-[#121212]">
-        <AdminHeader />
 
         <div className="p-4 md:p-8 space-y-8 mx-auto w-full">
           {/* Header */}

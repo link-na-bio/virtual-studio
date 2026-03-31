@@ -5,7 +5,6 @@ import {
   DollarSign, 
   Tag, 
   Power, 
-  Shield, 
   Settings as SettingsIcon,
   Save,
   Plus,
@@ -13,7 +12,6 @@ import {
   Trash2
 } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
-import AdminHeader from '@/components/AdminHeader';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function AdminSettings() {
@@ -32,9 +30,6 @@ export default function AdminSettings() {
   // Manutenção
   const [isMaintenance, setIsMaintenance] = useState(false);
   
-  // Segurança
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   // Busca os dados iniciais do BD
   const fetchSettingsData = async () => {
@@ -158,29 +153,6 @@ export default function AdminSettings() {
     }
   };
 
-  const handleUpdatePassword = async () => {
-    if (newPassword !== confirmPassword) {
-      alert("As senhas não coincidem!");
-      return;
-    }
-    if (newPassword.length < 6) {
-      alert("A senha deve ter pelo menos 6 caracteres.");
-      return;
-    }
-
-    try {
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword
-      });
-
-      if (error) throw error;
-      alert("Senha administrativa atualizada com sucesso!");
-      setNewPassword('');
-      setConfirmPassword('');
-    } catch (err: any) {
-      alert("Erro ao atualizar senha: " + err.message);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -197,7 +169,6 @@ export default function AdminSettings() {
     <div className="flex h-screen overflow-hidden bg-studio-black text-white">
       <AdminSidebar />
       <main className="flex-1 flex flex-col overflow-y-auto bg-[#121212]">
-        <AdminHeader />
         
         <div className="p-4 md:p-8 space-y-8 mx-auto w-full max-w-7xl relative z-10 pb-20">
           <div className="flex items-center justify-between mb-4">
@@ -209,15 +180,36 @@ export default function AdminSettings() {
               <p className="text-slate-500 text-xs tracking-widest uppercase">Controle de sistema, pacotes, e segurança administrativa</p>
             </div>
             
-            {/* Botão Global de Salvar Pricing/Maintenance */}
-            <button 
-              onClick={handleSavePricesAndSettings} 
-              disabled={isSaving}
-              className="px-6 py-3 bg-studio-gold text-black font-bold uppercase tracking-widest text-[10px] hover:bg-studio-gold-light transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] flex items-center gap-2 rounded-xl"
-            >
-              {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-              Salvar Alterações
-            </button>
+            <div className="flex items-center gap-4">
+              {/* Toggle Manutenção Reduzido */}
+              <div className="flex items-center gap-4 bg-[#121212] border border-white/10 px-5 py-2.5 rounded-xl shadow-inner">
+                <div className="flex flex-col text-right">
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Modo Manutenção</span>
+                  <span className={`text-[9px] font-bold uppercase ${isMaintenance ? 'text-amber-500' : 'text-emerald-400'}`}>
+                    {isMaintenance ? 'Sistema Suspenso' : 'Sistema Online'}
+                  </span>
+                </div>
+                <button 
+                  onClick={handleToggleMaintenance}
+                  className={`relative w-[52px] h-7 rounded-full p-1 transition-all duration-300 ease-in-out cursor-pointer ${isMaintenance ? 'bg-amber-500/20 border border-amber-500/50' : 'bg-white/5 border border-white/10 hover:border-white/30'}`}
+                  title="Bloquear novos formulários e pagamentos"
+                >
+                  <div className={`absolute left-1 top-1 size-5 flex items-center justify-center rounded-full shadow-md transform transition-all duration-300 ease-in-out ${isMaintenance ? 'translate-x-6 bg-amber-500' : 'translate-x-0 bg-white/30'}`}>
+                    <Power size={10} className={isMaintenance ? "text-studio-black" : "text-black/50"} />
+                  </div>
+                </button>
+              </div>
+
+              {/* Botão Global de Salvar Pricing/Maintenance */}
+              <button 
+                onClick={handleSavePricesAndSettings} 
+                disabled={isSaving}
+                className="px-6 py-3 bg-studio-gold text-black font-bold uppercase tracking-widest text-[10px] hover:bg-studio-gold-light transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] flex items-center gap-2 rounded-xl h-full"
+              >
+                {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+                Salvar Alterações
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -268,38 +260,6 @@ export default function AdminSettings() {
               </div>
             </div>
 
-            {/* CONTROLE DO SISTEMA (MODO MANUTENÇÃO) */}
-            <div className="bg-studio-black border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden group hover:border-studio-gold/30 transition-all flex flex-col">
-              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                <Power size={80} className="text-studio-gold" />
-              </div>
-              <h3 className="flex items-center gap-3 font-display uppercase tracking-widest text-lg font-bold text-white mb-6 border-b border-white/10 pb-4">
-                <Power className="text-studio-gold" size={20} /> Controle do Sistema
-              </h3>
-              
-              <div className="flex flex-col items-center justify-center flex-1 py-4 relative z-10">
-                <button 
-                  onClick={handleToggleMaintenance}
-                  className={`relative w-28 h-12 rounded-full p-1 transition-all duration-300 ease-in-out cursor-pointer ${isMaintenance ? 'bg-amber-500/20 border border-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.2)]' : 'bg-white/5 border border-white/10 hover:border-white/30'}`}
-                >
-                  <div className={`absolute left-1 top-1 size-10 flex items-center justify-center rounded-full shadow-lg transform transition-all duration-300 ease-in-out ${isMaintenance ? 'translate-x-16 bg-amber-500' : 'translate-x-0 bg-white/20'}`}>
-                    <Power size={18} className={isMaintenance ? "text-studio-black" : "text-white/50"} />
-                  </div>
-                </button>
-                
-                <h4 className={`mt-8 font-display font-bold uppercase tracking-widest text-lg transition-colors ${isMaintenance ? 'text-amber-500' : 'text-slate-400'}`}>
-                  {isMaintenance ? 'Modo de Manutenção Ativado' : 'Sistema Operacional Online'}
-                </h4>
-                
-                <div className="mt-4 p-4 bg-[#121212] border border-white/5 text-center max-w-sm rounded-xl">
-                  <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium leading-relaxed">
-                    {isMaintenance 
-                      ? "Atenção: A criação de novos cadastros e as compras na plataforma estão suspensos temporariamente. Lembre-se de SALVAR no topo para aplicar esta trava." 
-                      : "A plataforma está online. Os clientes podem efetuar pagamentos e gerar novos ensaios sem restrições."}
-                  </p>
-                </div>
-              </div>
-            </div>
 
             {/* CUPONS DE DESCONTO */}
             <div className="bg-studio-black border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden group hover:border-studio-gold/30 transition-all flex flex-col">
@@ -358,35 +318,7 @@ export default function AdminSettings() {
               </div>
             </div>
 
-            {/* SEGURANÇA DO ADMIN */}
-            <div className="bg-studio-black border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden group hover:border-studio-gold/30 transition-all flex flex-col">
-              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                <Shield size={80} className="text-studio-gold" />
-              </div>
-              <h3 className="flex items-center gap-3 font-display uppercase tracking-widest text-lg font-bold text-white mb-6 border-b border-white/10 pb-4">
-                <Shield className="text-studio-gold" size={20} /> Segurança do Admin
-              </h3>
-              
-              <div className="flex-1 space-y-6 relative z-10">
-                <div className="p-4 bg-rose-500/5 border border-rose-500/20 rounded-xl text-rose-500 text-xs text-center uppercase tracking-widest font-bold">
-                  Área Sensível: Altere credenciais com cautela
-                </div>
-                
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Nova Senha de Acesso</label>
-                  <input type="password" placeholder="••••••••" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="bg-[#121212] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-rose-500 transition-colors font-mono tracking-widest rounded-xl" />
-                </div>
-                
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Confirmar Nova Senha</label>
-                  <input type="password" placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="bg-[#121212] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-rose-500 transition-colors font-mono tracking-widest rounded-xl" />
-                </div>
-              </div>
-              
-              <button onClick={handleUpdatePassword} className="mt-8 w-full py-4 border border-rose-500/30 bg-rose-500/5 text-rose-500 hover:bg-rose-500 hover:text-white font-bold uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 relative z-10 rounded-xl">
-                <Shield size={16} /> Atualizar Credenciais do Sistema
-              </button>
-            </div>
+
 
           </div>
         </div>
