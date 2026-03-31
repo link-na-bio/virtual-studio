@@ -1005,9 +1005,9 @@ export default function Dashboard() {
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {[
-                          { id: 'essencial', title: 'Essencial', styles: '1 Estilo', price: 'R$ 89,90', icon: User },
-                          { id: 'premium', title: 'Premium', styles: '3 Estilos', price: 'R$ 149,90', icon: Sparkles, popular: true },
-                          { id: 'elite', title: 'Elite', styles: '5 Estilos', price: 'R$ 247,90', icon: Zap },
+                          { id: 'essencial', title: 'Essencial (10 fotos)', styles: '1 Estilo', price: 'R$ 89,90', icon: User },
+                          { id: 'premium', title: 'Premium (25 fotos)', styles: '3 Estilos', price: 'R$ 149,90', icon: Sparkles, popular: true },
+                          { id: 'elite', title: 'Elite (50 fotos)', styles: '5 Estilos', price: 'R$ 247,90', icon: Zap },
                         ].map((pkg) => (
                           <button key={pkg.id} onClick={() => { setSelectedPackage(pkg.id as any); setSelectedStyles([]); }} className={`p-6 border text-left rounded-xl transition-all relative overflow-hidden group ${selectedPackage === pkg.id ? 'border-studio-gold bg-studio-gold/5 shadow-lg' : 'border-white/10 hover:border-studio-gold/30'}`}>
                             {pkg.popular && <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[8px] font-bold px-2 py-0.5 uppercase tracking-tighter">Mais Vendido</div>}
