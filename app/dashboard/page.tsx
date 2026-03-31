@@ -85,8 +85,38 @@ export default function Dashboard() {
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatFileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (activeTab === 'mensagens' && userId) {
+      setHasUnreadMessages(false);
+      localStorage.setItem(`client_last_message_seen_${userId}`, new Date().toISOString());
+    }
+  }, [activeTab, userId, messages]);
+
+  useEffect(() => {
+    if (!userId || pedidos.length === 0) return;
+    const lastSeen = localStorage.getItem(`client_last_message_seen_${userId}`) || '2000-01-01T00:00:00.000Z';
+    const orderIds = pedidos.map(p => p.id);
+
+    const checkUnread = async () => {
+      const { data } = await supabase.from('mensagens')
+        .select('id').in('order_id', orderIds)
+        .gt('criado_em', lastSeen).neq('user_id', userId).limit(1);
+      if (data && data.length > 0) setHasUnreadMessages(true);
+    };
+    checkUnread();
+
+    const channel = supabase.channel(`client_unread_${userId}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens' }, (payload) => {
+        if (orderIds.includes(payload.new.order_id) && payload.new.user_id !== userId) {
+           setHasUnreadMessages(true);
+        }
+      }).subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [userId, pedidos]);
 
   useEffect(() => {
     const savedTab = sessionStorage.getItem('activeTab');
@@ -617,7 +647,7 @@ export default function Dashboard() {
           <button onClick={() => changeTab('home')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'home' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><Home size={18} /><span className="text-sm font-medium">Home</span></button>
           <button onClick={() => changeTab('ensaios')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'ensaios' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><Library size={18} /><span className="text-sm font-medium">Os Meus Ensaios</span></button>
           <button onClick={() => changeTab('novo')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'novo' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><PlusCircle size={18} /><span className="text-sm font-semibold">Novo Pedido</span></button>
-          <button onClick={() => changeTab('mensagens')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'mensagens' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><MessageSquare size={18} /><span className="text-sm font-medium">Mensagens</span></button>
+          <button onClick={() => changeTab('mensagens')} className={`relative flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'mensagens' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><MessageSquare size={18} /><span className="text-sm font-medium">Mensagens</span>{hasUnreadMessages && <span className="absolute right-4 size-2 bg-studio-gold rounded-full shadow-[0_0_8px_rgba(212,175,55,1)]"></span>}</button>
           <button onClick={() => changeTab('perfil')} className={`flex items-center gap-3 px-4 py-3 transition-colors ${activeTab === 'perfil' ? 'bg-studio-gold/10 text-studio-gold border-r-2 border-studio-gold' : 'text-gray-400 hover:text-studio-gold'}`}><User size={18} /><span className="text-sm font-medium">Perfil</span></button>
         </nav>
         <div className="mt-auto p-6 border-t border-white/5">

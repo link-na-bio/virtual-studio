@@ -61,6 +61,16 @@ export default function AdminMessages() {
     setFilteredPedidos(filtered);
   }, [searchQuery, pedidos]);
 
+  // Atualizar o 'lido' do admin
+  useEffect(() => {
+    const updateSeen = () => {
+      localStorage.setItem('admin_last_message_seen', new Date().toISOString());
+    };
+    updateSeen();
+    const interval = setInterval(updateSeen, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
   // 3. Carrega as mensagens quando clica em um pedido
   useEffect(() => {
     if (!selectedOrder) return;

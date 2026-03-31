@@ -41,6 +41,7 @@ export default function AdminSidebar() {
   // =============== NOTIFICATIONS LOGIC =================
   const [notifications, setNotifications] = useState<any[]>([]);
   const [hasNew, setHasNew] = useState(false);
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -83,7 +84,40 @@ export default function AdminSidebar() {
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    // Verificador de mensagens não lidas
+    const setupMessagesListener = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!data?.user) return;
+      const adminId = data.user.id;
+      const lastSeen = localStorage.getItem('admin_last_message_seen') || '2000-01-01T00:00:00.000Z';
+
+      const verifyUnread = async () => {
+        const { data: msgs } = await supabase.from('mensagens').select('id')
+          .gt('criado_em', lastSeen)
+          .neq('user_id', adminId)
+          .limit(1);
+        if (msgs && msgs.length > 0) setHasUnreadMessages(true);
+      };
+      verifyUnread();
+
+      const msgChannel = supabase.channel('mensagens_admin_ping')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens' }, (payload) => {
+          if (payload.new.user_id !== adminId) {
+            setHasUnreadMessages(true);
+            playBeep();
+          }
+        }).subscribe();
+      
+      return msgChannel;
+    };
+    
+    let msgChan: any;
+    setupMessagesListener().then(c => msgChan = c);
+
+    return () => { 
+      supabase.removeChannel(channel); 
+      if (msgChan) supabase.removeChannel(msgChan);
+    };
   }, []);
 
   const playBeep = () => {
@@ -186,7 +220,7 @@ export default function AdminSidebar() {
               )}
               <Icon size={18} className={isActive ? 'text-studio-gold' : 'group-hover:text-studio-gold transition-colors'} />
               <span className="text-[11px] font-bold uppercase tracking-widest font-display">{item.label}</span>
-              {item.label === 'Mensagens' && (
+              {item.label === 'Mensagens' && hasUnreadMessages && (
                 <span className="ml-auto size-1.5 bg-studio-gold rounded-full shadow-[0_0_8px_rgba(212,175,55,1)]"></span>
               )}
             </Link>
