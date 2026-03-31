@@ -28,8 +28,8 @@ const navItems = [
   { label: 'Mensagens', icon: MessageSquare, href: '/admin/messages' },
   { label: 'Estilos', icon: Palette, href: '/admin/styles' },
   { label: 'Financeiro', icon: CreditCard, href: '/admin/finance' },
-  // { label: 'System', type: 'header' },
-  // { label: 'Configurações', icon: Settings, href: '/admin/settings' },
+  { label: 'Sistema', type: 'header' },
+  { label: 'Configurações', icon: Settings, href: '/admin/settings' },
 ];
 
 export default function AdminSidebar() {
