@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, Camera, Star, ArrowRight, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
+import SalesNotification from '@/components/SalesNotification';
 
 export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState('Todos');
@@ -191,6 +192,7 @@ export default function GalleryPage() {
           </div>
         </div>
       </footer>
+      <SalesNotification />
     </div>
   );
 }

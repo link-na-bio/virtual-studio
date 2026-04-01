@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import SalesNotification from '@/components/SalesNotification';
 
 export default function PoliticaDePrivacidade() {
   return (
@@ -47,6 +48,7 @@ export default function PoliticaDePrivacidade() {
           <p className="mt-8 text-center border-t border-white/10 pt-8">Para exercer seus direitos ou para qualquer dúvida relacionada à privacidade, entre em contato através do e-mail: <a href="mailto:suporte@virtualstudio.click" className="text-studio-gold hover:underline">suporte@virtualstudio.click</a></p>
         </div>
       </div>
+      <SalesNotification />
     </div>
   );
 }

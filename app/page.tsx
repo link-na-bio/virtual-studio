@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp, Sparkles, Instagram } from 'lucide-react';
+import SalesNotification from '@/components/SalesNotification';
 import Link from 'next/link';
 
 const faqs = [
@@ -49,6 +50,7 @@ const testimonials = [
   { id: 9, name: "Pedro Burger", img: "/09.jpeg" },
   { id: 10, name: "Tiago A.", img: "/10.jpeg" }
 ];
+
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -733,6 +735,8 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      <SalesNotification />
     </div>
   );
 }

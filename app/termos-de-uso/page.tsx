@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import SalesNotification from '@/components/SalesNotification';
 
 export default function TermosDeUso() {
   return (
@@ -41,6 +42,7 @@ export default function TermosDeUso() {
           <p>Para dúvidas sobre estes Termos de Uso, entre em contato através do e-mail: <a href="mailto:suporte@virtualstudio.click" className="text-studio-gold hover:underline">suporte@virtualstudio.click</a></p>
         </div>
       </div>
+      <SalesNotification />
     </div>
   );
 }
