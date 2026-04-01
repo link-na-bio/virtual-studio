@@ -52,11 +52,10 @@ export default function AdminFinance() {
       const { data: configData } = await supabase.from('plataforma_config').select('*').eq('id', 1).single();
       
       const dynamicPrices = {
-        'Essencial': configData?.preco_essencial || 89.90,
-        'Premium': configData?.preco_premium || 149.90,
-        'Elite': configData?.preco_elite || 247.90,
-        'Amostra Premium': configData?.preco_amostra || 19.90,
-        'Amostra': configData?.preco_amostra || 19.90,
+        'essencial': configData?.preco_essencial || 89.90,
+        'premium': configData?.preco_premium || 149.90,
+        'elite': configData?.preco_elite || 247.90,
+        'amostra': configData?.preco_amostra || 19.90,
       };
 
       const { data, error } = await supabase
@@ -88,12 +87,17 @@ export default function AdminFinance() {
 
         // Processa todos os pedidos e calcula os valores
         const ordersWithValues = data.map(order => {
-          let pkgName = order.pacote;
-          if (pkgName.includes('Essencial')) pkgName = 'Essencial';
-          if (pkgName.includes('Premium')) pkgName = 'Premium';
-          if (pkgName.includes('Elite')) pkgName = 'Elite';
+          let rawPkg = (order.pacote || '').toLowerCase();
+          let pkgKey = '';
+          let displayName = order.pacote;
 
-          const val = dynamicPrices[pkgName as keyof typeof dynamicPrices] || 0;
+          if (rawPkg.includes('essencial')) { pkgKey = 'essencial'; displayName = 'Essencial'; }
+          else if (rawPkg.includes('premium')) { pkgKey = 'premium'; displayName = 'Premium'; }
+          else if (rawPkg.includes('elite')) { pkgKey = 'elite'; displayName = 'Elite'; }
+          else if (rawPkg.includes('amostra')) { pkgKey = 'amostra'; displayName = 'Amostra VIP'; }
+          else { pkgKey = rawPkg; }
+
+          const val = dynamicPrices[pkgKey as keyof typeof dynamicPrices] || 0;
 
           // Agregações
           totalRevenue += val;
@@ -107,14 +111,14 @@ export default function AdminFinance() {
             clientSpending[order.user_email] = (clientSpending[order.user_email] || 0) + val;
           }
 
-          planCounts[pkgName] = (planCounts[pkgName] || 0) + 1;
+          planCounts[displayName] = (planCounts[displayName] || 0) + 1;
 
           const mName = d.toLocaleDateString('pt-BR', { month: 'short' }).toUpperCase().replace('.', '');
           if (monthlyRev[mName] !== undefined) {
             monthlyRev[mName] += val;
           }
 
-          return { ...order, pacote: pkgName, valor: val };
+          return { ...order, pacote: displayName, valor: val };
         });
 
         setOrders(ordersWithValues);
