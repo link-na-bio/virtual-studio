@@ -490,12 +490,24 @@ export default function Dashboard() {
     setIsFetchingGallery(true);
     setSelectedEnsaioForGallery(orderId);
     try {
+      // 1. Buscar a seleção no banco
+      const { data: pedidoData } = await supabase.from('pedidos').select('fotos_selecionadas').eq('id', orderId).single();
+      const selecionadas = pedidoData?.fotos_selecionadas || [];
+
       const path = `${userId}/${orderId}/`;
       const { data: files, error } = await supabase.storage.from('previa_ensaios').list(path);
       if (error) throw error;
+      
       const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
-      if (validFiles.length === 0) { alert("Nenhuma foto encontrada."); return; }
-      const urlPromises = validFiles.map(async (file) => {
+      
+      // 2. Filtrar os arquivos do Storage com Fallback (para ensaios antigos)
+      const arquivosFinais = selecionadas.length > 0 
+        ? validFiles.filter(f => selecionadas.includes(f.name))
+        : validFiles;
+
+      if (arquivosFinais.length === 0) { alert("Nenhuma foto encontrada."); return; }
+      
+      const urlPromises = arquivosFinais.map(async (file) => {
         const { data, error } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
         if (error) throw error; return data.signedUrl;
       });
@@ -533,18 +545,19 @@ export default function Dashboard() {
       if (dbError) throw dbError;
       
       const selecionadas = pedido?.fotos_selecionadas || [];
-      if (selecionadas.length === 0) {
-        alert("Nenhuma foto selecionada para este ensaio. Por favor, faça a curadoria primeiro.");
-        return;
-      }
 
       const path = `${userId}/${orderId}/`;
       const { data: files, error } = await supabase.storage.from('previa_ensaios').list(path);
       if (error) throw error;
 
-      // 2. Filtrar arquivos para incluir APENAS os selecionados
-      const validFiles = files ? files.filter(f => selecionadas.includes(f.name)) : [];
-      if (validFiles.length === 0) { alert("Nenhum dos ficheiros selecionados foi encontrado no servidor."); return; }
+      const allFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
+
+      // 2. Filtrar arquivos para incluir APENAS os selecionados (com fallback para ensaios antigos)
+      const validFiles = selecionadas.length > 0 
+        ? allFiles.filter(f => selecionadas.includes(f.name))
+        : allFiles;
+        
+      if (validFiles.length === 0) { alert("Nenhum ficheiro disponível para download."); return; }
 
       const urlPromises = validFiles.map(async (file) => {
         const { data, error: urlError } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
