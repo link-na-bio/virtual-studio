@@ -263,12 +263,34 @@ export default function Dashboard() {
         selectedPackage === 'elite' ? parsePrice(dynamicPrices?.preco_elite, 247.90) : 0;
   // ====================================================================
 
-  // ===== SISTEMA DE NOTIFICAÇÃO SONORA (BEEP) =====
+  // ===== SISTEMA DE NOTIFICAÇÃO SONORA (BEEP VIA CÓDIGO) =====
   const playMessageBeep = () => {
     if (typeof window !== 'undefined') {
-      const audio = new Audio('/alerta.mp3');
-      audio.volume = 1.0; // Volume máximo
-      audio.play().catch(e => console.log("Audio play blocked:", e));
+      try {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (!AudioContextClass) return;
+        
+        const audioCtx = new AudioContextClass();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        // Som de notificação elegante (Sine wave a 880Hz)
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
+        
+        // Envelope: Volume sobe rápido e desce suavemente (evita estalos)
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.05); // Pico de volume
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5); // Decay suave
+
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.5);
+      } catch (e) {
+        console.warn("Erro ao gerar beep sonoro:", e);
+      }
     }
   };
   // ===============================================
