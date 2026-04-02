@@ -112,7 +112,7 @@ export default function Dashboard() {
     const channel = supabase.channel(`client_unread_${userId}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens' }, (payload) => {
         if (orderIds.includes(payload.new.order_id) && payload.new.user_id !== userId) {
-           setHasUnreadMessages(true);
+          setHasUnreadMessages(true);
         }
       }).subscribe();
     return () => { supabase.removeChannel(channel); };
@@ -235,14 +235,14 @@ export default function Dashboard() {
       .channel('plataforma_config_changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'plataforma_config', filter: 'id=eq.1' }, (payload) => {
         if (payload.new) {
-          setDynamicPrices(payload.new);
-          setIsMaintenanceGlobal(payload.new.manutencao);
+          setDynamicPrices(payload.new as any);
+          setIsMaintenanceGlobal((payload.new as any).manutencao);
         }
       })
       .subscribe();
 
-    return () => { 
-      supabase.removeChannel(channel); 
+    return () => {
+      supabase.removeChannel(channel);
       supabase.removeChannel(configChannel);
     };
   }, [userId]);
