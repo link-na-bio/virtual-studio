@@ -471,18 +471,14 @@ export default function Dashboard() {
       const { error } = await supabase
         .from('pedidos')
         .update({ 
-          fotos_selecionadas: selectedPreviewPhotos,
-          status: 'Ensaio Concluído' // Avança o status após curadoria
+          fotos_selecionadas: selectedPreviewPhotos
         })
         .eq('id', selectedOrderId);
 
       if (error) throw error;
 
-      setAlertMessage("Seleção aprovada com sucesso! O seu ensaio em alta resolução está a ser libertado.");
-      setShowSuccessAlert(true);
       setIsPreviewOpen(false);
-      fetchPedidos(userId!);
-      setTimeout(() => setShowSuccessAlert(false), 5000);
+      router.push(`/checkout?orderId=${selectedOrderId}`);
     } catch (error: any) {
       alert("Erro ao salvar seleção: " + error.message);
     } finally {
