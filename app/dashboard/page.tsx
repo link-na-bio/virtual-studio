@@ -113,6 +113,11 @@ export default function Dashboard() {
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens' }, (payload) => {
         if (orderIds.includes(payload.new.order_id) && payload.new.user_id !== userId) {
           setHasUnreadMessages(true);
+          // Novo beep para mensagens (diferente do pagamento)
+          if (typeof window !== 'undefined') {
+            const audio = new Audio('/alerta.mp3');
+            audio.play().catch(() => { });
+          }
         }
       }).subscribe();
     return () => { supabase.removeChannel(channel); };
@@ -269,6 +274,12 @@ export default function Dashboard() {
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens', filter: `order_id=eq.${chatOrderId}` }, (payload) => {
         setMessages(prev => [...prev, payload.new]);
         setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+        
+        // Beep se a mensagem vier de outra pessoa (Suporte)
+        if (payload.new.user_id !== userId && typeof window !== 'undefined') {
+          const audio = new Audio('/alerta.mp3');
+          audio.play().catch(() => { });
+        }
       }).subscribe();
 
     return () => { supabase.removeChannel(channel); };
