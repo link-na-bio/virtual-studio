@@ -68,11 +68,10 @@ export default function Dashboard() {
 
   // Estados de Prévia e Galeria
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [previewPhotos, setPreviewPhotos] = useState<string[]>([]);
+  const [previewFilesMetadata, setPreviewFilesMetadata] = useState<{ name: string, url: string }[]>([]);
+  const [selectedPreviewPhotos, setSelectedPreviewPhotos] = useState<string[]>([]);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [isFetchingPreview, setIsFetchingPreview] = useState(false);
-  const [activePreview, setActivePreview] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(1200);
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
 
   // NOVOS ESTADOS PARA GALERIA
@@ -145,18 +144,6 @@ export default function Dashboard() {
     else sessionStorage.removeItem('chatOrderId');
   };
 
-  const getOffset = (index: number) => {
-    let offset = index - activePreview;
-    const total = previewPhotos.length;
-    if (total === 0) return 0;
-    if (offset > Math.floor(total / 2)) offset -= total;
-    if (offset < -Math.floor(total / 2)) offset += total;
-    return offset;
-  };
-
-  const nextPreview = () => { if (previewPhotos.length > 0) setActivePreview((prev) => (prev + 1) % previewPhotos.length); };
-  const prevPreview = () => { if (previewPhotos.length > 0) setActivePreview((prev) => (prev - 1 + previewPhotos.length) % previewPhotos.length); };
-
   const fetchPedidos = async (uid: string) => {
     try {
       const { data, error } = await supabase.from('pedidos').select('*').eq('user_id', uid).order('criado_em', { ascending: false });
@@ -205,10 +192,6 @@ export default function Dashboard() {
     };
     checkUser();
 
-    if (typeof window !== 'undefined') {
-      setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
-    }
     if (!window.JSZip) {
       const script = document.createElement('script');
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
@@ -424,18 +407,87 @@ export default function Dashboard() {
 
   const handleOpenPreview = async (orderId: string) => {
     setIsFetchingPreview(true);
+    setSelectedPreviewPhotos([]); // Reset selection when opening
     try {
       const path = `${userId}/${orderId}/`;
       const { data: files, error } = await supabase.storage.from('previa_ensaios').list(path);
       if (error) throw error;
       const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
       if (validFiles.length === 0) { alert("Nenhuma prévia encontrada."); return; }
-      const urlPromises = validFiles.map(async (file) => {
+      
+      const fileData = await Promise.all(validFiles.map(async (file) => {
         const { data, error } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
-        if (error) throw error; return data.signedUrl;
-      });
-      setPreviewPhotos(await Promise.all(urlPromises)); setSelectedOrderId(orderId); setActivePreview(0); setIsPreviewOpen(true);
+        if (error) throw error;
+        return { name: file.name, url: data.signedUrl };
+      }));
+      
+      setPreviewFilesMetadata(fileData);
+      setSelectedOrderId(orderId);
+      
+      // Carregar seleções existentes se houver
+      const { data: pedido } = await supabase.from('pedidos').select('fotos_selecionadas').eq('id', orderId).single();
+      if (pedido?.fotos_selecionadas) {
+        setSelectedPreviewPhotos(pedido.fotos_selecionadas);
+      }
+      
+      setIsPreviewOpen(true);
     } catch (error: any) { alert("Erro ao carregar prévia: " + error.message); } finally { setIsFetchingPreview(false); }
+  };
+
+  const getSelectionLimit = (packageName: string) => {
+    const pkg = packageName?.toLowerCase();
+    if (pkg?.includes('amostra')) return 1;
+    if (pkg?.includes('essencial')) return 10;
+    if (pkg?.includes('premium')) return 25;
+    if (pkg?.includes('elite')) return 50;
+    return 0;
+  };
+
+  const togglePhotoSelection = (fileName: string) => {
+    const pedido = pedidos.find(p => p.id === selectedOrderId);
+    const limit = getSelectionLimit(pedido?.pacote || '');
+
+    if (selectedPreviewPhotos.includes(fileName)) {
+      setSelectedPreviewPhotos(prev => prev.filter(name => name !== fileName));
+    } else if (selectedPreviewPhotos.length < limit) {
+      setSelectedPreviewPhotos(prev => [...prev, fileName]);
+    } else {
+      alert(`Você já selecionou o limite de ${limit} fotos para o seu pacote.`);
+    }
+  };
+
+  const handleApproveSelection = async () => {
+    if (!selectedOrderId) return;
+    const pedido = pedidos.find(p => p.id === selectedOrderId);
+    const limit = getSelectionLimit(pedido?.pacote || '');
+
+    if (selectedPreviewPhotos.length !== limit) {
+      alert(`Por favor, selecione exatamente ${limit} fotos para prosseguir.`);
+      return;
+    }
+
+    setIsFetchingPreview(true);
+    try {
+      const { error } = await supabase
+        .from('pedidos')
+        .update({ 
+          fotos_selecionadas: selectedPreviewPhotos,
+          status: 'Ensaio Concluído' // Avança o status após curadoria
+        })
+        .eq('id', selectedOrderId);
+
+      if (error) throw error;
+
+      setAlertMessage("Seleção aprovada com sucesso! O seu ensaio em alta resolução está a ser libertado.");
+      setShowSuccessAlert(true);
+      setIsPreviewOpen(false);
+      fetchPedidos(userId!);
+      setTimeout(() => setShowSuccessAlert(false), 5000);
+    } catch (error: any) {
+      alert("Erro ao salvar seleção: " + error.message);
+    } finally {
+      setIsFetchingPreview(false);
+    }
   };
 
   const handleViewGallery = async (orderId: string) => {
@@ -475,12 +527,28 @@ export default function Dashboard() {
   const handleDownloadFinal = async (orderId: string) => {
     setIsDownloading(orderId);
     try {
+      // 1. Buscar a lista de fotos que o cliente selecionou
+      const { data: pedido, error: dbError } = await supabase
+        .from('pedidos')
+        .select('fotos_selecionadas')
+        .eq('id', orderId)
+        .single();
+        
+      if (dbError) throw dbError;
+      
+      const selecionadas = pedido?.fotos_selecionadas || [];
+      if (selecionadas.length === 0) {
+        alert("Nenhuma foto selecionada para este ensaio. Por favor, faça a curadoria primeiro.");
+        return;
+      }
+
       const path = `${userId}/${orderId}/`;
       const { data: files, error } = await supabase.storage.from('previa_ensaios').list(path);
       if (error) throw error;
 
-      const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
-      if (validFiles.length === 0) { alert("Ficheiros não encontrados no servidor."); return; }
+      // 2. Filtrar arquivos para incluir APENAS os selecionados
+      const validFiles = files ? files.filter(f => selecionadas.includes(f.name)) : [];
+      if (validFiles.length === 0) { alert("Nenhum dos ficheiros selecionados foi encontrado no servidor."); return; }
 
       const urlPromises = validFiles.map(async (file) => {
         const { data, error: urlError } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
@@ -630,33 +698,89 @@ export default function Dashboard() {
         {isPreviewOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-2xl flex flex-col">
             <div className="flex justify-between items-center p-6 border-b border-white/10 bg-studio-black/50">
-              <div><h3 className="text-2xl font-display uppercase tracking-widest text-studio-gold font-bold">Prévia do Ensaio</h3><p className="text-gray-400 text-xs mt-1">Protegido com marca de água. Aprove para libertar a versão final em alta resolução sem marcas.</p></div>
+              <div>
+                <h3 className="text-2xl font-display uppercase tracking-widest text-studio-gold font-bold">Curadoria de Fotos</h3>
+                <p className="text-gray-400 text-[10px] uppercase tracking-widest mt-1 font-bold">
+                  {(() => {
+                    const pedido = pedidos.find(p => p.id === selectedOrderId);
+                    const limit = getSelectionLimit(pedido?.pacote || '');
+                    return `Selecionadas: ${selectedPreviewPhotos.length} de ${limit} (${pedido?.pacote})`;
+                  })()}
+                </p>
+              </div>
               <button onClick={() => setIsPreviewOpen(false)} className="text-white hover:text-studio-gold transition-colors p-2 bg-white/5 rounded-full"><X size={24} /></button>
             </div>
-            <div className="flex-1 relative flex items-center justify-center overflow-hidden py-12 px-4 select-none">
-              <div className="relative w-full max-w-5xl h-[500px] flex items-center justify-center">
-                {previewPhotos.map((url, idx) => {
-                  const offset = getOffset(idx);
-                  const absOffset = Math.abs(offset);
-                  const isActive = absOffset <= 2;
-                  const isCenter = offset === 0;
-                  return (
-                    <motion.div key={idx} onClick={() => !isCenter && setActivePreview(idx)} className={`absolute w-[220px] h-[400px] md:w-[280px] md:h-[500px] rounded-2xl overflow-hidden bg-[#121212] ${isCenter ? 'border-2 border-studio-gold shadow-[0_0_30px_rgba(212,175,55,0.2)]' : 'border border-white/10 opacity-60'} ${isActive ? 'pointer-events-auto' : 'pointer-events-none'}`} initial={false} animate={{ x: offset * (windowWidth < 768 ? 160 : 320), scale: isActive ? 1 - absOffset * 0.15 : 0.5, zIndex: 20 - absOffset, opacity: isActive ? (1 - absOffset * 0.3) : 0, }} transition={{ type: "spring", stiffness: 260, damping: 25 }}>
-                      <img src={url} alt={`Prévia ${idx + 1}`} className="w-full h-full object-contain filter blur-[0.2px] brightness-[0.95] contrast-[1.1] pointer-events-none select-none" draggable={false} onContextMenu={(e) => e.preventDefault()} />
-                      <div className="absolute inset-0 z-10 cursor-not-allowed" onContextMenu={(e) => e.preventDefault()}></div>
-                      <div className="absolute inset-0 z-20 pointer-events-none opacity-40 mix-blend-screen" style={{ backgroundImage: `url("/FOTO PROTEGIDA - NÃO TIRE PRINT.png")`, backgroundRepeat: 'repeat', backgroundSize: '180px' }}></div>
-                    </motion.div>
-                  );
-                })}
+
+            <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar bg-[#0a0a0a]">
+              <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {previewFilesMetadata.map((file, idx) => {
+                    const isSelected = selectedPreviewPhotos.includes(file.name);
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => togglePhotoSelection(file.name)}
+                        className={`group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 border-4 ${isSelected ? 'border-studio-gold ring-4 ring-studio-gold/20' : 'border-white/5 hover:border-studio-gold/30'}`}
+                      >
+                        <img
+                          src={file.url}
+                          alt={`Foto ${idx + 1}`}
+                          className={`w-full h-full object-cover transition-all duration-500 ${isSelected ? 'brightness-50 scale-105' : 'group-hover:scale-110'}`}
+                          loading="lazy"
+                        />
+
+                        {/* Marca d'água robusta */}
+                        <div className="absolute inset-0 z-10 pointer-events-none opacity-30 mix-blend-screen overflow-hidden" style={{ backgroundImage: `url("/FOTO PROTEGIDA - NÃO TIRE PRINT.png")`, backgroundRepeat: 'repeat', backgroundSize: '150px' }}></div>
+
+                        {/* Overlay de Seleção */}
+                        {isSelected && (
+                          <motion.div
+                            initial={{ scale: 0.5, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="absolute inset-0 z-20 flex items-center justify-center bg-studio-gold/10"
+                          >
+                            <CheckCircle2 size={48} className="text-studio-gold drop-shadow-[0_0_15px_rgba(212,175,55,0.8)]" />
+                          </motion.div>
+                        )}
+
+                        <div className="absolute bottom-3 left-3 z-20">
+                          <span className="px-2 py-1 bg-black/60 backdrop-blur-md rounded text-[9px] font-bold text-white uppercase tracking-tighter border border-white/10">
+                            #{file.name.slice(-8)}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-            <div className="flex justify-center items-center gap-2 pb-8">
-              {previewPhotos.map((_, i) => (
-                <button key={i} onClick={() => setActivePreview(i)} className={`transition-all duration-300 rounded-full h-1.5 ${activePreview === i ? 'w-8 bg-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]' : 'w-1.5 bg-white/20 hover:bg-white/40'}`} />
-              ))}
-            </div>
+
             <div className="p-6 border-t border-white/10 bg-studio-black/90 flex justify-center">
-              <button onClick={() => router.push(`/checkout?orderId=${selectedOrderId}`)} className="w-full max-w-lg py-5 bg-studio-gold text-studio-black font-display font-black uppercase tracking-widest text-sm md:text-base hover:bg-studio-gold-light transition-all rounded-xl shadow-[0_0_40px_rgba(212,175,55,0.4)] flex items-center justify-center gap-3"><CheckCircle2 size={24} /> Aprovar e Libertar Alta Resolução</button>
+              {(() => {
+                const pedido = pedidos.find(p => p.id === selectedOrderId);
+                const limit = getSelectionLimit(pedido?.pacote || '');
+                const isReady = selectedPreviewPhotos.length === limit;
+
+                return (
+                  <button
+                    onClick={handleApproveSelection}
+                    disabled={!isReady || isFetchingPreview}
+                    className={`w-full max-w-lg py-5 font-display font-black uppercase tracking-widest text-sm md:text-base transition-all rounded-xl flex items-center justify-center gap-3 shadow-2xl ${isReady
+                      ? 'bg-studio-gold text-studio-black hover:bg-studio-gold-light shadow-studio-gold/20'
+                      : 'bg-white/5 text-gray-500 cursor-not-allowed border border-white/10'
+                      }`}
+                  >
+                    {isFetchingPreview ? (
+                      <Loader2 size={24} className="animate-spin" />
+                    ) : (
+                      <>
+                        <CheckCircle2 size={24} />
+                        {isReady ? 'Aprovar Seleção e Libertar Alta Resolução' : `Selecione mais ${limit - selectedPreviewPhotos.length} fotos`}
+                      </>
+                    )}
+                  </button>
+                );
+              })()}
             </div>
           </motion.div>
         )}
