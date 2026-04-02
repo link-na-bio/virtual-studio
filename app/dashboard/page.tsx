@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabaseClient';
 import {
   Camera, Home, Library, PlusCircle, User, CloudUpload, Check, CheckCheck,
   Archive, X, Send, Sparkles, LogOut, Clock, LayoutGrid, CheckCircle2,
-  ChevronRight, ChevronLeft, Info, Eye, Download, Zap, MessageSquare, FileImage, Loader2, FileText, Paperclip, Lock, Bot, Search
+  ChevronRight, ChevronLeft, Info, Eye, Download, Zap, MessageSquare, FileImage, Loader2, FileText, Paperclip, Lock, Bot, Search, MessageCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -324,6 +324,14 @@ export default function Dashboard() {
   };
 
   const handleLogout = async () => { await supabase.auth.signOut(); router.push('/login'); };
+
+  const handleWhatsAppSupport = () => {
+    // TODO: MUDAR PARA O NÚMERO DE WHATSAPP REAL DO BRUNO
+    const phoneNumber = '556193314473';
+    const text = `Olá suporte! Sou o cliente ${userEmail} e estou no meu painel do Virtual Studio. Preciso de ajuda.`;
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
 
   // Lógica de limite e valores
   const getStyleLimit = () => {
@@ -1232,6 +1240,17 @@ export default function Dashboard() {
           </motion.div>
         )}
       </main>
+
+      {/* BOTÃO WHATSAPP VIP */}
+      <motion.button
+        onClick={handleWhatsAppSupport}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        className="fixed z-[90] bottom-24 right-4 md:bottom-8 md:right-8 bg-[#121212]/80 backdrop-blur-xl border border-emerald-500/30 text-emerald-400 p-4 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.2)] transition-all flex items-center justify-center"
+      >
+        <MessageCircle size={24} />
+      </motion.button>
 
       <nav className="fixed bottom-0 left-0 right-0 h-20 bg-studio-black/90 backdrop-blur-2xl border-t border-white/5 z-[100] flex items-center justify-around px-2 md:hidden">
         {[
