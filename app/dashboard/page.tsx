@@ -257,7 +257,7 @@ export default function Dashboard() {
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensagens', filter: `order_id=eq.${chatOrderId}` }, (payload) => {
         setMessages(prev => [...prev, payload.new]);
         setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
-        
+
         // Beep se a mensagem vier de outra pessoa (Suporte)
         if (payload.new.user_id !== userId && typeof window !== 'undefined') {
           const audio = new Audio('/alerta.mp3');
@@ -414,22 +414,22 @@ export default function Dashboard() {
       if (error) throw error;
       const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
       if (validFiles.length === 0) { alert("Nenhuma prévia encontrada."); return; }
-      
+
       const fileData = await Promise.all(validFiles.map(async (file) => {
         const { data, error } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
         if (error) throw error;
         return { name: file.name, url: data.signedUrl };
       }));
-      
+
       setPreviewFilesMetadata(fileData);
       setSelectedOrderId(orderId);
-      
+
       // Carregar seleções existentes se houver
       const { data: pedido } = await supabase.from('pedidos').select('fotos_selecionadas').eq('id', orderId).single();
       if (pedido?.fotos_selecionadas) {
         setSelectedPreviewPhotos(pedido.fotos_selecionadas);
       }
-      
+
       setIsPreviewOpen(true);
     } catch (error: any) { alert("Erro ao carregar prévia: " + error.message); } finally { setIsFetchingPreview(false); }
   };
@@ -470,7 +470,7 @@ export default function Dashboard() {
     try {
       const { error } = await supabase
         .from('pedidos')
-        .update({ 
+        .update({
           fotos_selecionadas: selectedPreviewPhotos
         })
         .eq('id', selectedOrderId);
@@ -490,27 +490,45 @@ export default function Dashboard() {
     setIsFetchingGallery(true);
     setSelectedEnsaioForGallery(orderId);
     try {
-      // 1. Buscar a seleção no banco
-      const { data: pedidoData } = await supabase.from('pedidos').select('fotos_selecionadas').eq('id', orderId).single();
-      const selecionadas = pedidoData?.fotos_selecionadas || [];
+      // 1. Busca as fotos selecionadas no banco
+      const { data: pedido, error: dbError } = await supabase
+        .from('pedidos')
+        .select('fotos_selecionadas')
+        .eq('id', orderId)
+        .single();
 
+      if (dbError) throw dbError;
+      const selecionadas = pedido?.fotos_selecionadas || [];
+
+      // 2. Busca todos os arquivos da pasta do cliente
       const path = `${userId}/${orderId}/`;
-      const { data: files, error } = await supabase.storage.from('previa_ensaios').list(path);
-      if (error) throw error;
-      
-      const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
-      
-      // 2. Filtrar os arquivos do Storage com Fallback (para ensaios antigos)
-      const arquivosFinais = selecionadas.length > 0 
-        ? validFiles.filter(f => selecionadas.includes(f.name))
-        : validFiles;
+      const { data: files, error: storageError } = await supabase.storage.from('previa_ensaios').list(path);
+      if (storageError) throw storageError;
 
-      if (arquivosFinais.length === 0) { alert("Nenhuma foto encontrada."); return; }
-      
+      const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
+      if (validFiles.length === 0) { alert("Nenhuma foto encontrada no servidor."); return; }
+
+      // 3. O FILTRO BLINDADO (Compara se o nome do arquivo existe no meio da URL salva)
+      let arquivosFinais = validFiles;
+
+      if (selecionadas && selecionadas.length > 0) {
+        arquivosFinais = validFiles.filter(f => {
+          return selecionadas.some((sel: string) => sel.includes(f.name));
+        });
+
+        if (arquivosFinais.length === 0) {
+          alert("Erro de leitura: As fotos selecionadas não foram localizadas. Contacte o suporte.");
+          setIsFetchingGallery(false);
+          return;
+        }
+      }
+
+      // 4. Gera as URLs APENAS das fotos filtradas
       const urlPromises = arquivosFinais.map(async (file) => {
         const { data, error } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
         if (error) throw error; return data.signedUrl;
       });
+
       setGalleryPhotos(await Promise.all(urlPromises));
     } catch (error: any) { alert("Erro ao carregar galeria: " + error.message); } finally { setIsFetchingGallery(false); }
   };
@@ -535,31 +553,41 @@ export default function Dashboard() {
   const handleDownloadFinal = async (orderId: string) => {
     setIsDownloading(orderId);
     try {
-      // 1. Buscar a lista de fotos que o cliente selecionou
+      // 1. Busca as fotos selecionadas no banco
       const { data: pedido, error: dbError } = await supabase
         .from('pedidos')
         .select('fotos_selecionadas')
         .eq('id', orderId)
         .single();
-        
+
       if (dbError) throw dbError;
-      
       const selecionadas = pedido?.fotos_selecionadas || [];
 
+      // 2. Busca os arquivos do storage
       const path = `${userId}/${orderId}/`;
-      const { data: files, error } = await supabase.storage.from('previa_ensaios').list(path);
-      if (error) throw error;
+      const { data: files, error: storageError } = await supabase.storage.from('previa_ensaios').list(path);
+      if (storageError) throw storageError;
 
-      const allFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
+      const validFiles = files ? files.filter(f => f.name !== '.emptyFolderPlaceholder') : [];
+      if (validFiles.length === 0) { alert("Ficheiros não encontrados no servidor."); return; }
 
-      // 2. Filtrar arquivos para incluir APENAS os selecionados (com fallback para ensaios antigos)
-      const validFiles = selecionadas.length > 0 
-        ? allFiles.filter(f => selecionadas.includes(f.name))
-        : allFiles;
-        
-      if (validFiles.length === 0) { alert("Nenhum ficheiro disponível para download."); return; }
+      // 3. O FILTRO BLINDADO
+      let arquivosFinais = validFiles;
 
-      const urlPromises = validFiles.map(async (file) => {
+      if (selecionadas && selecionadas.length > 0) {
+        arquivosFinais = validFiles.filter(f => {
+          return selecionadas.some((sel: string) => sel.includes(f.name));
+        });
+
+        if (arquivosFinais.length === 0) {
+          alert("Erro: As fotos selecionadas não puderam ser descarregadas. Contacte o suporte.");
+          setIsDownloading(null);
+          return;
+        }
+      }
+
+      // 4. Baixa e zipa apenas as selecionadas
+      const urlPromises = arquivosFinais.map(async (file) => {
         const { data, error: urlError } = await supabase.storage.from('previa_ensaios').createSignedUrl(`${path}${file.name}`, 3600);
         if (urlError) throw urlError;
         return { name: file.name, url: data.signedUrl };
