@@ -14,6 +14,16 @@ import { motion, AnimatePresence } from 'motion/react';
 declare global { interface Window { JSZip: any; } }
 
 export default function Dashboard() {
+  const EVENTO_SAZONAL = {
+    ativo: true,
+    id: 'sazonal',
+    titulo: 'Especial de Páscoa 🐰',
+    descricao: '1 Foto Temática em altíssima resolução perfeita para as redes sociais.',
+    preco: 19.90,
+    estilos: '1 Estilo Temático',
+    nomeDoEstilo: 'Páscoa VIP' // O admin deve criar um estilo com este NOME EXATO no painel
+  };
+
   const router = useRouter();
 
   // Forçar renderização puramente client-side
@@ -31,7 +41,7 @@ export default function Dashboard() {
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<null | 'amostra' | 'essencial' | 'premium' | 'elite'>(null);
+  const [selectedPackage, setSelectedPackage] = useState<null | 'amostra' | 'essencial' | 'premium' | 'elite' | 'sazonal'>(null);
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -250,6 +260,7 @@ export default function Dashboard() {
   };
 
   const getStyleLimit = () => {
+    if (selectedPackage === 'sazonal') return 1;
     if (selectedPackage === 'amostra') return 1;
     if (selectedPackage === 'essencial') return 1;
     if (selectedPackage === 'premium') return 3;
@@ -257,7 +268,8 @@ export default function Dashboard() {
     return 0;
   };
 
-  const totalAmount = selectedPackage === 'amostra' ? parsePrice(dynamicPrices?.preco_amostra, 19.90) :
+  const totalAmount = selectedPackage === 'sazonal' ? 19.90 :
+    selectedPackage === 'amostra' ? parsePrice(dynamicPrices?.preco_amostra, 19.90) :
     selectedPackage === 'essencial' ? parsePrice(dynamicPrices?.preco_essencial, 89.90) :
       selectedPackage === 'premium' ? parsePrice(dynamicPrices?.preco_premium, 149.90) :
         selectedPackage === 'elite' ? parsePrice(dynamicPrices?.preco_elite, 247.90) : 0;
@@ -471,6 +483,7 @@ export default function Dashboard() {
 
   const getSelectionLimit = (packageName: string) => {
     const pkg = packageName?.toLowerCase();
+    if (pkg?.includes('sazonal')) return 1;
     if (pkg?.includes('amostra')) return 1;
     if (pkg?.includes('essencial')) return 10;
     if (pkg?.includes('premium')) return 25;
@@ -712,10 +725,13 @@ export default function Dashboard() {
 
   const availableCategories = ['Todos', ...Array.from(new Set(dbStyles.map(s => s.categoria).filter(Boolean)))];
 
-  const displayStyles = dbStyles.filter(s =>
-    (s.genero === genderFilter || s.genero === 'Ambos') &&
-    (categoryFilter === 'Todos' || s.categoria === categoryFilter)
-  );
+  const displayStyles = selectedPackage === 'sazonal'
+    ? dbStyles.filter(s => s.titulo === EVENTO_SAZONAL.nomeDoEstilo)
+    : dbStyles.filter(s =>
+        s.titulo !== EVENTO_SAZONAL.nomeDoEstilo && // <- O CADEADO AQUI: Esconde o sazonal dos outros pacotes
+        (s.genero === genderFilter || s.genero === 'Ambos') &&
+        (categoryFilter === 'Todos' || s.categoria === categoryFilter)
+      );
 
   return (
     <div className="flex min-h-screen bg-studio-black text-white relative">
@@ -1268,6 +1284,51 @@ export default function Dashboard() {
                         </div>
                       )}
 
+                      {/* BANNER SAZONAL / TEMÁTICO */}
+                      {EVENTO_SAZONAL.ativo && (
+                        <div
+                          onClick={() => { 
+                            setSelectedPackage('sazonal'); 
+                            setSelectedStyles([EVENTO_SAZONAL.nomeDoEstilo]); 
+                          }}
+                          className={`mb-8 w-full border-2 rounded-2xl p-6 relative overflow-hidden transition-all group cursor-pointer ${selectedPackage === 'sazonal' 
+                            ? 'border-studio-gold bg-gradient-to-r from-purple-900/40 to-studio-black shadow-[0_0_30px_rgba(212,175,55,0.3)] ring-2 ring-studio-gold/20' 
+                            : 'border-purple-500/30 bg-gradient-to-r from-purple-900/20 to-studio-black hover:border-studio-gold transition-all'}`}
+                        >
+                          <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[9px] font-black px-4 py-1.5 uppercase tracking-[0.2em] rounded-bl-xl shadow-lg z-20">TEMPO LIMITADO</div>
+                          
+                          <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10 w-full">
+                            {/* LADO ESQUERDO: Ícone e Textos */}
+                            <div className="flex items-center gap-5 flex-1">
+                              <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0 border-2 transition-all duration-500 ${selectedPackage === 'sazonal' ? 'bg-studio-gold text-studio-black border-white/20' : 'bg-purple-500/10 text-purple-400 border-purple-500/20'}`}>
+                                <Sparkles size={28} className={selectedPackage === 'sazonal' ? 'animate-pulse' : ''} />
+                              </div>
+                              <div className="text-left">
+                                <h4 className="text-lg md:text-xl font-black font-display uppercase tracking-widest text-white">{EVENTO_SAZONAL.titulo}</h4>
+                                <p className="text-[10px] md:text-xs text-gray-300 mt-1 max-w-md leading-relaxed font-medium">{EVENTO_SAZONAL.descricao}</p>
+                                <div className="flex items-center gap-2 mt-2">
+                                  <span className="px-2 py-0.5 bg-studio-gold/10 border border-studio-gold/20 rounded text-[8px] font-bold text-studio-gold uppercase tracking-wider">{EVENTO_SAZONAL.estilos}</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {/* LADO DIREITO: Preço e Check */}
+                            <div className="flex flex-col items-center md:items-end shrink-0">
+                              <p className="text-xl md:text-2xl font-black text-studio-gold tracking-tight drop-shadow-xl">R$ {EVENTO_SAZONAL.preco.toFixed(2).replace('.', ',')}</p>
+                              <p className="text-[8px] md:text-[9px] text-gray-500 uppercase tracking-[0.2em] font-black mt-1">Oferta Exclusiva</p>
+                              {selectedPackage === 'sazonal' && (
+                                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mt-3 w-8 h-8 bg-studio-gold text-studio-black rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.6)]">
+                                  <Check size={16} strokeWidth={4} />
+                                </motion.div>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* Efeito de brilho de fundo */}
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-studio-gold/5 blur-[80px] pointer-events-none opacity-50"></div>
+                        </div>
+                      )}
+
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {[
                           { id: 'essencial', title: 'Essencial (10 fotos)', styles: '1 Estilo', price: getPriceDisplay('essencial', 89.90), icon: User },
@@ -1304,27 +1365,29 @@ export default function Dashboard() {
                           </p>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                          <div className="flex bg-[#121212] border border-white/10 rounded-lg p-1 w-fit shrink-0">
-                            <button onClick={() => setGenderFilter('Feminino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Feminino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Feminino</button>
-                            <button onClick={() => setGenderFilter('Masculino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Masculino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Masculino</button>
-                          </div>
+                        {selectedPackage !== 'sazonal' && (
+                          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                            <div className="flex bg-[#121212] border border-white/10 rounded-lg p-1 w-fit shrink-0">
+                              <button onClick={() => setGenderFilter('Feminino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Feminino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Feminino</button>
+                              <button onClick={() => setGenderFilter('Masculino')} className={`px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${genderFilter === 'Masculino' ? 'bg-studio-gold text-black' : 'text-gray-400 hover:text-white'}`}>Masculino</button>
+                            </div>
 
-                          <div className="relative w-full sm:max-w-[240px]">
-                            <select
-                              value={categoryFilter}
-                              onChange={(e) => setCategoryFilter(e.target.value)}
-                              className="w-full h-full min-h-[44px] px-4 pr-10 bg-[#121212] border border-white/10 rounded-lg focus:border-studio-gold outline-none text-[10px] font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
-                            >
-                              {availableCategories.map((cat: any) => (
-                                <option key={cat} value={cat}>{cat?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : cat}</option>
-                              ))}
-                            </select>
-                            <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-studio-gold">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                            <div className="relative w-full sm:max-w-[240px]">
+                              <select
+                                value={categoryFilter}
+                                onChange={(e) => setCategoryFilter(e.target.value)}
+                                className="w-full h-full min-h-[44px] px-4 pr-10 bg-[#121212] border border-white/10 rounded-lg focus:border-studio-gold outline-none text-[10px] font-bold uppercase tracking-widest text-white transition-colors appearance-none cursor-pointer"
+                              >
+                                {availableCategories.map((cat: any) => (
+                                  <option key={cat} value={cat}>{cat?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : cat}</option>
+                                ))}
+                              </select>
+                              <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-studio-gold">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
 
                         <div className="relative group">
                           <button type="button" onClick={() => scrollStyles('left')} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-10 h-10 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-studio-gold hover:border-studio-gold transition-all shadow-xl opacity-0 group-hover:opacity-100 hidden md:flex"><ChevronLeft size={20} className="pr-[2px] pt-[1px]" /></button>
@@ -1367,7 +1430,6 @@ export default function Dashboard() {
                             </div>
                           </div>
                         )}
-
                       </motion.section>
                     )}
 
