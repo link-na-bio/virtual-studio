@@ -412,7 +412,7 @@ export default function AdminOrders() {
                 {comprovanteModal.url.includes('.pdf') ? (
                   <iframe src={comprovanteModal.url} className="w-full h-full" title="PDF do Comprovante" />
                 ) : (
-                  <img src={comprovanteModal.url} alt="Comprovante" className="max-w-full max-h-full object-contain" />
+                  <Image src={comprovanteModal.url} alt="Comprovante" fill className="object-contain" />
                 )}
               </div>
             </div>
@@ -451,7 +451,7 @@ export default function AdminOrders() {
                 {approvedPreviewsModal.files.map((file, idx) => (
                   <div key={idx} className="flex flex-col gap-3">
                     <div className="aspect-[3/4] rounded-xl overflow-hidden border border-white/10 relative group">
-                      <img src={file.url} alt={`Prévia ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={file.url} alt={`Prévia ${idx + 1}`} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                       <a href={file.url} target="_blank" rel="noopener noreferrer" className="absolute top-2 right-2 size-8 bg-black/60 rounded flex items-center justify-center text-white hover:bg-studio-gold hover:text-black transition-colors" title="Ver Original">
                         <ExternalLink size={14} />
                       </a>
@@ -459,7 +459,7 @@ export default function AdminOrders() {
                     {file.nota && (
                       <div className="bg-gray-800 rounded-lg p-3 relative border border-gray-700">
                         <div className="absolute -top-2 left-4 w-4 h-4 bg-gray-800 rotate-45 border-l border-t border-gray-700"></div>
-                        <p className="text-xs italic text-gray-300 relative z-10 font-medium">"{file.nota}"</p>
+                        <p className="text-xs italic text-gray-300 relative z-10 font-medium">&quot;{file.nota}&quot;</p>
                       </div>
                     )}
                   </div>

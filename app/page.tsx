@@ -89,12 +89,16 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
+    // Inicialização segura no client (asíncrona para evitar cascading renders)
     const handleResize = () => setWindowWidth(window.innerWidth);
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
+
+    // Dispara a inicialização após o mount
+    handleResize();
+    handleScroll();
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -517,7 +521,7 @@ export default function LandingPage() {
                       <Check size={14} className="text-studio-gold" /> Curadoria manual de qualidade
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Check size={14} className="text-studio-gold" /> Sem marca d'água
+                      <Check size={14} className="text-studio-gold" /> Sem marca d&apos;água
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
                       <Check size={14} className="text-studio-gold" /> Entrega em até 72h
@@ -576,7 +580,7 @@ export default function LandingPage() {
                       <CheckCheck size={14} className="text-studio-gold" /> Curadoria manual de qualidade
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <CheckCheck size={14} className="text-studio-gold" /> Sem marca d'água
+                      <CheckCheck size={14} className="text-studio-gold" /> Sem marca d&apos;água
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
                       <CheckCheck size={14} className="text-studio-gold" /> Entrega em até 72h
@@ -632,7 +636,7 @@ export default function LandingPage() {
                       <Sparkles size={14} /> Retoque FINO avançado
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Check size={14} className="text-studio-gold" /> Sem marca d'água
+                      <Check size={14} className="text-studio-gold" /> Sem marca d&apos;água
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
                       <Check size={14} className="text-studio-gold" /> Entrega em até 48h
@@ -828,11 +832,14 @@ export default function LandingPage() {
               rel="noopener noreferrer"
               className="group flex flex-col gap-2 p-5 rounded-xl border border-white/5 hover:border-white/15 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300"
             >
-              <div className="w-8 h-8 rounded-lg overflow-hidden mb-1 bg-white/5 flex items-center justify-center">
-                <img
+              <div className="w-8 h-8 rounded-lg overflow-hidden mb-1 bg-white/5 flex items-center justify-center relative">
+                <Image
                   src="https://www.google.com/s2/favicons?domain=socialprime.space&sz=64"
                   alt="Social Prime logo"
-                  className="w-6 h-6 object-contain"
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                  unoptimized
                 />
               </div>
               <span className="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-gray-200 transition-colors">Social Prime</span>
@@ -849,11 +856,14 @@ export default function LandingPage() {
               rel="noopener noreferrer"
               className="group flex flex-col gap-2 p-5 rounded-xl border border-white/5 hover:border-white/15 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300"
             >
-              <div className="w-8 h-8 rounded-lg overflow-hidden mb-1 bg-white/5 flex items-center justify-center">
-                <img
+              <div className="w-8 h-8 rounded-lg overflow-hidden mb-1 bg-white/5 flex items-center justify-center relative">
+                <Image
                   src="https://www.google.com/s2/favicons?domain=linknabio.pro&sz=64"
                   alt="Link na Bio Pro logo"
-                  className="w-6 h-6 object-contain"
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                  unoptimized
                 />
               </div>
               <span className="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-gray-200 transition-colors">Link na Bio Pro</span>
@@ -870,11 +880,13 @@ export default function LandingPage() {
               rel="noopener noreferrer"
               className="group flex flex-col gap-2 p-5 rounded-xl border border-white/5 hover:border-white/15 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300"
             >
-              <div className="w-8 h-8 rounded-lg overflow-hidden mb-1 bg-transparent flex items-center justify-center">
-                <img
+              <div className="w-8 h-8 rounded-lg overflow-hidden mb-1 bg-transparent flex items-center justify-center relative">
+                <Image
                   src="/logo-legendas-cristas.png"
                   alt="Social Media Cristã logo"
-                  className="w-8 h-8 object-contain"
+                  width={32}
+                  height={32}
+                  className="object-contain"
                 />
               </div>
               <span className="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-gray-200 transition-colors">Social Media Cristã</span>

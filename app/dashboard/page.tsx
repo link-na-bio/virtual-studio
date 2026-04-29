@@ -26,14 +26,17 @@ const EVENTO_SAZONAL = {
 
 // Componente para renderização de imagem de estilo com fallback local
 const DashboardStyleImage = ({ style, unoptimized = true }: { style: any, unoptimized?: boolean }) => {
-  const [src, setSrc] = useState<string | null>(null);
+  const safeTitle = (style.titulo || 'img').toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+  const localPath = `/images/galeria/${safeTitle}-${style.id}.webp`;
 
-  useEffect(() => {
-    // Tenta primeiro o caminho local (webp otimizado)
-    const safeTitle = (style.titulo || 'img').toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-    const localPath = `/images/galeria/${safeTitle}-${style.id}.webp`;
+  const [src, setSrc] = useState<string>(localPath);
+  const [prevStyleId, setPrevStyleId] = useState(style.id);
+
+  // Sincroniza o estado se o estilo mudar (padrão recomendado pelo React para evitar useEffect síncrono)
+  if (style.id !== prevStyleId) {
+    setPrevStyleId(style.id);
     setSrc(localPath);
-  }, [style]);
+  }
 
   if (!src) return <div className="w-full h-full bg-studio-black animate-pulse" />;
 
@@ -414,7 +417,7 @@ export default function Dashboard() {
       }).subscribe();
 
     return () => { supabase.removeChannel(channel); };
-  }, [chatOrderId]);
+  }, [chatOrderId, userId]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1096,11 +1099,11 @@ export default function Dashboard() {
                           onClick={() => togglePhotoSelection(file.name)}
                           className={`group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 border-4 ${isSelected ? 'border-studio-gold ring-4 ring-studio-gold/20' : 'border-white/5 hover:border-studio-gold/30'}`}
                         >
-                          <img
+                          <Image
                             src={file.url}
                             alt={`Foto ${idx + 1}`}
-                            className={`w-full h-full object-cover transition-all duration-500 ${isSelected ? 'brightness-50 scale-105' : 'group-hover:scale-110'}`}
-                            loading="lazy"
+                            fill
+                            className={`object-cover transition-all duration-500 ${isSelected ? 'brightness-50 scale-105' : 'group-hover:scale-110'}`}
                           />
 
                           {/* Marca d'água robusta */}
@@ -1196,11 +1199,12 @@ export default function Dashboard() {
         </nav>
         <div className="mt-auto p-6 border-t border-white/5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full border border-white/10 overflow-hidden shrink-0">
-              <img
+            <div className="w-10 h-10 rounded-full border border-white/10 overflow-hidden shrink-0 relative">
+              <Image
                 src={avatarUrl?.startsWith('http') ? avatarUrl : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl}`}
                 alt="Perfil"
-                className="w-10 h-10 rounded-full object-cover"
+                fill
+                className="rounded-full object-cover"
               />
             </div>
             <div className="flex-1 min-w-0">
@@ -1432,12 +1436,12 @@ export default function Dashboard() {
                           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                             {galleryPhotos.map((url, idx) => (
                               <div key={idx} className="group relative aspect-[4/5] rounded-xl overflow-hidden bg-white/5 border border-white/5 shadow-xl cursor-zoom-in">
-                                <img
+                                <Image
                                   src={url}
                                   alt={`Foto ${idx + 1}`}
                                   onClick={() => setSelectedPhotoForModal(url)}
-                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                  loading="lazy"
+                                  fill
+                                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 hidden md:flex items-center justify-center pointer-events-none md:pointer-events-auto">
                                   <button
@@ -1466,11 +1470,11 @@ export default function Dashboard() {
                                       onClick={() => toggleExtraSelection(file.name)}
                                       className={`group relative aspect-[4/5] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 border-4 ${isSelected ? 'border-studio-gold ring-4 ring-studio-gold/20' : 'border-white/5 hover:border-studio-gold/30'}`}
                                     >
-                                      <img
+                                      <Image
                                         src={file.url}
                                         alt={`Extra ${idx + 1}`}
-                                        className={`w-full h-full object-cover transition-all duration-500 ${isSelected ? 'brightness-50 scale-105' : 'group-hover:scale-110'}`}
-                                        loading="lazy"
+                                        fill
+                                        className={`object-cover transition-all duration-500 ${isSelected ? 'brightness-50 scale-105' : 'group-hover:scale-110'}`}
                                       />
                                       {/* Marca d'água robusta (Igual à prévia) */}
                                       <div className="absolute inset-0 z-10 pointer-events-none opacity-30 mix-blend-screen overflow-hidden" style={{ backgroundImage: `url("/FOTO PROTEGIDA - NÃO TIRE PRINT.png")`, backgroundRepeat: 'repeat', backgroundSize: '150px' }}></div>
@@ -1626,8 +1630,8 @@ export default function Dashboard() {
                                     {msg.conteudo.includes('.pdf') ? (
                                       <a href={msg.conteudo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-black/20 p-3 rounded-lg hover:bg-black/30 transition-colors text-xs font-bold"><FileText size={16} /> Ver Ficheiro</a>
                                     ) : (
-                                      <a href={msg.conteudo} target="_blank" rel="noopener noreferrer">
-                                        <img src={msg.conteudo} alt="Anexo" className="rounded-lg w-full max-h-48 object-cover bg-black/20" />
+                                      <a href={msg.conteudo} target="_blank" rel="noopener noreferrer" className="block relative w-full h-48 rounded-lg overflow-hidden bg-black/20">
+                                        <Image src={msg.conteudo} alt="Anexo" fill className="object-cover" />
                                       </a>
                                     )}
                                   </div>
@@ -2004,10 +2008,11 @@ export default function Dashboard() {
                 <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center">
                   <div className="relative w-32 h-32 mx-auto mb-6">
                     <div className="w-full h-full rounded-full border-2 border-white/10 overflow-hidden relative">
-                      <img
+                      <Image
                         src={avatarUrl?.startsWith('http') ? avatarUrl : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl}`}
                         alt="Preview Avatar"
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-0 right-0 w-10 h-10 bg-studio-gold text-studio-black rounded-full flex items-center justify-center border-4 border-[#121212] hover:scale-110 transition-transform"><Camera size={18} /></button>
