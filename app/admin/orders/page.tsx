@@ -127,12 +127,14 @@ export default function AdminOrders() {
     try {
       setIsSubmittingManual(true);
       
-      await createManualOrderAction({
+      const res = await createManualOrderAction({
         cliente: manualOrderData.cliente,
         pacote: manualOrderData.pacote,
         valor: parseFloat(manualOrderData.valor) || 0,
         estilos: manualOrderData.estilos.split(',').map(s => s.trim()).filter(Boolean)
       });
+
+      if (!res.success) throw new Error(res.error);
 
       setManualOrderModal(false);
       setManualOrderData({ cliente: '', pacote: 'dinamico_avulso', valor: '', estilos: '' });

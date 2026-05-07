@@ -21,26 +21,30 @@ export async function createManualOrderAction(data: {
   valor: number;
   estilos: string[];
 }) {
-  const supabaseAdmin = getServiceRoleClient();
+  try {
+    const supabaseAdmin = getServiceRoleClient();
 
-  const { data: result, error } = await supabaseAdmin
-    .from('pedidos')
-    .insert({
-      user_email: data.cliente,
-      observacoes: `PEDIDO CONCIERGE (WhatsApp)\nCliente: ${data.cliente}\nEstilos: ${data.estilos.join(', ')}`,
-      pacote: data.pacote,
-      valor: data.valor,
-      estilos: data.estilos,
-      status: 'Aguardando Produção',
-      user_id: null // Explicitamente nulo, já que removemos o NOT NULL
-    })
-    .select()
-    .single();
+    const { data: result, error } = await supabaseAdmin
+      .from('pedidos')
+      .insert({
+        user_email: data.cliente,
+        observacoes: `PEDIDO CONCIERGE (WhatsApp)\nCliente: ${data.cliente}\nEstilos: ${data.estilos.join(', ')}`,
+        pacote: data.pacote,
+        valor: data.valor,
+        estilos: data.estilos,
+        status: 'Aguardando Produção'
+      })
+      .select()
+      .single();
 
-  if (error) {
-    console.error('Erro ao criar pedido manual (Service Role):', error);
-    throw new Error(error.message);
+    if (error) {
+      console.error('Erro no Supabase:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data: result };
+  } catch (err: any) {
+    console.error('Exceção na Action:', err);
+    return { success: false, error: err.message || 'Erro interno no servidor' };
   }
-
-  return result;
 }
