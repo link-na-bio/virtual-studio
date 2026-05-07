@@ -31,6 +31,7 @@ import AdminSidebar from '@/components/AdminSidebar';
 
 import { supabase } from '@/lib/supabaseClient';
 import imageCompression from 'browser-image-compression';
+import { createManualOrderAction } from '@/app/actions/adminOrders';
 
 declare global {
   interface Window {
@@ -126,16 +127,12 @@ export default function AdminOrders() {
     try {
       setIsSubmittingManual(true);
       
-      const { data, error } = await supabase.from('pedidos').insert({
-        user_email: manualOrderData.cliente,
-        observacoes: `PEDIDO CONCIERGE (WhatsApp)\nCliente: ${manualOrderData.cliente}\nEstilos: ${manualOrderData.estilos}`,
+      await createManualOrderAction({
+        cliente: manualOrderData.cliente,
         pacote: manualOrderData.pacote,
         valor: parseFloat(manualOrderData.valor) || 0,
-        estilos: manualOrderData.estilos.split(',').map(s => s.trim()).filter(Boolean),
-        status: 'Aguardando Produção'
-      }).select();
-
-      if (error) throw error;
+        estilos: manualOrderData.estilos.split(',').map(s => s.trim()).filter(Boolean)
+      });
 
       setManualOrderModal(false);
       setManualOrderData({ cliente: '', pacote: 'dinamico_avulso', valor: '', estilos: '' });
