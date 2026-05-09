@@ -1,5 +1,17 @@
 export const galleryData = [
   {
+    "id": "d146d8f1-4bf1-4d9e-9ddc-7f3ceee9dd84",
+    "titulo": "Dia das mães 10",
+    "categoria": "Especial Dia das Mães",
+    "descricao": "Especial dia das Mães",
+    "img_url": "/images/galeria/dia-das-m-es-10-d146d8f1-4bf1-4d9e-9ddc-7f3ceee9dd84.webp",
+    "criado_em": "2026-05-09T15:45:13.314796+00:00",
+    "genero": "Ambos",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "",
+    "ativo": true
+  },
+  {
     "id": "7161711e-2d48-4679-82cd-6023569d488d",
     "titulo": "Dia das mães 09",
     "categoria": "Especial Dia das Mães",
@@ -480,15 +492,15 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "d460e610-098a-451a-859c-e81705597f03",
-    "titulo": "Estúdio 06/50",
+    "id": "4d47393f-fe16-4fc7-abe4-5aeab2a1c3d9",
+    "titulo": "Estúdio 16/50",
     "categoria": "Estúdio",
-    "descricao": "Inteligência, confiança e apelo executivo.",
-    "img_url": "/images/galeria/est-dio-06-50-d460e610-098a-451a-859c-e81705597f03.webp",
+    "descricao": "Mistério dominante, luxo e alta sofisticação executiva.",
+    "img_url": "/images/galeria/est-dio-16-50-4d47393f-fe16-4fc7-abe4-5aeab2a1c3d9.webp",
     "criado_em": "2026-03-22T21:42:53.497476+00:00",
     "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "A professional cinematic portrait of a sophisticated businessman with a well-groomed\nbeard and glasses, exuding intelligence and confidence. He is dressed in a perfectly\ntailored black suit with a crisp white shirt, sitting in a composed yet approachable\nmanner. The background is a deep black, creating a dramatic contrast that highlights\nthe subject. The lighting is moody and directional, casting soft shadows that define his\nfacial features and suit details. Captured using a Canon EOS R5 with an 85mm f/1.2 lens,\nensuring a sharp subject with a smooth, professional bokeh effect. The composition is\nwell-balanced, with the subject slightly off-center, making this ideal for executive\nbranding, corporate headshots, or business editorial photography.",
+    "prompt": null,
     "ativo": true
   },
   {
@@ -1200,11 +1212,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "4d47393f-fe16-4fc7-abe4-5aeab2a1c3d9",
-    "titulo": "Estúdio 16/50",
+    "id": "c49a4eac-6473-423d-9d4b-81bb0ca71c8f",
+    "titulo": "Estúdio 04/50",
     "categoria": "Estúdio",
-    "descricao": "Mistério dominante, luxo e alta sofisticação executiva.",
-    "img_url": "/images/galeria/est-dio-16-50-4d47393f-fe16-4fc7-abe4-5aeab2a1c3d9.webp",
+    "descricao": "Dinamismo, vitória e energia de sucesso.",
+    "img_url": "/images/galeria/est-dio-04-50-c49a4eac-6473-423d-9d4b-81bb0ca71c8f.webp",
     "criado_em": "2026-03-22T21:42:53.497476+00:00",
     "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1296,15 +1308,15 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "c49a4eac-6473-423d-9d4b-81bb0ca71c8f",
-    "titulo": "Estúdio 04/50",
+    "id": "d460e610-098a-451a-859c-e81705597f03",
+    "titulo": "Estúdio 06/50",
     "categoria": "Estúdio",
-    "descricao": "Dinamismo, vitória e energia de sucesso.",
-    "img_url": "/images/galeria/est-dio-04-50-c49a4eac-6473-423d-9d4b-81bb0ca71c8f.webp",
+    "descricao": "Inteligência, confiança e apelo executivo.",
+    "img_url": "/images/galeria/est-dio-06-50-d460e610-098a-451a-859c-e81705597f03.webp",
     "criado_em": "2026-03-22T21:42:53.497476+00:00",
     "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
+    "prompt": "A professional cinematic portrait of a sophisticated businessman with a well-groomed\nbeard and glasses, exuding intelligence and confidence. He is dressed in a perfectly\ntailored black suit with a crisp white shirt, sitting in a composed yet approachable\nmanner. The background is a deep black, creating a dramatic contrast that highlights\nthe subject. The lighting is moody and directional, casting soft shadows that define his\nfacial features and suit details. Captured using a Canon EOS R5 with an 85mm f/1.2 lens,\nensuring a sharp subject with a smooth, professional bokeh effect. The composition is\nwell-balanced, with the subject slightly off-center, making this ideal for executive\nbranding, corporate headshots, or business editorial photography.",
     "ativo": true
   },
   {
@@ -1332,15 +1344,15 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "1bf25ad6-e06b-44f4-aedd-ab610b444638",
-    "titulo": "Cenário 34/50",
+    "id": "940fb96f-88c0-42f3-ac1c-82d999e9b152",
+    "titulo": "CENÁRIO 40/50",
     "categoria": "EXECUTIVO",
-    "descricao": "Liderança polida, foco apurado e produtividade empoderada.",
-    "img_url": "/images/galeria/cen-rio-34-50-1bf25ad6-e06b-44f4-aedd-ab610b444638.webp",
+    "descricao": "Sofisticação corporativa de altíssimo nível com brilho executivo cinematográfico.",
+    "img_url": "/images/galeria/cen-rio-40-50-940fb96f-88c0-42f3-ac1c-82d999e9b152.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "[STYLE: modern corporate portrait, editorial business photography with a clean and warm aesthetic, minimalistic luxury office vibe], [POSE: standing upright with torso slightly angled, one hand resting on hip while the other gently holds the shirt collar, body leaning subtly against a desk, confident and composed posture], [TEXTURES: crisp cotton shirt with smooth matte finish and subtle fabric folds, high-waisted tailored trousers with structured wool texture, polished leather belt with metallic buckle, soft matte wooden desk surface, brushed metal laptop body, stacked paper folders with semi-gloss coating, wall panels with layered matte and satin finishes, ambient light diffusing across surfaces], [ENVIRONMENT: contemporary office interior with vertical wooden slat wall, decorative geometric wall panels emitting warm indirect lighting, desk setup including laptop, documents, and office accessories, blurred background with depth emphasizing professional workspace], [PHOTOGRAPHY: shot on Canon EOS R5 with RF 85mm f/1.2L lens, shallow depth of field, aperture around f/1.8, soft natural window light combined with warm practical lights, creamy bokeh background, medium framing portrait], [EFFECTS: warm color grading, soft highlights, subtle skin smoothing, depth enhancement, gentle vignette, cinematic light bloom around illuminated panels]",
+    "prompt": null,
     "ativo": true
   },
   {
@@ -1356,25 +1368,13 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "90afd860-e58d-4da0-b5cd-a914bc120402",
-    "titulo": "Cenário 37/50",
-    "categoria": "Casual",
-    "descricao": "Energia lúdica, assertiva e estética de moda vanguardista.",
-    "img_url": "/images/galeria/cen-rio-37-50-90afd860-e58d-4da0-b5cd-a914bc120402.webp",
+    "id": "2c17395d-6d4c-4526-86f4-e831114c1320",
+    "titulo": "Estúdio 17/50",
+    "categoria": "Estúdio",
+    "descricao": "Aproximação relaxada, calor humano e integração com a tecnologia.",
+    "img_url": "/images/galeria/est-dio-17-50-2c17395d-6d4c-4526-86f4-e831114c1320.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Masculino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "094e1250-2c94-47a1-b0c0-a7900d9b9e03",
-    "titulo": "Cenário 32/50",
-    "categoria": "Casual",
-    "descricao": "Elegância urbana, ambição e sofisticação casual.",
-    "img_url": "/images/galeria/cen-rio-32-50-094e1250-2c94-47a1-b0c0-a7900d9b9e03.webp",
-    "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Masculino",
+    "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
     "ativo": true
@@ -1416,6 +1416,18 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "90afd860-e58d-4da0-b5cd-a914bc120402",
+    "titulo": "Cenário 37/50",
+    "categoria": "Casual",
+    "descricao": "Energia lúdica, assertiva e estética de moda vanguardista.",
+    "img_url": "/images/galeria/cen-rio-37-50-90afd860-e58d-4da0-b5cd-a914bc120402.webp",
+    "criado_em": "2026-03-22T16:15:34.80926+00:00",
+    "genero": "Masculino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
     "id": "9015f70b-e5a6-40cc-95ec-7fa124de6d2b",
     "titulo": "Cenário 30/50",
     "categoria": "Lifestyle",
@@ -1452,18 +1464,6 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "2c17395d-6d4c-4526-86f4-e831114c1320",
-    "titulo": "Estúdio 17/50",
-    "categoria": "Estúdio",
-    "descricao": "Aproximação relaxada, calor humano e integração com a tecnologia.",
-    "img_url": "/images/galeria/est-dio-17-50-2c17395d-6d4c-4526-86f4-e831114c1320.webp",
-    "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
     "id": "016dd2c8-721c-4ae5-af8e-0a4aec041fc8",
     "titulo": "Lifestyle 46/50",
     "categoria": "Lifestyle",
@@ -1476,13 +1476,13 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "0ded6dff-4265-4538-bb70-fe5f74f3cfe7",
-    "titulo": "Cenário 21/50",
-    "categoria": "Editorial",
-    "descricao": "Conforto luminoso, intimidade e graciosidade executiva.",
-    "img_url": "/images/galeria/cen-rio-21-50-0ded6dff-4265-4538-bb70-fe5f74f3cfe7.webp",
+    "id": "094e1250-2c94-47a1-b0c0-a7900d9b9e03",
+    "titulo": "Cenário 32/50",
+    "categoria": "Casual",
+    "descricao": "Elegância urbana, ambição e sofisticação casual.",
+    "img_url": "/images/galeria/cen-rio-32-50-094e1250-2c94-47a1-b0c0-a7900d9b9e03.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Feminino",
+    "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
     "ativo": true
@@ -1512,11 +1512,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "940fb96f-88c0-42f3-ac1c-82d999e9b152",
-    "titulo": "CENÁRIO 40/50",
-    "categoria": "EXECUTIVO",
-    "descricao": "Sofisticação corporativa de altíssimo nível com brilho executivo cinematográfico.",
-    "img_url": "/images/galeria/cen-rio-40-50-940fb96f-88c0-42f3-ac1c-82d999e9b152.webp",
+    "id": "0ded6dff-4265-4538-bb70-fe5f74f3cfe7",
+    "titulo": "Cenário 21/50",
+    "categoria": "Editorial",
+    "descricao": "Conforto luminoso, intimidade e graciosidade executiva.",
+    "img_url": "/images/galeria/cen-rio-21-50-0ded6dff-4265-4538-bb70-fe5f74f3cfe7.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1524,11 +1524,23 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "570949f1-f39c-4d28-b8cc-f3f32ddef610",
-    "titulo": "Estúdio 16/50",
+    "id": "1bf25ad6-e06b-44f4-aedd-ab610b444638",
+    "titulo": "Cenário 34/50",
+    "categoria": "EXECUTIVO",
+    "descricao": "Liderança polida, foco apurado e produtividade empoderada.",
+    "img_url": "/images/galeria/cen-rio-34-50-1bf25ad6-e06b-44f4-aedd-ab610b444638.webp",
+    "criado_em": "2026-03-22T16:15:34.80926+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "[STYLE: modern corporate portrait, editorial business photography with a clean and warm aesthetic, minimalistic luxury office vibe], [POSE: standing upright with torso slightly angled, one hand resting on hip while the other gently holds the shirt collar, body leaning subtly against a desk, confident and composed posture], [TEXTURES: crisp cotton shirt with smooth matte finish and subtle fabric folds, high-waisted tailored trousers with structured wool texture, polished leather belt with metallic buckle, soft matte wooden desk surface, brushed metal laptop body, stacked paper folders with semi-gloss coating, wall panels with layered matte and satin finishes, ambient light diffusing across surfaces], [ENVIRONMENT: contemporary office interior with vertical wooden slat wall, decorative geometric wall panels emitting warm indirect lighting, desk setup including laptop, documents, and office accessories, blurred background with depth emphasizing professional workspace], [PHOTOGRAPHY: shot on Canon EOS R5 with RF 85mm f/1.2L lens, shallow depth of field, aperture around f/1.8, soft natural window light combined with warm practical lights, creamy bokeh background, medium framing portrait], [EFFECTS: warm color grading, soft highlights, subtle skin smoothing, depth enhancement, gentle vignette, cinematic light bloom around illuminated panels]",
+    "ativo": true
+  },
+  {
+    "id": "b6f27c6b-ad71-4f26-b025-7dc329c71f42",
+    "titulo": "Estúdio 18/50",
     "categoria": "Estúdio",
-    "descricao": "Engajamento social ágil com sofisticação casual impecável.",
-    "img_url": "/images/galeria/est-dio-16-50-570949f1-f39c-4d28-b8cc-f3f32ddef610.webp",
+    "descricao": "Aura intelectual profunda e centelha de inspiração criativa.",
+    "img_url": "/images/galeria/est-dio-18-50-b6f27c6b-ad71-4f26-b025-7dc329c71f42.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1536,11 +1548,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "18d706bb-3430-4d38-92d2-dafa07472b54",
-    "titulo": "Estúdio 08/50",
+    "id": "26247d1c-8e77-4575-b8ad-fa5b8fd4dc5e",
+    "titulo": "Estúdio 01/50",
     "categoria": "Estúdio",
-    "descricao": "Cores vibrantes, calor radiante e dinamismo em apresentações.",
-    "img_url": "/images/galeria/est-dio-08-50-18d706bb-3430-4d38-92d2-dafa07472b54.webp",
+    "descricao": "Elegância minimalista, autoconfiança e poder sutil.",
+    "img_url": "/images/galeria/est-dio-01-50-26247d1c-8e77-4575-b8ad-fa5b8fd4dc5e.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1560,15 +1572,15 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "01f25c5e-3241-40aa-b20c-259c7b8fc5bd",
-    "titulo": "Lifestyle 43/50",
-    "categoria": "Lifestyle",
-    "descricao": "Inteligência competitiva e liderança acentuada com contraste rústico.",
-    "img_url": "/images/galeria/lifestyle-43-50-01f25c5e-3241-40aa-b20c-259c7b8fc5bd.webp",
+    "id": "18d706bb-3430-4d38-92d2-dafa07472b54",
+    "titulo": "Estúdio 08/50",
+    "categoria": "Estúdio",
+    "descricao": "Cores vibrantes, calor radiante e dinamismo em apresentações.",
+    "img_url": "/images/galeria/est-dio-08-50-18d706bb-3430-4d38-92d2-dafa07472b54.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "[STYLE: cinematic portrait photography with editorial fashion influence, strategic and intellectual mood, subtle luxury aesthetic], [POSE: seated at a table with one hand holding a chess pawn upright near the foreground and the other hand gently supporting the chin, elbows resting, upper body facing forward in a composed and confident stance], [TEXTURES: smooth matte knit fabric of a black turtleneck sweater, polished wooden chess pieces with satin finish, reflective metallic surfaces of rings, bracelet and delicate necklace, soft natural sheen on skin, fine silky strands of styled hair cascading over shoulders, rough and porous brick wall background with visible mortar lines], [ENVIRONMENT: indoor studio setting with a warm-toned exposed brick wall backdrop, chessboard positioned on a wooden table in the foreground suggesting a strategic or intellectual theme], [PHOTOGRAPHY: captured with a Canon EOS R5 paired with an RF 85mm f/1.2L lens, shallow depth of field, sharp focus on subject and chess piece, soft bokeh background, warm key light from camera-left with subtle fill light for balance, low ISO for clean detail], [EFFECTS: warm color grading with enhanced contrast, slight vignette to center attention, soft highlight bloom on metallic elements, cinematic depth and tonal richness]",
+    "prompt": null,
     "ativo": true
   },
   {
@@ -1581,6 +1593,18 @@ export const galleryData = [
     "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "01f25c5e-3241-40aa-b20c-259c7b8fc5bd",
+    "titulo": "Lifestyle 43/50",
+    "categoria": "Lifestyle",
+    "descricao": "Inteligência competitiva e liderança acentuada com contraste rústico.",
+    "img_url": "/images/galeria/lifestyle-43-50-01f25c5e-3241-40aa-b20c-259c7b8fc5bd.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "[STYLE: cinematic portrait photography with editorial fashion influence, strategic and intellectual mood, subtle luxury aesthetic], [POSE: seated at a table with one hand holding a chess pawn upright near the foreground and the other hand gently supporting the chin, elbows resting, upper body facing forward in a composed and confident stance], [TEXTURES: smooth matte knit fabric of a black turtleneck sweater, polished wooden chess pieces with satin finish, reflective metallic surfaces of rings, bracelet and delicate necklace, soft natural sheen on skin, fine silky strands of styled hair cascading over shoulders, rough and porous brick wall background with visible mortar lines], [ENVIRONMENT: indoor studio setting with a warm-toned exposed brick wall backdrop, chessboard positioned on a wooden table in the foreground suggesting a strategic or intellectual theme], [PHOTOGRAPHY: captured with a Canon EOS R5 paired with an RF 85mm f/1.2L lens, shallow depth of field, sharp focus on subject and chess piece, soft bokeh background, warm key light from camera-left with subtle fill light for balance, low ISO for clean detail], [EFFECTS: warm color grading with enhanced contrast, slight vignette to center attention, soft highlight bloom on metallic elements, cinematic depth and tonal richness]",
     "ativo": true
   },
   {
@@ -1601,6 +1625,54 @@ export const galleryData = [
     "categoria": "Lifestyle",
     "descricao": "Charme editorial arrojado, ousadia pura e carisma imbatível.",
     "img_url": "/images/galeria/lifestyle-48-50-2cefe825-0fcc-4fc1-98c8-05f4a861848b.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "89c31b71-95d2-48b7-8f1c-5013fc02cc08",
+    "titulo": "Estúdio 10/50",
+    "categoria": "Estúdio",
+    "descricao": "Força marcante, ousadia e liderança de estilo editorial.",
+    "img_url": "/images/galeria/est-dio-10-50-89c31b71-95d2-48b7-8f1c-5013fc02cc08.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "0b9884ec-ad23-4636-9783-7e0bfe5e428c",
+    "titulo": "Estúdio 11/50",
+    "categoria": "Estúdio",
+    "descricao": "Postura reflexiva, inteligência sofisticada e beleza calma.",
+    "img_url": "/images/galeria/est-dio-11-50-0b9884ec-ad23-4636-9783-7e0bfe5e428c.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "570949f1-f39c-4d28-b8cc-f3f32ddef610",
+    "titulo": "Estúdio 16/50",
+    "categoria": "Estúdio",
+    "descricao": "Engajamento social ágil com sofisticação casual impecável.",
+    "img_url": "/images/galeria/est-dio-16-50-570949f1-f39c-4d28-b8cc-f3f32ddef610.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "3a79147d-53f2-49c9-86cf-ac9cd4a056b1",
+    "titulo": "Estúdio 19/50",
+    "categoria": "Estúdio",
+    "descricao": "Autoridade imponente, refinamento clássico e luxo monocromático.",
+    "img_url": "/images/galeria/est-dio-19-50-3a79147d-53f2-49c9-86cf-ac9cd4a056b1.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1632,6 +1704,18 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "31dbb111-7a0f-4c0c-8b77-39cd803481da",
+    "titulo": "Cenário 24/50",
+    "categoria": "EXECUTIVO",
+    "descricao": "Refinamento aconchegante e postura profissional convidativa.",
+    "img_url": "/images/galeria/cen-rio-24-50-31dbb111-7a0f-4c0c-8b77-39cd803481da.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
     "id": "2b03f3e3-494a-4994-8691-1eb7aa95ffc8",
     "titulo": "Cenário 35/50",
     "categoria": "Estúdio",
@@ -1644,47 +1728,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "89c31b71-95d2-48b7-8f1c-5013fc02cc08",
-    "titulo": "Estúdio 10/50",
+    "id": "953c882d-b194-45d0-a411-704147c15163",
+    "titulo": "Estúdio 04/50",
     "categoria": "Estúdio",
-    "descricao": "Força marcante, ousadia e liderança de estilo editorial.",
-    "img_url": "/images/galeria/est-dio-10-50-89c31b71-95d2-48b7-8f1c-5013fc02cc08.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "0b9884ec-ad23-4636-9783-7e0bfe5e428c",
-    "titulo": "Estúdio 11/50",
-    "categoria": "Estúdio",
-    "descricao": "Postura reflexiva, inteligência sofisticada e beleza calma.",
-    "img_url": "/images/galeria/est-dio-11-50-0b9884ec-ad23-4636-9783-7e0bfe5e428c.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "b6f27c6b-ad71-4f26-b025-7dc329c71f42",
-    "titulo": "Estúdio 18/50",
-    "categoria": "Estúdio",
-    "descricao": "Aura intelectual profunda e centelha de inspiração criativa.",
-    "img_url": "/images/galeria/est-dio-18-50-b6f27c6b-ad71-4f26-b025-7dc329c71f42.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "31dbb111-7a0f-4c0c-8b77-39cd803481da",
-    "titulo": "Cenário 24/50",
-    "categoria": "EXECUTIVO",
-    "descricao": "Refinamento aconchegante e postura profissional convidativa.",
-    "img_url": "/images/galeria/cen-rio-24-50-31dbb111-7a0f-4c0c-8b77-39cd803481da.webp",
+    "descricao": "Energia vibrante, carisma expansivo e surpresa agradável.",
+    "img_url": "/images/galeria/est-dio-04-50-953c882d-b194-45d0-a411-704147c15163.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1701,42 +1749,6 @@ export const galleryData = [
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": "[STYLE: high-end editorial studio portrait, minimalist luxury aesthetic with bold color contrast, fashion-business hybrid photography], [POSE: seated on a round cushioned stool, legs crossed, torso slightly angled, one hand supporting an open Apple MacBook on the lap while the other rests lightly on the keyboard, composed and poised posture with subtle upper body rotation], [TEXTURES: tailored suit fabric with fine matte weave and structured drape, smooth satin inner top with soft sheen, metallic Apple MacBook with brushed aluminum finish, glossy reflective Apple logo, polished metal necklace with letter pendant, smooth leather stool surface with soft cushioning, manicured nails with glossy lacquer finish, soft gradient studio backdrop with velvety matte texture], [ENVIRONMENT: controlled studio setup with dark neutral gradient background, clean and distraction-free composition, focus entirely on subject and objects, subtle light falloff creating depth], [PHOTOGRAPHY: portrait orientation 4:5, captured with Nikon Z7 II and NIKKOR Z 85mm f/1.8 S lens, shallow depth of field, aperture around f/2.0, soft key light from one side with gentle fill light balancing shadows, studio lighting setup with precise control, crisp subject isolation], [EFFECTS: dramatic contrast with rich shadows, subtle color grading enhancing red tones, soft highlight roll-off, minimal skin smoothing, vignette for depth emphasis, cinematic tonal balance]",
-    "ativo": true
-  },
-  {
-    "id": "26247d1c-8e77-4575-b8ad-fa5b8fd4dc5e",
-    "titulo": "Estúdio 01/50",
-    "categoria": "Estúdio",
-    "descricao": "Elegância minimalista, autoconfiança e poder sutil.",
-    "img_url": "/images/galeria/est-dio-01-50-26247d1c-8e77-4575-b8ad-fa5b8fd4dc5e.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "3a79147d-53f2-49c9-86cf-ac9cd4a056b1",
-    "titulo": "Estúdio 19/50",
-    "categoria": "Estúdio",
-    "descricao": "Autoridade imponente, refinamento clássico e luxo monocromático.",
-    "img_url": "/images/galeria/est-dio-19-50-3a79147d-53f2-49c9-86cf-ac9cd4a056b1.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "953c882d-b194-45d0-a411-704147c15163",
-    "titulo": "Estúdio 04/50",
-    "categoria": "Estúdio",
-    "descricao": "Energia vibrante, carisma expansivo e surpresa agradável.",
-    "img_url": "/images/galeria/est-dio-04-50-953c882d-b194-45d0-a411-704147c15163.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
     "ativo": true
   },
   {
@@ -1932,18 +1944,6 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "6407a52b-a7b1-4d92-b665-20fe66b2ec46",
-    "titulo": "Aniversário 51",
-    "categoria": "Evento",
-    "descricao": "Serenidade clássica com frescor elegante. Os tons frios e claros evocam paz, maturidade refinada e um luxo acolhedor e seguro.",
-    "img_url": "/images/galeria/anivers-rio-51-6407a52b-a7b1-4d92-b665-20fe66b2ec46.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
     "id": "13331661-2d0c-4d0b-8ccf-8bab91af203c",
     "titulo": "Padrão (Cubo)",
     "categoria": "Evento",
@@ -1953,18 +1953,6 @@ export const galleryData = [
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "8184ec4f-c2cf-4cbd-ab57-cae5f27c1bff",
-    "titulo": "Aniversário Happy",
-    "categoria": "Evento",
-    "descricao": "Dinamismo intenso e euforia. O movimento dos confetes cria uma textura visual cativante que prende o espectador no auge do momento festivo.",
-    "img_url": "/images/galeria/anivers-rio-happy-8184ec4f-c2cf-4cbd-ab57-cae5f27c1bff.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "[STYLE: minimalist luxury birthday portrait, refined editorial aesthetic, monochromatic white-and-gold palette, elegant studio composition, exact replication of the reference image appearance, vertical portrait format 4:5], [POSE: seated body angled slightly to the left, both hands gently holding a round birthday cake at chest level, head inclined downward toward the cake, shoulders relaxed, soft celebratory interaction with the object, body positioned on the right side of the frame while a cluster of balloons occupies the left side], [TEXTURES: structured matte white tailored blazer and trousers with crisp seams and smooth premium fabric, soft layered frosting with horizontal ridges around the cake, metallic gold cake board with satin reflection, glossy latex balloons in reflective champagne-gold finish, transparent balloons filled with metallic gold confetti discs, thin curled balloon ribbons with satin sheen, smooth studio backdrop with subtle matte texture, delicate metallic jewelry with polished highlights], [ENVIRONMENT: clean white photography studio with empty negative space, arrangement of gold, white, and transparent balloons placed vertically on the left side, simple celebratory birthday setup, no additional furniture or decoration visible, soft neutral atmosphere], [PHOTOGRAPHY: portrait orientation 4:5, medium shot, centered luxury editorial framing, captured with a Canon EOS R5 and RF 85mm f/1.2L lens, shallow depth of field, aperture around f/2.0, soft diffused studio lighting from the left side, subtle shadow falloff, high-key exposure, ultra-clean white balance, sharp focus on the cake and outfit textures], [EFFECTS: soft natural glow, subtle skin-smoothing effect without losing realism, enhanced white-and-gold contrast, gentle highlight bloom on the metallic balloons, elegant creamy tones, minimal retouching, premium editorial finish]",
     "ativo": true
   },
   {
@@ -2004,6 +1992,18 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "8184ec4f-c2cf-4cbd-ab57-cae5f27c1bff",
+    "titulo": "Aniversário Happy",
+    "categoria": "Evento",
+    "descricao": "Dinamismo intenso e euforia. O movimento dos confetes cria uma textura visual cativante que prende o espectador no auge do momento festivo.",
+    "img_url": "/images/galeria/anivers-rio-happy-8184ec4f-c2cf-4cbd-ab57-cae5f27c1bff.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "[STYLE: minimalist luxury birthday portrait, refined editorial aesthetic, monochromatic white-and-gold palette, elegant studio composition, exact replication of the reference image appearance, vertical portrait format 4:5], [POSE: seated body angled slightly to the left, both hands gently holding a round birthday cake at chest level, head inclined downward toward the cake, shoulders relaxed, soft celebratory interaction with the object, body positioned on the right side of the frame while a cluster of balloons occupies the left side], [TEXTURES: structured matte white tailored blazer and trousers with crisp seams and smooth premium fabric, soft layered frosting with horizontal ridges around the cake, metallic gold cake board with satin reflection, glossy latex balloons in reflective champagne-gold finish, transparent balloons filled with metallic gold confetti discs, thin curled balloon ribbons with satin sheen, smooth studio backdrop with subtle matte texture, delicate metallic jewelry with polished highlights], [ENVIRONMENT: clean white photography studio with empty negative space, arrangement of gold, white, and transparent balloons placed vertically on the left side, simple celebratory birthday setup, no additional furniture or decoration visible, soft neutral atmosphere], [PHOTOGRAPHY: portrait orientation 4:5, medium shot, centered luxury editorial framing, captured with a Canon EOS R5 and RF 85mm f/1.2L lens, shallow depth of field, aperture around f/2.0, soft diffused studio lighting from the left side, subtle shadow falloff, high-key exposure, ultra-clean white balance, sharp focus on the cake and outfit textures], [EFFECTS: soft natural glow, subtle skin-smoothing effect without losing realism, enhanced white-and-gold contrast, gentle highlight bloom on the metallic balloons, elegant creamy tones, minimal retouching, premium editorial finish]",
+    "ativo": true
+  },
+  {
     "id": "d6048c2a-e15b-43a3-a44a-78dac65d9993",
     "titulo": "Sucesso e confiança",
     "categoria": "Estúdio",
@@ -2021,18 +2021,6 @@ export const galleryData = [
     "categoria": "Gestação & Natureza",
     "descricao": "Maternidade celestial e doçura iluminada. A interação sutil da luz com a natureza consagra a expectativa da vida em um aura poética.",
     "img_url": "/images/galeria/gestante-externo-869eba72-a2bb-4530-adc9-ad4df20c1ceb.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "412aa7ae-4fb0-4b59-9083-5aa30b9b89ee",
-    "titulo": "Sentada - Bege",
-    "categoria": "Estúdio",
-    "descricao": "Aconchego monocromático e moda chic sustentável. Os tons de terra emanam estabilidade, maturidade elegante e proximidade natural.",
-    "img_url": "/images/galeria/sentada-bege-412aa7ae-4fb0-4b59-9083-5aa30b9b89ee.webp",
     "criado_em": "2026-03-21T23:38:18.626801+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -2064,35 +2052,23 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "528a212f-237e-4c95-9cb4-c8a19d3a32f6",
-    "titulo": "Ensaio Cadeira + Mão no Cabelo",
-    "categoria": "Estúdio",
-    "descricao": "Profissionalismo envolto em natureza minimalista estruturada. A madeira aquece a tonalidade reforçando sabedoria e acolhimento.",
-    "img_url": "/images/galeria/ensaio-cadeira-m-o-no-cabelo-528a212f-237e-4c95-9cb4-c8a19d3a32f6.webp",
+    "id": "4ee6b334-9d99-4f80-b7ba-91402b8dd581",
+    "titulo": "Formatura 01",
+    "categoria": "Formatura",
+    "descricao": "Triunfo, honra e orgulho acadêmico. O impacto remete imediatamente a marcos consagradores, reverenciando a jornada com excelência e formatura irretocável.",
+    "img_url": "/images/galeria/formatura-01-4ee6b334-9d99-4f80-b7ba-91402b8dd581.webp",
     "criado_em": "2026-03-21T23:38:18.626801+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
+    "prompt": "A high-resolution studio photograph of a person celebrating their graduation. The individual is smiling broadly, holding a black graduation cap with a tassel in both hands raised above their head. They are wearing a traditional black graduation gown with prominent emerald green fabric accents on the sleeves and a matching green sash around their waist, along with a white lace jabot. The background is a neutral grey studio wall, illuminated by soft, professional studio lighting. The focus is sharp on the person and their attire.",
     "ativo": true
   },
   {
-    "id": "3ee0559c-46a2-4636-ad08-1e99841f89f8",
-    "titulo": "Sentada Expressão Séria",
-    "categoria": "Estúdio",
-    "descricao": "Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.",
-    "img_url": "/images/galeria/sentada-express-o-s-ria-3ee0559c-46a2-4636-ad08-1e99841f89f8.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "Man based EXACTLY on the provided reference images, maintaining 100% of the facial structure, skin tone, proportions, skin texture, and real features. No alteration of identity, no stylization, no artificial embellishment.\n\nPortrait in 4:5 vertical format, framing the body from mid-thigh to above the head, without cutting off hands, arms, or legs under any circumstances.\n\nHe is wearing:\n\nPerfectly fitted slim-fit black blazer\nBlack dress shirt underneath\nSophisticated, minimalist, and elegant style\n\nAccessories (following the REAL REFERENCE with absolute precision):\n\nOn the left wrist: Rolex GMT-Master II Everose Gold, identical to the image provided (same color, shine, proportion, position on the wrist)\nOn the left hand: gold wedding ring, exactly as in the reference (same thickness, finish, and positioning on the finger)\n\nPose: Man seated or slightly leaning forward, with one hand near his face (confident and thoughtful pose), natural and elegant posture.\n\nHair:\nExtremely faithful to the reference, natural strands, realistic texture, without artificial or plastic effects.\n\nLighting:\nProfessional studio style, soft side light (cinematic), creating elegant shadows and depth in the face.\n\nBackground:\nNeutral, dark gray or black, minimalist, without distractions.\n\nQuality:\nUltra-realistic, professional photography level, 8K, sharp focus, highly detailed skin and fabric texture, smooth depth of field.\n\n❗ ABSOLUTE RULES (CRITICAL)\nUse the reference images as the MAIN BASE (face, hand, accessories)\nDO NOT alter physical characteristics\nDO NOT invent details\nDO NOT excessively smooth skin\nDO NOT change face shape\nDO NOT distort hands or fingers\nDO NOT cut any part of the body\nWatch and wedding ring must be perfectly identical to the reference.",
-    "ativo": true
-  },
-  {
-    "id": "73934601-e104-4a0e-ab7a-0f4c9ef1ee8c",
-    "titulo": "Aniversário (Champanhe 35)",
+    "id": "3ce86706-4af3-457c-92fe-67af2ac4436e",
+    "titulo": "Básico",
     "categoria": "Evento",
-    "descricao": "Glamour refinado e brindes inesquecíveis. Elementos de cristal e bebida refletora exalam sucesso de alto nível e vitórias de elite.",
-    "img_url": "/images/galeria/anivers-rio-champanhe-35--73934601-e104-4a0e-ab7a-0f4c9ef1ee8c.webp",
+    "descricao": "Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.",
+    "img_url": "/images/galeria/b-sico-3ce86706-4af3-457c-92fe-67af2ac4436e.webp",
     "criado_em": "2026-03-21T23:38:18.626801+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -2124,30 +2100,6 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "3ce86706-4af3-457c-92fe-67af2ac4436e",
-    "titulo": "Básico",
-    "categoria": "Evento",
-    "descricao": "Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.",
-    "img_url": "/images/galeria/b-sico-3ce86706-4af3-457c-92fe-67af2ac4436e.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "4ee6b334-9d99-4f80-b7ba-91402b8dd581",
-    "titulo": "Formatura 01",
-    "categoria": "Formatura",
-    "descricao": "Triunfo, honra e orgulho acadêmico. O impacto remete imediatamente a marcos consagradores, reverenciando a jornada com excelência e formatura irretocável.",
-    "img_url": "/images/galeria/formatura-01-4ee6b334-9d99-4f80-b7ba-91402b8dd581.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "A high-resolution studio photograph of a person celebrating their graduation. The individual is smiling broadly, holding a black graduation cap with a tassel in both hands raised above their head. They are wearing a traditional black graduation gown with prominent emerald green fabric accents on the sleeves and a matching green sash around their waist, along with a white lace jabot. The background is a neutral grey studio wall, illuminated by soft, professional studio lighting. The focus is sharp on the person and their attire.",
-    "ativo": true
-  },
-  {
     "id": "778bdc91-ec86-4117-abd6-4b58b95e470d",
     "titulo": "Sentada em Cubo",
     "categoria": "Estúdio",
@@ -2160,6 +2112,18 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "3ee0559c-46a2-4636-ad08-1e99841f89f8",
+    "titulo": "Sentada Expressão Séria",
+    "categoria": "Estúdio",
+    "descricao": "Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.",
+    "img_url": "/images/galeria/sentada-express-o-s-ria-3ee0559c-46a2-4636-ad08-1e99841f89f8.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "Man based EXACTLY on the provided reference images, maintaining 100% of the facial structure, skin tone, proportions, skin texture, and real features. No alteration of identity, no stylization, no artificial embellishment.\n\nPortrait in 4:5 vertical format, framing the body from mid-thigh to above the head, without cutting off hands, arms, or legs under any circumstances.\n\nHe is wearing:\n\nPerfectly fitted slim-fit black blazer\nBlack dress shirt underneath\nSophisticated, minimalist, and elegant style\n\nAccessories (following the REAL REFERENCE with absolute precision):\n\nOn the left wrist: Rolex GMT-Master II Everose Gold, identical to the image provided (same color, shine, proportion, position on the wrist)\nOn the left hand: gold wedding ring, exactly as in the reference (same thickness, finish, and positioning on the finger)\n\nPose: Man seated or slightly leaning forward, with one hand near his face (confident and thoughtful pose), natural and elegant posture.\n\nHair:\nExtremely faithful to the reference, natural strands, realistic texture, without artificial or plastic effects.\n\nLighting:\nProfessional studio style, soft side light (cinematic), creating elegant shadows and depth in the face.\n\nBackground:\nNeutral, dark gray or black, minimalist, without distractions.\n\nQuality:\nUltra-realistic, professional photography level, 8K, sharp focus, highly detailed skin and fabric texture, smooth depth of field.\n\n❗ ABSOLUTE RULES (CRITICAL)\nUse the reference images as the MAIN BASE (face, hand, accessories)\nDO NOT alter physical characteristics\nDO NOT invent details\nDO NOT excessively smooth skin\nDO NOT change face shape\nDO NOT distort hands or fingers\nDO NOT cut any part of the body\nWatch and wedding ring must be perfectly identical to the reference.",
+    "ativo": true
+  },
+  {
     "id": "df9b1b5c-6ac6-4576-b977-366c768a0431",
     "titulo": "RN Menina",
     "categoria": "Newborn",
@@ -2169,6 +2133,18 @@ export const galleryData = [
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "a2d202d0-957e-420e-a4dc-1c630b60d980",
+    "titulo": "Segurando Blazer",
+    "categoria": "Estúdio",
+    "descricao": "Postura 'boss-lady' irretocável e clareza de ideias. A alfaiataria branca impecável transmite honestidade assertiva, transparência e liderança contemporânea brilhante.",
+    "img_url": "/images/galeria/segurando-blazer-a2d202d0-957e-420e-a4dc-1c630b60d980.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "Ultra-realistic studio portrait of a woman standing in a confident, elegant pose, looking directly at the camera with a calm, assertive expression.\nUse a soft dark gray seamless studio background, with diffused, professional studio lighting — no harsh shadows, subtle facial highlights.\nShe is wearing a white structured double-breasted blazer with gold buttons, draped over her shoulders, paired with a white strapless top underneath.\nAccessories include a sleek gold choker necklace, a wide gold cuff bracelet on the right wrist, and a thin ring with a small green gemstone.\nSkin must appear lifelike — high detail with visible pores, natural lighting reflection, and soft retouching for an authentic editorial finish.\nSimulate the image as taken with a Sony Alpha 7R IV camera and 85mm f/1.4 lens, with razor-sharp focus on the eyes, shallow depth of field, and soft blurred background.\nThe overall composition and mood must convey modern elegance, luxury, and professionalism — suitable for personal branding, fashion campaigns, or business portraits.",
     "ativo": true
   },
   {
@@ -2196,15 +2172,51 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "a2d202d0-957e-420e-a4dc-1c630b60d980",
-    "titulo": "Segurando Blazer",
-    "categoria": "Estúdio",
-    "descricao": "Postura 'boss-lady' irretocável e clareza de ideias. A alfaiataria branca impecável transmite honestidade assertiva, transparência e liderança contemporânea brilhante.",
-    "img_url": "/images/galeria/segurando-blazer-a2d202d0-957e-420e-a4dc-1c630b60d980.webp",
+    "id": "6407a52b-a7b1-4d92-b665-20fe66b2ec46",
+    "titulo": "Aniversário 51",
+    "categoria": "Evento",
+    "descricao": "Serenidade clássica com frescor elegante. Os tons frios e claros evocam paz, maturidade refinada e um luxo acolhedor e seguro.",
+    "img_url": "/images/galeria/anivers-rio-51-6407a52b-a7b1-4d92-b665-20fe66b2ec46.webp",
     "criado_em": "2026-03-21T23:38:18.626801+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "Ultra-realistic studio portrait of a woman standing in a confident, elegant pose, looking directly at the camera with a calm, assertive expression.\nUse a soft dark gray seamless studio background, with diffused, professional studio lighting — no harsh shadows, subtle facial highlights.\nShe is wearing a white structured double-breasted blazer with gold buttons, draped over her shoulders, paired with a white strapless top underneath.\nAccessories include a sleek gold choker necklace, a wide gold cuff bracelet on the right wrist, and a thin ring with a small green gemstone.\nSkin must appear lifelike — high detail with visible pores, natural lighting reflection, and soft retouching for an authentic editorial finish.\nSimulate the image as taken with a Sony Alpha 7R IV camera and 85mm f/1.4 lens, with razor-sharp focus on the eyes, shallow depth of field, and soft blurred background.\nThe overall composition and mood must convey modern elegance, luxury, and professionalism — suitable for personal branding, fashion campaigns, or business portraits.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "73934601-e104-4a0e-ab7a-0f4c9ef1ee8c",
+    "titulo": "Aniversário (Champanhe 35)",
+    "categoria": "Evento",
+    "descricao": "Glamour refinado e brindes inesquecíveis. Elementos de cristal e bebida refletora exalam sucesso de alto nível e vitórias de elite.",
+    "img_url": "/images/galeria/anivers-rio-champanhe-35--73934601-e104-4a0e-ab7a-0f4c9ef1ee8c.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "412aa7ae-4fb0-4b59-9083-5aa30b9b89ee",
+    "titulo": "Sentada - Bege",
+    "categoria": "Estúdio",
+    "descricao": "Aconchego monocromático e moda chic sustentável. Os tons de terra emanam estabilidade, maturidade elegante e proximidade natural.",
+    "img_url": "/images/galeria/sentada-bege-412aa7ae-4fb0-4b59-9083-5aa30b9b89ee.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "528a212f-237e-4c95-9cb4-c8a19d3a32f6",
+    "titulo": "Ensaio Cadeira + Mão no Cabelo",
+    "categoria": "Estúdio",
+    "descricao": "Profissionalismo envolto em natureza minimalista estruturada. A madeira aquece a tonalidade reforçando sabedoria e acolhimento.",
+    "img_url": "/images/galeria/ensaio-cadeira-m-o-no-cabelo-528a212f-237e-4c95-9cb4-c8a19d3a32f6.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
     "ativo": true
   },
   {
