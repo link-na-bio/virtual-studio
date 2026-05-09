@@ -52,17 +52,17 @@ export default function SalesNotification() {
       }, 6000);
     };
 
-    // Inicia o ciclo: primeira notificação aparece entre 3 e 8 segundos após entrar no site
+    // Inicia o ciclo: primeira notificação aparece entre 30 e 60 segundos após entrar no site
     const initialTimer = setTimeout(() => {
       triggerRandomNotification();
 
-      // Depois da primeira, continua a mostrar a cada 15 a 35 segundos
+      // Depois da primeira, continua a mostrar a cada 30 a 60 segundos
       const interval = setInterval(() => {
         triggerRandomNotification();
-      }, Math.floor(Math.random() * 20000) + 15000);
+      }, Math.floor(Math.random() * 30000) + 30000);
 
       return () => clearInterval(interval);
-    }, Math.floor(Math.random() * 5000) + 3000);
+    }, Math.floor(Math.random() * 30000) + 30000);
 
     return () => clearTimeout(initialTimer);
   }, []);
