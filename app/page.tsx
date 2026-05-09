@@ -113,6 +113,16 @@ export default function LandingPage() {
     preco: 'R$ 19,90', // Mantido para referência interna se necessário, mas ocultado no visual
   };
 
+  // Filtrar e preparar os estilos especiais de Dia das Mães para o carrossel em destaque
+  const mothersDayStyles = galleryData.filter(
+    (style) => style.categoria === 'Especial Dia das Mães'
+  );
+  // Replicar os estilos para garantir que o carrossel tenha itens suficientes (mínimo de 15) para uma animação infinita suave
+  const featuredStyles = mothersDayStyles.length > 0 
+    ? Array(Math.ceil(15 / mothersDayStyles.length)).fill(mothersDayStyles).flat() 
+    : galleryData.slice(0, 15);
+
+
   return (
     <div className="min-h-screen bg-studio-black overflow-x-hidden selection:bg-studio-gold selection:text-studio-black">
       {/* Header */}
@@ -247,7 +257,7 @@ export default function LandingPage() {
           <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-studio-black to-transparent z-10 pointer-events-none"></div>
           
           <div className="flex animate-marquee group-hover:pause gap-4 px-4 min-w-max">
-            {galleryData.slice(0, 15).map((style, i) => (
+            {featuredStyles.map((style, i) => (
               <div key={i} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 cursor-pointer group/card">
                 <Image
                   src={style.img_url}
@@ -274,7 +284,7 @@ export default function LandingPage() {
               </div>
             ))}
             {/* Duplicar para efeito infinito */}
-            {galleryData.slice(0, 15).map((style, i) => (
+            {featuredStyles.map((style, i) => (
               <div key={`dup-${i}`} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 cursor-pointer group/card">
                 <Image
                   src={style.img_url}
