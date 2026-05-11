@@ -472,13 +472,16 @@ export default function LandingPage() {
               />
             </div>
 
-            {/* Placeholder para próxima curadoria */}
-            <div className="w-full flex flex-col items-center justify-center p-12 border border-white/5 bg-white/[0.02] rounded-xl group hover:border-studio-gold/20 transition-all border-dashed h-full">
-              <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Users size={32} className="text-slate-600 group-hover:text-studio-gold transition-colors" />
-              </div>
-              <h3 className="text-lg font-display text-slate-500 group-hover:text-slate-300 transition-colors uppercase tracking-widest mb-2 font-bold">Próxima Curadoria</h3>
-              <p className="text-[10px] text-slate-600 uppercase tracking-widest font-bold text-center">Em breve no catálogo VIP</p>
+            {/* Destaque Bruno A. */}
+            <div className="w-full">
+              <CuratorCard
+                name="Bruno A."
+                instaHandle="@luana.bruno_"
+                styleName="Lifestyle"
+                beforeImg="/antes_bruno.jpg"
+                afterImg="/depois_bruno.jpg"
+                instaLink="https://www.instagram.com/luana.bruno_"
+              />
             </div>
           </div>
 
@@ -486,6 +489,29 @@ export default function LandingPage() {
             <p className="text-gray-400 font-light leading-relaxed">
               No VIRTUAL STUDIO, a tecnologia é apenas a ferramenta. Quem define a alma do seu ensaio são <span className="text-white font-bold">artistas e especialistas em imagem</span>. Cada detalhe é revisado para garantir que sua autoridade seja transmitida com perfeição absoluta.
             </p>
+          </div>
+
+          {/* Banner de Parceria de Curadores */}
+          <div className="mt-16 max-w-4xl mx-auto bg-gradient-to-r from-studio-gold/10 via-transparent to-studio-gold/10 border border-studio-gold/20 rounded-2xl p-8 md:p-10 text-center relative overflow-hidden group shadow-[0_0_30px_rgba(212,175,55,0.05)]">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-studio-gold/5 blur-[40px] rounded-full pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-studio-gold/5 blur-[40px] rounded-full pointer-events-none"></div>
+            
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-studio-gold/10 border border-studio-gold/20 rounded-full text-[10px] text-studio-gold uppercase tracking-widest font-bold mb-4">
+              <Handshake size={12} className="text-studio-gold" /> Parceria de Sucesso
+            </span>
+            <h3 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-wide text-white mb-3">
+              Seja um Curador Parceiro Você Também!
+            </h3>
+            <p className="text-gray-400 font-light text-sm md:text-base max-w-2xl mx-auto mb-6 leading-relaxed">
+              Tem um público engajado e entende de imagem? Venha fazer parte do seleto grupo de curadores do <span className="text-studio-gold font-semibold">Virtual Studio</span> e ofereça ensaios exclusivos com a sua assinatura visual para fechar mais parcerias.
+            </p>
+            <Link 
+              href="https://wa.me/556193314473?text=Olá! Gostaria de saber mais sobre como ser um curador parceiro no Virtual Studio." 
+              target="_blank"
+              className="inline-flex items-center gap-3 bg-studio-gold text-studio-black px-8 py-4 text-xs font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all shadow-[0_10px_20px_rgba(212,175,55,0.15)] rounded-lg hover:-translate-y-0.5"
+            >
+              Falar com o Suporte e Parcerias <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
       </section>
