@@ -113,13 +113,16 @@ export default function LandingPage() {
     preco: 'R$ 19,90', // Mantido para referência interna se necessário, mas ocultado no visual
   };
 
-  // Filtrar e preparar os estilos especiais de Dia das Mães para o carrossel em destaque
-  const mothersDayStyles = galleryData.filter(
-    (style) => style.categoria === 'Especial Dia das Mães'
+  // Filtrar e preparar os estilos de Estúdio e Executivo para o carrossel em destaque
+  const studioAndExecutiveStyles = galleryData.filter(
+    (style) => {
+      const cat = style.categoria?.toLowerCase();
+      return cat === 'estúdio' || cat === 'executivo';
+    }
   );
   // Replicar os estilos para garantir que o carrossel tenha itens suficientes (mínimo de 15) para uma animação infinita suave
-  const featuredStyles = mothersDayStyles.length > 0 
-    ? Array(Math.ceil(15 / mothersDayStyles.length)).fill(mothersDayStyles).flat() 
+  const featuredStyles = studioAndExecutiveStyles.length > 0 
+    ? Array(Math.ceil(15 / studioAndExecutiveStyles.length)).fill(studioAndExecutiveStyles).flat() 
     : galleryData.slice(0, 15);
 
 
