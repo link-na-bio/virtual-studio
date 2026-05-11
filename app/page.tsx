@@ -447,24 +447,38 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto justify-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
             {/* Destaque Shai Paes */}
-            <CuratorCard
-              name="Shai Paes"
-              instaHandle="@shaipaes"
-              styleName="Editorial Lifestyle"
-              beforeImg="/antes01.png"
-              afterImg="/depois.png"
-              instaLink="https://www.instagram.com/shaipaes/"
-            />
+            <div className="w-full">
+              <CuratorCard
+                name="Shai Paes"
+                instaHandle="@shaipaes"
+                styleName="Editorial Lifestyle"
+                beforeImg="/antes01.png"
+                afterImg="/depois.png"
+                instaLink="https://www.instagram.com/shaipaes/"
+              />
+            </div>
 
-            {/* Placeholder para próximo influenciador (Marco) */}
-            <div className="w-full flex flex-col items-center justify-center p-12 border border-white/5 bg-white/[0.02] rounded-xl group hover:border-studio-gold/20 transition-all border-dashed">
+            {/* Destaque Laís Fernanda */}
+            <div className="w-full">
+              <CuratorCard
+                name="Laís Fernanda"
+                instaHandle="@lala.feeh"
+                styleName="Área da Saúde"
+                beforeImg="/antes_lais.jpg"
+                afterImg="/depois_lais.jpg"
+                instaLink="https://www.instagram.com/lala.feeh"
+              />
+            </div>
+
+            {/* Placeholder para próxima curadoria */}
+            <div className="w-full flex flex-col items-center justify-center p-12 border border-white/5 bg-white/[0.02] rounded-xl group hover:border-studio-gold/20 transition-all border-dashed h-full">
               <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Users size={32} className="text-slate-600 group-hover:text-studio-gold transition-colors" />
               </div>
               <h3 className="text-lg font-display text-slate-500 group-hover:text-slate-300 transition-colors uppercase tracking-widest mb-2 font-bold">Próxima Curadoria</h3>
-              <p className="text-[10px] text-slate-600 uppercase tracking-widest font-bold">Em breve no catálogo VIP</p>
+              <p className="text-[10px] text-slate-600 uppercase tracking-widest font-bold text-center">Em breve no catálogo VIP</p>
             </div>
           </div>
 
