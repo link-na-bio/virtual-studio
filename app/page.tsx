@@ -448,15 +448,15 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
-            {/* Destaque Shai Paes */}
+            {/* Destaque Luana Costa */}
             <div className="w-full">
               <CuratorCard
-                name="Shai Paes"
-                instaHandle="@shaipaes"
-                styleName="Editorial Lifestyle"
-                beforeImg="/antes01.png"
-                afterImg="/depois.png"
-                instaLink="https://www.instagram.com/shaipaes/"
+                name="Luana Costa"
+                instaHandle="@luana.bruno_"
+                styleName="Executivo/Corporativo"
+                beforeImg="/antes_luana.jpg"
+                afterImg="/depois_luana.jpg"
+                instaLink="https://www.instagram.com/luana.bruno_"
               />
             </div>
 
