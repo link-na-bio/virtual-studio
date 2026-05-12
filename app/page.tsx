@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp, Sparkles, Instagram, Layers, MousePointerClick, Heart, Handshake, Mail, PlusCircle, Palette, Users, X, UploadCloud } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp, Sparkles, Instagram, Layers, MousePointerClick, Heart, Handshake, Mail, PlusCircle, Palette, Users, X, UploadCloud, Trophy } from 'lucide-react';
 import CuratorCard from '@/components/CuratorCard';
 import SalesNotification from '@/components/SalesNotification';
 import Link from 'next/link';
@@ -106,12 +106,41 @@ export default function LandingPage() {
     };
   }, []);
 
-  const EVENTO_SAZONAL = {
-    ativo: true,
-    titulo: 'Especial Dia das Mães 🌹',
-    descricao: 'Surpreenda com uma foto perfeita! 1 Estilo Temático em altíssima resolução.',
-    preco: 'R$ 19,90', // Mantido para referência interna se necessário, mas ocultado no visual
-  };
+  const CAMPANHAS_SAZONAIS = [
+    {
+      id: 'namorados',
+      ativo: true,
+      titulo: 'Especial Dia dos Namorados 💖',
+      descricao: 'Celebre o amor com um retrato romântico perfeito! 1 Estilo Temático em altíssima resolução.',
+      categoria: 'Especial Dia dos namorados',
+      styleClass: 'border-rose-500/30 hover:border-rose-500/60 bg-gradient-to-r from-rose-950/40 to-studio-black/80 shadow-[0_0_30px_rgba(244,63,94,0.15)]',
+      glowClass: 'bg-rose-500/10',
+      iconBg: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+      tagText: 'ESPECIAL',
+      icon: 'heart'
+    },
+    {
+      id: 'copa',
+      ativo: true,
+      titulo: 'Especial Copa 2026 ⚽',
+      descricao: 'Entre no clima da torcida! Crie retratos esportivos temáticos incríveis em alta definição.',
+      categoria: 'Copa 2026',
+      styleClass: 'border-green-500/30 hover:border-green-500/60 bg-gradient-to-r from-green-950/40 to-studio-black/80 shadow-[0_0_30px_rgba(34,197,94,0.15)]',
+      glowClass: 'bg-green-500/10',
+      iconBg: 'bg-green-500/10 text-yellow-400 border-green-500/20',
+      tagText: 'TEMPO LIMITADO',
+      icon: 'trophy'
+    }
+  ];
+
+  const [activeCampaignIndex, setActiveCampaignIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCampaignIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Filtrar e preparar os estilos de Estúdio e Executivo para o carrossel em destaque
   const studioAndExecutiveStyles = galleryData.filter(
@@ -717,35 +746,105 @@ export default function LandingPage() {
               SOLICITAR MEU ENSAIO <ArrowRight size={18} />
             </Link>
 
-            {/* Card Estilo Especial Sazonal (Dia das Mães) */}
-            {EVENTO_SAZONAL.ativo && (
-              <Link href="/signup" className="block w-full mb-6">
-                <div className="border-2 border-purple-500/30 hover:border-purple-500/60 bg-gradient-to-r from-purple-900/40 to-studio-black/80 backdrop-blur-sm rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden text-left shadow-[0_0_30px_rgba(168,85,247,0.15)] cursor-pointer">
-                  <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[10px] font-black px-4 py-1.5 uppercase tracking-widest rounded-bl-xl shadow-lg z-20">TEMPO LIMITADO</div>
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 shrink-0 border border-purple-500/20 group-hover:scale-110 transition-transform">
-                        <Heart size={20} fill="currentColor" className="opacity-80" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-bold font-display uppercase tracking-widest text-white group-hover:text-studio-gold transition-colors">{EVENTO_SAZONAL.titulo}</h4>
-                        <p className="text-xs text-gray-400 mt-1 max-w-sm leading-relaxed">{EVENTO_SAZONAL.descricao}</p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="px-2 py-0.5 bg-studio-gold/10 border border-studio-gold/20 rounded text-[9px] font-bold text-studio-gold uppercase tracking-wider">1 Estilo Temático</span>
+            {/* Card Estilo Especial Sazonal (Carrossel Dinâmico: Namorados & Copa) */}
+            <div className="relative w-full mb-10 group/container">
+              <AnimatePresence mode="wait">
+                {CAMPANHAS_SAZONAIS.map((campanha, idx) => {
+                  if (idx !== activeCampaignIndex) return null;
+                  return (
+                    <motion.div
+                      key={campanha.id}
+                      initial={{ opacity: 0, scale: 0.98, y: 5 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.98, y: -5 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full"
+                    >
+                      <Link href="/signup" className="block w-full">
+                        <div className={`border-2 rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden text-left cursor-pointer ${campanha.styleClass}`}>
+                          <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[10px] font-black px-4 py-1.5 uppercase tracking-widest rounded-bl-xl shadow-lg z-20">
+                            {campanha.tagText}
+                          </div>
+                          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
+                            <div className="flex items-center gap-4">
+                              <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 border group-hover:scale-110 transition-transform ${campanha.iconBg}`}>
+                                {campanha.icon === 'heart' ? (
+                                  <Heart size={20} fill="currentColor" className="opacity-80" />
+                                ) : (
+                                  <Trophy size={20} className="opacity-80" />
+                                )}
+                              </div>
+                              <div>
+                                <h4 className="text-lg font-bold font-display uppercase tracking-widest text-white group-hover:text-studio-gold transition-colors">
+                                  {campanha.titulo}
+                                </h4>
+                                <p className="text-xs text-gray-400 mt-1 max-w-sm leading-relaxed font-light">
+                                  {campanha.descricao}
+                                </p>
+                                <div className="flex items-center gap-2 mt-2">
+                                  <span className="px-2 py-0.5 bg-studio-gold/10 border border-studio-gold/20 rounded text-[9px] font-bold text-studio-gold uppercase tracking-wider">
+                                    1 Estilo Temático
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="shrink-0 w-full sm:w-auto mt-4 sm:mt-0 flex flex-col items-center sm:items-end gap-2">
+                              <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest bg-white/5 px-6 py-3 rounded-lg border border-white/10 group-hover:bg-studio-gold group-hover:text-studio-black transition-all">
+                                <PlusCircle size={16} /> Adicionar
+                              </div>
+                            </div>
+                          </div>
+                          {/* Subtle Glow Effect */}
+                          <div className={`absolute top-1/2 left-1/4 -translate-y-1/2 w-32 h-32 blur-[60px] pointer-events-none ${campanha.glowClass}`}></div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="shrink-0 w-full sm:w-auto mt-4 sm:mt-0 flex flex-col items-center sm:items-end gap-2">
-                      <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest bg-white/5 px-6 py-3 rounded-lg border border-white/10 group-hover:bg-studio-gold group-hover:text-studio-black transition-all">
-                        <PlusCircle size={16} /> Adicionar
-                      </div>
-                    </div>
-                  </div>
-                  {/* Subtle Glow Effect */}
-                  <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-32 h-32 bg-purple-500/10 blur-[60px] pointer-events-none"></div>
-                </div>
-              </Link>
-            )}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+
+              {/* Controles do Carrossel (Dots) */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
+                {CAMPANHAS_SAZONAIS.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveCampaignIndex(idx);
+                    }}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      idx === activeCampaignIndex 
+                        ? 'bg-studio-gold w-4' 
+                        : 'bg-white/20 hover:bg-white/40'
+                    }`}
+                    title={`Ver campanha ${idx + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Setas de navegação (no hover do container) */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveCampaignIndex((prev) => (prev - 1 + CAMPANHAS_SAZONAIS.length) % CAMPANHAS_SAZONAIS.length);
+                }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 transition-all z-30 opacity-0 group-hover/container:opacity-100 hidden sm:flex"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveCampaignIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
+                }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 transition-all z-30 opacity-0 group-hover/container:opacity-100 hidden sm:flex"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
 
             {/* CTA Serviço Sob Medida */}
             <Link href="/signup" className="block w-full">

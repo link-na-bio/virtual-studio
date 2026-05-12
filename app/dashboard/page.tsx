@@ -7,22 +7,49 @@ import { supabase } from '@/lib/supabaseClient';
 import {
   Camera, Home, Library, PlusCircle, User, CloudUpload, Check, CheckCheck,
   Archive, X, Send, Sparkles, Heart, LogOut, Clock, LayoutGrid, CheckCircle2,
-  ChevronRight, ChevronLeft, Info, Eye, Download, Zap, MessageSquare, FileImage, Loader2, FileText, Paperclip, Lock, Bot, Search, MessageCircle, Palette, ShoppingBag, QrCode, ArrowRight
+  ChevronRight, ChevronLeft, Info, Eye, Download, Zap, MessageSquare, FileImage, Loader2, FileText, Paperclip, Lock, Bot, Search, MessageCircle, Palette, ShoppingBag, QrCode, ArrowRight, Trophy
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { galleryData } from '@/app/galeria/data';
 
 declare global { interface Window { JSZip: any; } }
 
-const EVENTO_SAZONAL = {
-  ativo: true, // LIGA O BANNER DE NOVO
-  id: 'sazonal',
-  titulo: 'Especial Dia das Mães 🌹',
-  descricao: 'Surpreenda com uma foto perfeita! 1 Estilo Temático em altíssima resolução.',
-  preco: 19.90,
-  estilos: '1 Estilo Temático',
-  nomeDoEstilo: 'Mãe VIP' // O nome do estilo que acabou de criar no painel
-};
+const CAMPANHAS_SAZONAIS = [
+  {
+    id: 'namorados',
+    ativo: true,
+    titulo: 'Especial Dia dos Namorados 💖',
+    descricao: 'Celebre o amor com um retrato romântico perfeito! 1 Estilo Temático em altíssima resolução.',
+    categoria: 'Especial Dia dos namorados',
+    preco: 19.90,
+    estilos: '1 Estilo Temático',
+    styleClass: 'border-rose-500/30 hover:border-rose-500/60 bg-gradient-to-r from-rose-950/40 to-studio-black shadow-[0_0_30px_rgba(244,63,94,0.15)]',
+    glowClass: 'bg-rose-500/10',
+    iconBg: 'bg-rose-500/20 text-rose-400 border-rose-500/40 hover:bg-rose-500 hover:text-white',
+    icon: 'heart',
+    tagText: 'NOVIDADE',
+    buttonColor: 'bg-rose-500 hover:bg-rose-600',
+    borderColor: 'border-rose-500',
+    selectedGlow: 'shadow-[0_0_20px_rgba(244,63,94,0.3)]'
+  },
+  {
+    id: 'copa',
+    ativo: true,
+    titulo: 'Especial Copa 2026 ⚽',
+    descricao: 'Entre no clima da torcida! Crie retratos esportivos temáticos incríveis em alta definição.',
+    categoria: 'Copa 2026',
+    preco: 19.90,
+    estilos: '1 Estilo Temático',
+    styleClass: 'border-green-500/30 hover:border-green-500/60 bg-gradient-to-r from-green-950/40 to-studio-black shadow-[0_0_30px_rgba(34,197,94,0.15)]',
+    glowClass: 'bg-green-500/10',
+    iconBg: 'bg-green-500/20 text-yellow-400 border-green-500/40 hover:bg-green-500 hover:text-white',
+    icon: 'trophy',
+    tagText: 'TEMPO LIMITADO',
+    buttonColor: 'bg-green-600 hover:bg-green-700',
+    borderColor: 'border-green-500',
+    selectedGlow: 'shadow-[0_0_20px_rgba(34,197,94,0.3)]'
+  }
+];
 
 // Componente para renderização de imagem de estilo com fallback local
 const DashboardStyleImage = ({ style, unoptimized = true }: { style: any, unoptimized?: boolean }) => {
@@ -66,7 +93,19 @@ export default function Dashboard() {
   // Filtro de Categoria
   const [categoryFilter, setCategoryFilter] = useState<string>('EXECUTIVO');
 
-  const [showMaesCollection, setShowMaesCollection] = useState(false);
+  const [activeSazonalIndex, setActiveSazonalIndex] = useState(0);
+  const [showSazonalCollection, setShowSazonalCollection] = useState(false);
+  
+  useEffect(() => {
+    // Só rotaciona se a coleção sazonal NÃO estiver aberta (para não atrapalhar o usuário na escolha)
+    if (showSazonalCollection) return;
+
+    const interval = setInterval(() => {
+      setActiveSazonalIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [showSazonalCollection]);
+
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [reaproveitarFotos, setReaproveitarFotos] = useState(false);
@@ -77,8 +116,8 @@ export default function Dashboard() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const stylesScrollRef = useRef<HTMLDivElement>(null);
-  const maesScrollRef = useRef<HTMLDivElement>(null);
-  const maesEsteiraScrollRef = useRef<HTMLDivElement>(null);
+  const sazonalScrollRef = useRef<HTMLDivElement>(null);
+  const sazonalEsteiraScrollRef = useRef<HTMLDivElement>(null);
 
   const scrollStyles = (direction: 'left' | 'right') => {
     if (stylesScrollRef.current) {
@@ -87,10 +126,10 @@ export default function Dashboard() {
     }
   };
 
-  const scrollMaesEsteira = (direction: 'left' | 'right') => {
-    if (maesEsteiraScrollRef.current) {
+  const scrollSazonalEsteira = (direction: 'left' | 'right') => {
+    if (sazonalEsteiraScrollRef.current) {
       const scrollAmount = 300;
-      maesEsteiraScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+      sazonalEsteiraScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -506,7 +545,11 @@ export default function Dashboard() {
       };
 
       // O Pacote Sazonal também é salvo com prefixo especial
-      const isSazonal = selectedStyles.includes('Páscoa VIP') || selectedStyles.includes('Mãe VIP') || selectedStyles.includes('ESTILO_SOBMEDIDA');
+      const seasonalCategories = CAMPANHAS_SAZONAIS.map(c => c.categoria);
+      const isSazonal = selectedStyles.some(s => {
+        const styleInfo = galleryData.find(g => g.titulo === s);
+        return styleInfo && seasonalCategories.includes(styleInfo.categoria);
+      }) || selectedStyles.includes('Páscoa VIP') || selectedStyles.includes('Mãe VIP') || selectedStyles.includes('ESTILO_SOBMEDIDA');
       const finalPackageName = isSazonal ? 'sazonal' : getDynamicPackageName(selectedStyles.length);
 
       const { data: orderData, error: dbError } = await supabase.from('pedidos').insert({
@@ -1721,93 +1764,156 @@ export default function Dashboard() {
                         </p>
                       </div>
 
-                      {/* BANNER SAZONAL / TEMÁTICO COMO ADD-TO-CART RÁPIDO */}
-                      {EVENTO_SAZONAL.ativo && (
-                        <div
-                          onClick={() => {
-                            setShowMaesCollection(prev => {
-                              const show = !prev;
-                              if (show) {
-                                setTimeout(() => {
-                                  maesScrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }, 100);
-                              }
-                              return show;
-                            });
-                          }}
-                          className="mb-8 w-full border-2 rounded-2xl p-6 relative overflow-hidden transition-all group cursor-pointer border-rose-500/30 hover:border-rose-500/80 bg-gradient-to-r from-rose-900/40 to-studio-black hover:shadow-[0_0_30px_rgba(244,63,94,0.3)] opacity-100"
-                        >
-                          <div className="absolute top-0 right-0 bg-rose-500 text-white text-[9px] font-black px-4 py-1.5 uppercase tracking-[0.2em] rounded-bl-xl shadow-lg z-20 animate-pulse">NOVIDADE</div>
+                      {/* CARROSSEL DINÂMICO DE CAMPANHAS SAZONAIS */}
+                      <div className="relative group/sazonal w-full mb-8">
+                        <AnimatePresence mode="wait">
+                          {CAMPANHAS_SAZONAIS.map((campanha, idx) => {
+                            if (idx !== activeSazonalIndex) return null;
+                            const IconComponent = campanha.icon === 'heart' ? Heart : Trophy;
+                            const iconColor = campanha.icon === 'heart' ? 'text-rose-500 animate-heart-glow' : 'text-yellow-400';
 
-                          <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10 w-full">
-                            <div className="flex items-center gap-5 flex-1">
-                              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0 border-2 transition-all duration-500 bg-rose-500/20 text-rose-400 border-rose-500/40 group-hover:scale-110 group-hover:bg-rose-500 group-hover:text-white">
-                                <Heart size={28} className="animate-heart-glow text-rose-500" />
-                              </div>
-                              <div className="text-left">
-                                <h4 className="text-lg md:text-xl font-black font-display uppercase tracking-widest text-white">{EVENTO_SAZONAL.titulo}</h4>
-                                <p className="text-[10px] md:text-xs text-gray-300 mt-1 max-w-md leading-relaxed font-medium">{EVENTO_SAZONAL.descricao}</p>
-                                <div className="flex items-center gap-2 mt-2">
-                                  <span className="px-2 py-0.5 bg-studio-gold/10 border border-studio-gold/20 rounded text-[8px] font-bold text-studio-gold uppercase tracking-wider">{EVENTO_SAZONAL.estilos}</span>
+                            return (
+                              <motion.div
+                                key={campanha.id}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.5 }}
+                                onClick={() => {
+                                  setShowSazonalCollection(prev => {
+                                    const show = !prev;
+                                    if (show) {
+                                      setTimeout(() => {
+                                        sazonalScrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                      }, 100);
+                                    }
+                                    return show;
+                                  });
+                                }}
+                                className={`w-full border-2 rounded-2xl p-6 relative overflow-hidden transition-all duration-500 cursor-pointer ${campanha.styleClass} ${showSazonalCollection && campanha.selectedGlow ? `${campanha.borderColor} ${campanha.selectedGlow}` : ''}`}
+                              >
+                                <div className={`absolute top-0 right-0 ${campanha.icon === 'heart' ? 'bg-rose-500' : 'bg-green-600'} text-white text-[9px] font-black px-4 py-1.5 uppercase tracking-[0.2em] rounded-bl-xl shadow-lg z-20 animate-pulse`}>
+                                  {campanha.tagText}
                                 </div>
-                              </div>
-                            </div>
 
-                            <div className="flex flex-col items-center md:items-end shrink-0">
-                              <div className="flex items-center gap-2 text-white text-sm font-bold uppercase tracking-widest bg-rose-500 hover:bg-rose-600 px-6 py-3 rounded-xl shadow-lg transition-colors">
-                                {showMaesCollection ? <><X size={18} /> Fechar</> : <><PlusCircle size={18} /> Ver Coleção</>}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-studio-gold/5 blur-[80px] pointer-events-none opacity-50"></div>
+                                <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10 w-full">
+                                  <div className="flex items-center gap-5 flex-1">
+                                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0 border-2 transition-all duration-500 ${campanha.iconBg}`}>
+                                      <IconComponent size={28} className={iconColor} />
+                                    </div>
+                                    <div className="text-left">
+                                      <h4 className="text-lg md:text-xl font-black font-display uppercase tracking-widest text-white">{campanha.titulo}</h4>
+                                      <p className="text-[10px] md:text-xs text-gray-300 mt-1 max-w-md leading-relaxed font-medium">{campanha.descricao}</p>
+                                      <div className="flex items-center gap-2 mt-2">
+                                        <span className="px-2 py-0.5 bg-studio-gold/10 border border-studio-gold/20 rounded text-[8px] font-bold text-studio-gold uppercase tracking-wider">{campanha.estilos}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="flex flex-col items-center md:items-end shrink-0">
+                                    <div className={`flex items-center gap-2 text-white text-sm font-bold uppercase tracking-widest px-6 py-3 rounded-xl shadow-lg transition-colors ${campanha.buttonColor}`}>
+                                      {showSazonalCollection ? <><X size={18} /> Fechar</> : <><PlusCircle size={18} /> Ver Coleção</>}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full ${campanha.glowClass} blur-[80px] pointer-events-none opacity-50`}></div>
+                              </motion.div>
+                            );
+                          })}
+                        </AnimatePresence>
+
+                        {/* Setas de navegação manual */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveSazonalIndex((prev) => (prev - 1 + CAMPANHAS_SAZONAIS.length) % CAMPANHAS_SAZONAIS.length);
+                          }}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#121212]/80 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:scale-105 transition-all z-30 opacity-0 group-hover/sazonal:opacity-100 hidden md:flex"
+                        >
+                          <ChevronLeft size={16} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveSazonalIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
+                          }}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#121212]/80 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:scale-105 transition-all z-30 opacity-0 group-hover/sazonal:opacity-100 hidden md:flex"
+                        >
+                          <ChevronRight size={16} />
+                        </button>
+
+                        {/* Indicadores (dots) de paginação */}
+                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-30">
+                          {CAMPANHAS_SAZONAIS.map((_, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveSazonalIndex(idx);
+                              }}
+                              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === activeSazonalIndex ? 'bg-studio-gold w-3' : 'bg-white/30 hover:bg-white/50'}`}
+                            />
+                          ))}
                         </div>
-                      )}
+                      </div>
 
-                      {/* ESTEIRA DE ALTA CONVERSÃO - DIA DAS MÃES */}
+                      {/* ESTEIRA DE ALTA CONVERSÃO DINÂMICA - CAMPANHAS SAZONAIS */}
                       <AnimatePresence>
-                        {showMaesCollection && (
+                        {showSazonalCollection && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden"
                           >
-                            <div ref={maesScrollRef} className="mb-12">
-                              <div className="flex items-center gap-3 mb-6">
-                                <Heart className="text-rose-500 animate-heart-glow" size={28} />
-                                <div>
-                                  <h3 className="text-2xl font-bold font-display uppercase tracking-widest text-white">Especial Dia das Mães</h3>
-                                  <p className="text-gray-400 text-xs mt-1"></p>
-                                </div>
-                              </div>
+                            {(() => {
+                              const campanhaAtiva = CAMPANHAS_SAZONAIS[activeSazonalIndex];
+                              const IconComponent = campanhaAtiva.icon === 'heart' ? Heart : Trophy;
+                              const iconColor = campanhaAtiva.icon === 'heart' ? 'text-rose-500 animate-heart-glow' : 'text-yellow-400';
+                              const stylesList = galleryData.filter(s => s.categoria === campanhaAtiva.categoria);
 
-                              <div className="relative group/esteira">
-                                <button type="button" onClick={() => scrollMaesEsteira('left')} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-rose-500 hover:border-rose-500 transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex"><ChevronLeft size={24} className="pr-[2px] pt-[1px]" /></button>
+                              return (
+                                <div ref={sazonalScrollRef} className="mb-12">
+                                  <div className="flex items-center gap-3 mb-6">
+                                    <IconComponent className={iconColor} size={28} />
+                                    <div>
+                                      <h3 className="text-2xl font-bold font-display uppercase tracking-widest text-white">{campanhaAtiva.titulo}</h3>
+                                      <p className="text-gray-400 text-xs mt-1">Selecione os estilos temáticos abaixo para adicionar ao seu pedido.</p>
+                                    </div>
+                                  </div>
 
-                                <div ref={maesEsteiraScrollRef} className="flex overflow-x-auto snap-x gap-6 pb-6 no-scrollbar scroll-smooth">
-                                  {galleryData.filter(s => s.categoria === 'Especial Dia das Mães').map((style) => {
-                                    const isSelected = selectedStyles.includes(style.titulo);
-                                    return (
-                                      <div key={style.id} onClick={() => toggleStyle(style.titulo)} className={`min-w-[240px] md:min-w-[280px] h-[360px] snap-start relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all group/card ${isSelected ? 'border-rose-500 scale-[0.98] shadow-[0_0_20px_rgba(244,63,94,0.3)]' : 'border-white/10 hover:border-rose-500/50'}`}>
-                                        <Image src={style.img_url} alt={style.titulo} fill className="object-cover transition-transform duration-700 group-hover/card:scale-110" unoptimized />
+                                  <div className="relative group/esteira">
+                                    <button type="button" onClick={() => scrollSazonalEsteira('left')} className={`absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex ${campanhaAtiva.icon === 'heart' ? 'hover:text-rose-500 hover:border-rose-500' : 'hover:text-green-500 hover:border-green-500'}`}><ChevronLeft size={24} className="pr-[2px] pt-[1px]" /></button>
 
-                                        <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-5 transition-all ${isSelected ? 'bg-rose-500/10' : 'opacity-90'}`}>
-                                          <div className="translate-y-4 group-hover/card:translate-y-0 transition-transform duration-300">
-                                            <p className="text-sm font-bold uppercase tracking-widest text-white mb-2">{style.titulo}</p>
+                                    <div ref={sazonalEsteiraScrollRef} className="flex overflow-x-auto snap-x gap-6 pb-6 no-scrollbar scroll-smooth">
+                                      {stylesList.map((style) => {
+                                        const isSelected = selectedStyles.includes(style.titulo);
+                                        return (
+                                          <div key={style.id} onClick={() => toggleStyle(style.titulo)} className={`min-w-[240px] md:min-w-[280px] h-[360px] snap-start relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all group/card ${isSelected ? `${campanhaAtiva.borderColor} scale-[0.98] ${campanhaAtiva.selectedGlow}` : `border-white/10 ${campanhaAtiva.icon === 'heart' ? 'hover:border-rose-500/50' : 'hover:border-green-500/50'}`}`}>
+                                            <Image src={style.img_url} alt={style.titulo} fill className="object-cover transition-transform duration-700 group-hover/card:scale-110" unoptimized />
 
-                                            <div className={`w-full py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all backdrop-blur-md border ${isSelected ? 'bg-rose-500 text-white border-rose-500' : 'bg-black/50 text-white border-white/20 group-hover/card:bg-rose-500/80 group-hover/card:border-rose-500'}`}>
-                                              {isSelected ? <><CheckCircle2 size={16} /> Selecionado</> : <><PlusCircle size={16} /> Selecionar Estilo</>}
+                                            <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-5 transition-all ${isSelected ? (campanhaAtiva.icon === 'heart' ? 'bg-rose-500/10' : 'bg-green-500/10') : 'opacity-90'}`}>
+                                              <div className="translate-y-4 group-hover/card:translate-y-0 transition-transform duration-300">
+                                                <p className="text-sm font-bold uppercase tracking-widest text-white mb-2">{style.titulo}</p>
+
+                                                <div className={`w-full py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all backdrop-blur-md border ${isSelected ? (campanhaAtiva.icon === 'heart' ? 'bg-rose-500 text-white border-rose-500' : 'bg-green-600 text-white border-green-600') : `bg-black/50 text-white border-white/20 ${campanhaAtiva.icon === 'heart' ? 'group-hover/card:bg-rose-500/80 group-hover/card:border-rose-500' : 'group-hover/card:bg-green-600/80 group-hover/card:border-green-600'}`}`}>
+                                                  {isSelected ? <><CheckCircle2 size={16} /> Selecionado</> : <><PlusCircle size={16} /> Selecionar Estilo</>}
+                                                </div>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
-                                </div>
+                                        );
+                                      })}
+                                    </div>
 
-                                <button type="button" onClick={() => scrollMaesEsteira('right')} className="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white hover:text-rose-500 hover:border-rose-500 transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex"><ChevronRight size={24} className="pl-[2px] pt-[1px]" /></button>
-                              </div>
-                            </div>
+                                    <button type="button" onClick={() => scrollSazonalEsteira('right')} className={`absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex ${campanhaAtiva.icon === 'heart' ? 'hover:text-rose-500 hover:border-rose-500' : 'hover:text-green-500 hover:border-green-500'}`}><ChevronRight size={24} className="pl-[2px] pt-[1px]" /></button>
+                                  </div>
+                                </div>
+                              );
+                            })()}
                           </motion.div>
                         )}
                       </AnimatePresence>
