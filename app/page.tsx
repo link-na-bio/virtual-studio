@@ -162,7 +162,7 @@ export default function LandingPage() {
         <nav className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
-              <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+              <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
             <span className="font-display text-lg tracking-widest hidden md:block"></span>
           </div>
@@ -303,7 +303,7 @@ export default function LandingPage() {
                 {/* Logo no centro (Marca d'água principal) */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover/card:opacity-40 transition-all duration-700 z-10">
                   <div className="relative w-32 h-16">
-                    <Image src="/logo.2.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                    <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
                   </div>
                 </div>
 
@@ -330,7 +330,7 @@ export default function LandingPage() {
                 {/* Logo no centro (Marca d'água principal) */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover/card:opacity-40 transition-all duration-700 z-10">
                   <div className="relative w-32 h-16">
-                    <Image src="/logo.2.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                    <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
                   </div>
                 </div>
 
@@ -1075,7 +1075,7 @@ export default function LandingPage() {
             {/* Logo and Copyright */}
             <div className="flex flex-col items-center md:items-start order-2 md:order-1">
               <div className="relative w-[150px] h-[60px] mb-2">
-                <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" />
+                <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" />
               </div>
               <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-light">
                 © 2026 VIRTUAL STUDIO<br />

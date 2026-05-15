@@ -54,7 +54,7 @@ export default function GalleryPage() {
             <span className="uppercase tracking-widest text-xs font-display">Voltar para Home</span>
           </Link>
           <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
-            <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+            <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
           </div>
           <a href="https://wa.me/556193314473?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20ensaios%20VIP%20pelo%20WhatsApp." target="_blank" rel="noopener noreferrer" className="hidden md:block bg-studio-gold text-studio-black px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-studio-gold-light transition ring-4 ring-studio-gold/10">
             Falar no WhatsApp
@@ -158,7 +158,7 @@ export default function GalleryPage() {
                   {/* Logo no centro (Marca d'água principal) */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-all duration-700 z-10">
                     <div className="relative w-32 h-16">
-                      <Image src="/logo.2.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                      <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
                     </div>
                   </div>
 
@@ -248,7 +248,7 @@ export default function GalleryPage() {
             {/* Logo and Copyright */}
             <div className="flex flex-col items-center md:items-start order-2 md:order-1">
               <div className="relative w-[150px] h-[60px] mb-2">
-                <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" />
+                <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" />
               </div>
               <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-light">
                 © 2026 VIRTUAL STUDIO<br />

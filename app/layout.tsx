@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: 'Virtual Studio',
     images: [
       {
-        url: '/logo.2.png',
+        url: '/logo_transparente_.png',
         width: 800,
         height: 600,
         alt: 'Virtual Studio Logo',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'VIRTUAL STUDIO | Ensaios com IA',
     description: 'A Nova Era da Fotografia Profissional. Transforme suas fotos em obras de arte.',
-    images: ['/logo.2.png'],
+    images: ['/logo_transparente_.png'],
   },
 };
 

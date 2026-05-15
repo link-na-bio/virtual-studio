@@ -80,7 +80,7 @@ export default function AdminHeader() {
 
       <div className="flex flex-col md:flex-row items-center gap-2">
         <div className="relative w-[120px] h-[120px] -mt-[40px] -mb-[40px] flex items-center justify-center pointer-events-none">
-          <Image src="/logo.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+          <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
         </div>
         <div className="hidden md:flex flex-col">
           <h1 className="text-xl font-bold font-display uppercase tracking-[0.2em] text-white">VIRTUAL <span className="text-studio-gold">STUDIO</span></h1>

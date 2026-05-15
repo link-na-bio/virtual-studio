@@ -49,7 +49,7 @@ function SuccessContent() {
       {/* Header */}
       <header className="flex items-center justify-between whitespace-nowrap border-b border-studio-gold/10 px-6 md:px-20 py-5 bg-studio-black/80 backdrop-blur-md sticky top-0 z-50">
         <Link href="/" className="flex items-center gap-4 text-studio-gold">
-          <div className="relative w-8 h-8"><Image src="/logo.2.png" alt="Virtual Studio" fill className="object-contain" /></div>
+          <div className="relative w-8 h-8"><Image src="/logo_transparente_.png" alt="Virtual Studio" fill className="object-contain" /></div>
           <h2 className="text-slate-100 text-sm font-bold tracking-[0.2em] uppercase font-display hidden sm:block">VIRTUAL STUDIO</h2>
         </Link>
         <div className="flex justify-end gap-8 items-center">

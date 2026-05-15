@@ -271,7 +271,7 @@ function CheckoutContent() {
         <div className="p-8 flex flex-col items-center text-center border-b border-white/5 mb-4">
           <div className="flex flex-col items-center">
             <div className="relative w-[150px] h-[150px] -mt-[40px] -mb-[60px] flex items-center justify-center pointer-events-none">
-              <Image src="/logo.2.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+              <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
             <div className="h-[1px] w-2/3 bg-gradient-to-r from-transparent via-studio-gold/50 to-transparent mt-2 mb-1"></div>
             <p className="text-studio-gold text-[14px] uppercase tracking-widest font-bold">Checkout</p>
@@ -308,7 +308,7 @@ function CheckoutContent() {
             <div className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-studio-gold/20 relative overflow-hidden text-center flex flex-col items-center">
               <div className="absolute top-0 right-0 w-32 h-32 bg-studio-gold/10 rounded-full blur-3xl"></div>
               <div className="mb-6 relative">
-                <img src="/logo.2.png" alt="Logo" className="w-[180px] h-auto object-contain mx-auto drop-shadow-[0_0_20px_rgba(212,175,55,0.2)]" />
+                <img src="/logo_transparente_.png" alt="Logo" className="w-[180px] h-auto object-contain mx-auto drop-shadow-[0_0_20px_rgba(212,175,55,0.2)]" />
               </div>
               <h3 className="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-1">{infoCalculada.isLegacy ? 'Pacote' : 'Combo'} Selecionado</h3>
               <p className="font-display text-3xl uppercase text-white mb-6">{infoCalculada.nome}</p>
