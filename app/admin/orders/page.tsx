@@ -30,7 +30,6 @@ import {
 import AdminSidebar from '@/components/AdminSidebar';
 
 import { supabase } from '@/lib/supabaseClient';
-import imageCompression from 'browser-image-compression';
 import { createManualOrderAction } from '@/app/actions/adminOrders';
 
 declare global {
@@ -284,22 +283,7 @@ export default function AdminOrders() {
 
         let fileToUpload = file;
 
-        // Regra de Negócio: Comprimir apenas as prévias. Arquivos Finais/Bônus devem permanecer originais (100% de qualidade).
-        if (!uploadingOrder.isBonus) {
-          const options = {
-            maxSizeMB: 0.2, // Força a imagem a ter no máximo 200KB
-            maxWidthOrHeight: 1080, // Mantém a resolução ideal para telas mobile/desktop
-            useWebWorker: true, // Evita travar a interface durante a compressão
-            initialQuality: 0.7 // Reduz o peso mantendo a estética visual
-          };
-
-          try {
-            fileToUpload = await imageCompression(file, options);
-          } catch (error) {
-            console.error("Falha ao comprimir imagem da prévia:", error);
-            throw new Error("Falha ao comprimir a imagem da prévia. Upload abortado por segurança para economizar Egress.");
-          }
-        }
+        // Regra de Negócio: Não comprimir as prévias para que o cliente possa baixá-las em alta resolução.
 
         const { error: uploadError } = await supabase.storage.from('previa_ensaios').upload(filePath, fileToUpload, { upsert: true });
         if (uploadError) throw uploadError;
