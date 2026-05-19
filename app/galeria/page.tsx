@@ -9,7 +9,7 @@ import { galleryData } from './data';
 import SalesNotification from '@/components/SalesNotification';
 
 export default function GalleryPage() {
-  const [activeCategory, setActiveCategory] = useState('Todos');
+  const [activeCategory, setActiveCategory] = useState('EXECUTIVO');
   const [styles, setStyles] = useState<any[]>([]);
   const [categories, setCategories] = useState<string[]>(['Todos']);
   const [isLoading, setIsLoading] = useState(true);
@@ -88,7 +88,7 @@ export default function GalleryPage() {
                 : 'bg-transparent border-studio-gold/30 text-studio-gold hover:border-studio-gold hover:bg-studio-gold/5'
                 }`}
             >
-              {cat === 'Todos' ? '✨ Ver Todos' : cat}
+              {cat === 'Todos' ? '✨ Ver Todos' : cat === 'EXECUTIVO' ? 'Executivo/Corporativo' : cat}
             </button>
           ))}
         </div>
