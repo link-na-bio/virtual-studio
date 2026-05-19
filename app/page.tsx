@@ -135,6 +135,58 @@ export default function LandingPage() {
 
   const [activeCampaignIndex, setActiveCampaignIndex] = useState(0);
 
+  // --- CAROUSEL LOGIC ---
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  useEffect(() => {
+    let animationId: number;
+    const scrollContainer = carouselRef.current;
+    
+    const scrollStep = () => {
+      if (scrollContainer && !isCarouselHovered && !isDragging) {
+        // Velocidade mais lenta do carrossel (0.4 px por frame)
+        scrollContainer.scrollLeft += 0.4;
+        
+        // Loop infinito: quando atinge a metade da largura interna, volta sem pulo visível
+        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+          scrollContainer.scrollLeft -= scrollContainer.scrollWidth / 2;
+        }
+      }
+      animationId = requestAnimationFrame(scrollStep);
+    };
+
+    animationId = requestAnimationFrame(scrollStep);
+    return () => cancelAnimationFrame(animationId);
+  }, [isCarouselHovered, isDragging]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0));
+    setScrollLeft(carouselRef.current?.scrollLeft || 0);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    setIsCarouselHovered(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !carouselRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - (carouselRef.current.offsetLeft || 0);
+    const walk = (x - startX) * 2; // Sensibilidade de arraste
+    carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
+  // ----------------------
+
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveCampaignIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
@@ -282,42 +334,54 @@ export default function LandingPage() {
           <p className="text-studio-gold tracking-widest uppercase text-sm font-light">Nosso Acervo Exclusivo</p>
         </div>
 
-        {/* Carrossel Infinito (Marquee) */}
-        <div className="relative w-full flex overflow-hidden group mb-12">
+        {/* Carrossel Interativo com Auto-Scroll */}
+        <div className="relative w-full overflow-hidden mb-12 select-none group">
           {/* Fades nas bordas */}
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-studio-black to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-studio-black to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-y-0 left-0 w-12 md:w-32 bg-gradient-to-r from-studio-black to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-12 md:w-32 bg-gradient-to-l from-studio-black to-transparent z-10 pointer-events-none"></div>
 
-          <div className="flex animate-marquee group-hover:pause gap-4 px-4 min-w-max">
-            {featuredStyles.map((style, i) => (
-              <div key={i} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 cursor-pointer group/card">
-                <Image
-                  src={style.img_url}
-                  alt={style.titulo}
-                  fill
-                  className="object-cover transition duration-700 group-hover/card:scale-110"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
+          <div 
+            ref={carouselRef}
+            className="flex overflow-x-auto scrollbar-hide snap-x md:snap-none snap-mandatory cursor-grab active:cursor-grabbing w-full pb-4"
+            onMouseEnter={() => setIsCarouselHovered(true)}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={() => setIsCarouselHovered(true)}
+            onTouchEnd={() => setIsCarouselHovered(false)}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            style={{ WebkitOverflowScrolling: 'touch' }}
+          >
+            <div className="flex gap-4 min-w-max px-4">
+              {featuredStyles.map((style, i) => (
+                <div key={`orig-${i}`} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 pointer-events-none snap-center group/card">
+                  <Image
+                    src={style.img_url}
+                    alt={style.titulo}
+                    fill
+                    className="object-cover transition duration-700 group-hover/card:scale-110"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
 
-                {/* Logo no centro (Marca d'água principal) */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover/card:opacity-40 transition-all duration-700 z-10">
-                  <div className="relative w-32 h-16">
-                    <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                  {/* Logo no centro (Marca d'água principal) */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover/card:opacity-40 transition-all duration-700 z-10">
+                    <div className="relative w-32 h-16">
+                      <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-6 left-0 right-0 text-center pointer-events-none z-20">
+                    <h3 className="text-lg font-display text-white">{style.titulo}</h3>
+                    <p className="text-studio-gold text-[10px] mt-1 uppercase tracking-widest drop-shadow-md">
+                      {style.categoria?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : style.categoria}
+                    </p>
                   </div>
                 </div>
-
-                <div className="absolute bottom-6 left-0 right-0 text-center pointer-events-none z-20">
-                  <h3 className="text-lg font-display text-white">{style.titulo}</h3>
-                  <p className="text-studio-gold text-[10px] mt-1 uppercase tracking-widest drop-shadow-md">
-                    {style.categoria?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : style.categoria}
-                  </p>
-                </div>
-              </div>
-            ))}
-            {/* Duplicar para efeito infinito */}
-            {featuredStyles.map((style, i) => (
-              <div key={`dup-${i}`} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 cursor-pointer group/card">
+              ))}
+              {/* Duplicar para efeito infinito */}
+              {featuredStyles.map((style, i) => (
+                <div key={`dup-${i}`} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 pointer-events-none snap-center group/card">
                 <Image
                   src={style.img_url}
                   alt={style.titulo}
@@ -343,6 +407,7 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+        </div>
         </div>
 
         <div className="mt-16 text-center">
