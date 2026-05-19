@@ -1017,15 +1017,30 @@ export default function Dashboard() {
     if (qtd === 0) return null;
 
     let msg = '';
-    if (qtd < 5) msg = `DICA: ADICIONE MAIS ${5 - qtd} FOTO(S) PARA LIBERAR O DESCONTO DO PACK ESSENCIAL!`;
-    else if (qtd < 10) msg = `🔥 DESCONTO ESSENCIAL ATIVO! ADICIONE MAIS ${10 - qtd} FOTO(S) PARA O DESCONTO PREMIUM!`;
-    else if (qtd < 20) msg = `💎 DESCONTO PREMIUM ATIVO! ADICIONE MAIS ${20 - qtd} FOTO(S) PARA O DESCONTO MÁXIMO (ELITE)!`;
-    else msg = `🏆 PARABÉNS! VOCÊ ATINGIU O DESCONTO MÁXIMO DA PLATAFORMA (PACK ELITE)!`;
+    let styleClasses = '';
+    let iconClass = 'text-white shrink-0 animate-pulse';
+    let textClass = 'text-white font-black text-[10px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-center drop-shadow-md';
+
+    if (qtd < 5) {
+      msg = `Dica: Adicione mais ${5 - qtd} foto(s) para liberar o desconto Essencial!`;
+      styleClasses = 'bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 border-emerald-400/50 shadow-emerald-500/40';
+    } else if (qtd < 10) {
+      msg = `🔥 Desconto Essencial Ativo! Adicione mais ${10 - qtd} foto(s) para o Premium!`;
+      styleClasses = 'bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 border-blue-400/50 shadow-blue-500/40';
+    } else if (qtd < 20) {
+      msg = `💎 Desconto Premium Ativo! Adicione mais ${20 - qtd} foto(s) para o Máximo!`;
+      styleClasses = 'bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 border-purple-400/50 shadow-purple-500/40';
+    } else {
+      msg = `🏆 Parabéns! Você atingiu o desconto MÁXIMO (Pack Elite)!`;
+      styleClasses = 'bg-gradient-to-r from-yellow-500 via-studio-gold to-yellow-500 border-yellow-300/50 shadow-studio-gold/50';
+      iconClass = 'text-studio-black shrink-0 animate-pulse';
+      textClass = 'text-studio-black font-black text-[10px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-center drop-shadow-sm';
+    }
 
     return (
-      <div className="sticky top-16 md:top-0 z-40 bg-[#121212]/90 border border-emerald-500/30 p-3.5 mb-6 rounded-xl flex items-center justify-center gap-2 backdrop-blur-md shadow-lg shadow-black/20 animate-in fade-in slide-in-from-top-2 duration-300">
-        <Sparkles size={16} className="text-emerald-500 shrink-0" />
-        <span className="text-emerald-500 font-bold text-[9px] md:text-[10px] uppercase tracking-widest text-center">{msg}</span>
+      <div className={`sticky top-16 md:top-4 z-40 ${styleClasses} border p-4 md:p-5 mb-8 rounded-2xl flex items-center justify-center gap-3 md:gap-4 shadow-2xl transition-all duration-500 animate-in fade-in slide-in-from-top-4`}>
+        <Sparkles size={24} className={iconClass} />
+        <span className={textClass}>{msg}</span>
       </div>
     );
   };
