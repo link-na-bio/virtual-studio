@@ -348,16 +348,19 @@ export default function LandingPage() {
 
           <div 
             ref={carouselRef}
-            className="flex overflow-x-auto scrollbar-hide snap-x md:snap-none snap-mandatory cursor-grab active:cursor-grabbing w-full pb-4"
+            className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing w-full pb-4"
             onMouseLeave={handleMouseLeave}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
+            onTouchStart={() => setIsDragging(true)}
+            onTouchEnd={() => setIsDragging(false)}
+            onTouchCancel={() => setIsDragging(false)}
             style={{ WebkitOverflowScrolling: 'touch' }}
           >
             <div className="flex gap-4 min-w-max px-4 select-none">
               {featuredStyles.map((style, i) => (
-                <div key={`orig-${i}`} draggable="false" className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 snap-center group/card cursor-pointer">
+                <div key={`orig-${i}`} draggable="false" className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 group/card cursor-pointer">
                   <Image
                     src={style.img_url}
                     alt={style.titulo}
@@ -385,7 +388,7 @@ export default function LandingPage() {
               ))}
               {/* Duplicar para efeito infinito */}
               {featuredStyles.map((style, i) => (
-                <div key={`dup-${i}`} draggable="false" className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 snap-center group/card cursor-pointer">
+                <div key={`dup-${i}`} draggable="false" className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 group/card cursor-pointer">
                 <Image
                   src={style.img_url}
                   alt={style.titulo}
