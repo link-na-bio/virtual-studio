@@ -29,12 +29,12 @@ export default function CuratorCard({
   };
 
   return (
-    <div 
+    <div
       className="group relative bg-[#121212] border border-white/5 overflow-hidden transition-all duration-500 hover:border-studio-gold/30 hover:shadow-[0_0_40px_rgba(212,175,55,0.1)] rounded-xl"
     >
       {/* Photo Container 3:4 */}
       <div className="relative aspect-[3/4] overflow-hidden bg-studio-black select-none">
-        
+
         {/* Before Image (Base Photo) - BOTTOM LAYER */}
         <Image
           src={beforeImg}
@@ -46,7 +46,7 @@ export default function CuratorCard({
         />
 
         {/* After Image (IA Result) - TOP LAYER WITH CLIP */}
-        <div 
+        <div
           className="absolute inset-0 z-10"
           style={{ clipPath: `inset(0 0 0 ${sliderPosition}%)` }}
         >
@@ -61,7 +61,7 @@ export default function CuratorCard({
         </div>
 
         {/* Custom Slider Handle/Line */}
-        <div 
+        <div
           className="absolute inset-y-0 z-20 w-0.5 bg-studio-gold/50 shadow-[0_0_15px_rgba(195,157,93,0.5)] pointer-events-none"
           style={{ left: `${sliderPosition}%` }}
         >
@@ -89,7 +89,7 @@ export default function CuratorCard({
         {/* Badge */}
         <div className="absolute top-4 left-4 z-20 pointer-events-none">
           <span className="bg-studio-gold text-studio-black text-[9px] font-black px-3 py-1.5 uppercase tracking-widest rounded-full shadow-lg flex items-center gap-1.5">
-            <span className="text-xs">✅</span> Curadora Convidada
+            <span className="text-xs">✅</span> Curador(a) Convidado(a)
           </span>
         </div>
 
@@ -111,7 +111,7 @@ export default function CuratorCard({
         <h3 className="text-2xl font-display font-bold uppercase tracking-[0.1em] text-white mb-3">
           {name}
         </h3>
-        
+
         <div className="flex flex-col gap-2 mb-8">
           <p className="text-slate-400 text-[10px] uppercase tracking-widest font-light">
             Curadoria Especial para o Estilo:
@@ -122,7 +122,7 @@ export default function CuratorCard({
         </div>
 
         <div className="flex flex-col items-center gap-5 w-full">
-          <Link 
+          <Link
             href={instaLink}
             target="_blank"
             className="flex items-center gap-2 text-slate-500 hover:text-studio-gold text-[10px] uppercase tracking-widest font-bold transition-colors group/insta"
@@ -130,7 +130,7 @@ export default function CuratorCard({
             <Instagram size={14} className="group-hover/insta:scale-110 transition-transform" /> Ver no Instagram
           </Link>
 
-          <Link 
+          <Link
             href="/signup"
             className="w-full bg-studio-gold text-studio-black px-8 py-4 text-xs font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all flex items-center justify-center gap-3 shadow-[0_15px_30px_rgba(212,175,55,0.2)] hover:-translate-y-1 rounded-lg"
           >
