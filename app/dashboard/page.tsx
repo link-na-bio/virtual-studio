@@ -1023,9 +1023,9 @@ export default function Dashboard() {
     else msg = `🏆 PARABÉNS! VOCÊ ATINGIU O DESCONTO MÁXIMO DA PLATAFORMA (PACK ELITE)!`;
 
     return (
-      <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 mb-6 rounded-lg flex items-center justify-center gap-2">
-        <Sparkles size={16} className="text-emerald-500" />
-        <span className="text-emerald-500 font-bold text-[10px] uppercase tracking-widest">{msg}</span>
+      <div className="sticky top-16 md:top-0 z-40 bg-[#121212]/90 border border-emerald-500/30 p-3.5 mb-6 rounded-xl flex items-center justify-center gap-2 backdrop-blur-md shadow-lg shadow-black/20 animate-in fade-in slide-in-from-top-2 duration-300">
+        <Sparkles size={16} className="text-emerald-500 shrink-0" />
+        <span className="text-emerald-500 font-bold text-[9px] md:text-[10px] uppercase tracking-widest text-center">{msg}</span>
       </div>
     );
   };

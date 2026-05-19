@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, Camera, Star, ArrowRight, Loader2, Instagram, Mail, MessageCircle, ShieldCheck, LayoutDashboard, Cloud, Check, Download } from 'lucide-react';
+import { ChevronLeft, Camera, Star, ArrowRight, Loader2, Instagram, Mail, MessageCircle, ShieldCheck, LayoutDashboard, Cloud, Check, Download, Sparkles } from 'lucide-react';
 import { galleryData } from './data';
 import SalesNotification from '@/components/SalesNotification';
 
@@ -26,9 +26,51 @@ export default function GalleryPage() {
     });
   };
 
+  const getPrecoUnitario = (qtd: number) => {
+    if (qtd >= 20) return 147.90 / 20; // R$ 7,40
+    if (qtd >= 10) return 97.90 / 10; // R$ 9,79
+    if (qtd >= 5) return 67.90 / 5;   // R$ 13,58
+    return 19.90;                     // R$ 19,90
+  };
+
+  const getDisplayPackageName = (qtd: number) => {
+    if (qtd >= 20) return 'Pack Elite';
+    if (qtd >= 10) return 'Pack Premium';
+    if (qtd >= 5) return 'Pack Essencial';
+    return 'Avulso';
+  };
+
+  const renderDiscountTip = () => {
+    const qtd = selectedStyles.length;
+    if (qtd === 0) return null;
+
+    let msg = '';
+    if (qtd < 5) msg = `DICA: ADICIONE MAIS ${5 - qtd} ESTILO(S) PARA LIBERAR O DESCONTO DO PACK ESSENCIAL!`;
+    else if (qtd < 10) msg = `🔥 DESCONTO ESSENCIAL ATIVO! ADICIONE MAIS ${10 - qtd} ESTILO(S) PARA O DESCONTO PREMIUM!`;
+    else if (qtd < 20) msg = `💎 DESCONTO PREMIUM ATIVO! ADICIONE MAIS ${20 - qtd} ESTILO(S) PARA O DESCONTO MÁXIMO (ELITE)!`;
+    else msg = `🏆 PARABÉNS! VOCÊ ATINGIU O DESCONTO MÁXIMO DA PLATAFORMA (PACK ELITE)!`;
+
+    return (
+      <div className="sticky top-20 md:top-24 z-40 bg-[#0a0a0a]/90 border border-emerald-500/30 p-3.5 mb-8 rounded-xl flex items-center justify-center gap-2 backdrop-blur-md shadow-lg shadow-black/20 animate-in fade-in slide-in-from-top-2 duration-300">
+        <Sparkles size={16} className="text-emerald-500 shrink-0" />
+        <span className="text-emerald-500 font-bold text-[9px] md:text-[10px] uppercase tracking-widest text-center">{msg}</span>
+      </div>
+    );
+  };
+
   const getWhatsAppLink = () => {
+    const qtd = selectedStyles.length;
+    const packageName = getDisplayPackageName(qtd);
+    const precoUnitario = getPrecoUnitario(qtd);
+    const total = qtd * precoUnitario;
     const names = selectedStyles.map(s => s.titulo).join(', ');
-    const text = `Olá! Escolhi estes estilos no catálogo: ${names}. Gostaria de saber mais sobre como fazer meu ensaio.`;
+    
+    const text = `Olá! Montei meu pacote na galeria do Virtual Studio:
+- Pacote: ${packageName} (${qtd} ${qtd === 1 ? 'Estilo' : 'Estilos'})
+- Estilos Escolhidos: ${names}
+- Preço Estimado: R$ ${total.toFixed(2).replace('.', ',')}
+
+Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
     return `https://wa.me/556193314473?text=${encodeURIComponent(text)}`;
   };
 
@@ -96,6 +138,7 @@ export default function GalleryPage() {
 
       {/* Grid de Galeria */}
       <section className="container mx-auto px-6 pb-32 flex-1">
+        {renderDiscountTip()}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
             <Loader2 className="animate-spin text-studio-gold" size={40} />
@@ -310,11 +353,11 @@ export default function GalleryPage() {
               className="flex items-center justify-between w-full bg-studio-gold text-studio-black p-4 rounded-2xl shadow-[0_20px_50px_rgba(195,157,93,0.4)] hover:scale-105 transition-all group"
             >
               <div className="flex flex-col items-start">
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">
-                  {selectedStyles.length} {selectedStyles.length === 1 ? 'estilo selecionado' : 'estilos selecionados'}
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
+                  {getDisplayPackageName(selectedStyles.length)} ({selectedStyles.length} {selectedStyles.length === 1 ? 'estilo' : 'estilos'})
                 </span>
-                <span className="text-sm font-bold uppercase tracking-widest">
-                  Pedir via WhatsApp
+                <span className="text-xs sm:text-sm font-bold uppercase tracking-wider mt-0.5">
+                  Pedir via WhatsApp • R$ {(selectedStyles.length * getPrecoUnitario(selectedStyles.length)).toFixed(2).replace('.', ',')}
                 </span>
               </div>
               <div className="bg-studio-black/10 p-3 rounded-xl group-hover:bg-studio-black/20 transition-colors">
