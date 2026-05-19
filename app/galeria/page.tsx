@@ -133,7 +133,7 @@ export default function GalleryPage() {
                         fill
                         className={`object-contain transition-all duration-700 ${selectedStyles.find(s => s.id === item.id)
                           ? 'scale-105 opacity-100'
-                          : 'group-hover:scale-110 group-hover:blur-[2px] opacity-80 group-hover:opacity-100'
+                          : 'group-hover:scale-110 opacity-80 group-hover:opacity-100'
                           } select-none pointer-events-none`}
                         referrerPolicy="no-referrer"
                         draggable={false}
@@ -163,8 +163,8 @@ export default function GalleryPage() {
                   </div>
 
                   {/* Categoria na parte inferior */}
-                  <div className="absolute bottom-6 left-0 right-0 text-center transition-all duration-500 z-20 group-hover:bottom-12">
-                    <span className="text-studio-gold text-[10px] uppercase font-bold tracking-[0.3em] block drop-shadow-md">
+                  <div className="absolute bottom-6 left-0 right-0 text-center transition-all duration-500 z-20 group-hover:bottom-12 px-2">
+                    <span className="text-studio-gold text-[8.5px] md:text-[10px] uppercase font-bold tracking-[0.08em] md:tracking-[0.3em] block drop-shadow-md">
                       {item.categoria?.toLowerCase()?.includes('executivo') ? 'Executivo/Corporativo' : item.categoria}
                     </span>
                     <span className={`mt-4 text-studio-black text-[10px] font-bold uppercase tracking-widest transition-all duration-500 flex items-center gap-2 bg-studio-gold mx-auto w-max px-6 py-2.5 rounded-full border border-studio-gold/50 shadow-[0_0_20px_rgba(212,175,55,0.5)] hover:scale-105 ${selectedStyles.find(s => s.id === item.id) ? 'opacity-100 scale-105' : 'opacity-0 group-hover:opacity-100'
