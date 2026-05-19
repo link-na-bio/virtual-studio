@@ -144,16 +144,24 @@ export default function LandingPage() {
   useEffect(() => {
     let animationId: number;
     const scrollContainer = carouselRef.current;
+    if (!scrollContainer) return;
+
+    let currentScroll = scrollContainer.scrollLeft;
     
     const scrollStep = () => {
       if (scrollContainer && !isDragging) {
-        // Velocidade mais lenta do carrossel (0.4 px por frame)
-        scrollContainer.scrollLeft += 0.4;
+        // Incrementa o float (0.6 px por frame para ser suave e lento)
+        currentScroll += 0.6;
         
         // Loop infinito: quando atinge a metade da largura interna, volta sem pulo visível
-        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-          scrollContainer.scrollLeft -= scrollContainer.scrollWidth / 2;
+        if (currentScroll >= scrollContainer.scrollWidth / 2) {
+          currentScroll -= scrollContainer.scrollWidth / 2;
         }
+
+        scrollContainer.scrollLeft = currentScroll;
+      } else if (scrollContainer && isDragging) {
+        // Sincroniza o float com a rolagem do arraste
+        currentScroll = scrollContainer.scrollLeft;
       }
       animationId = requestAnimationFrame(scrollStep);
     };
@@ -347,22 +355,23 @@ export default function LandingPage() {
             onMouseMove={handleMouseMove}
             style={{ WebkitOverflowScrolling: 'touch' }}
           >
-            <div className="flex gap-4 min-w-max px-4">
+            <div className="flex gap-4 min-w-max px-4 select-none">
               {featuredStyles.map((style, i) => (
-                <div key={`orig-${i}`} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 pointer-events-none snap-center group/card">
+                <div key={`orig-${i}`} draggable="false" className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 snap-center group/card cursor-pointer">
                   <Image
                     src={style.img_url}
                     alt={style.titulo}
                     fill
                     className="object-cover transition duration-700 group-hover/card:scale-110"
                     unoptimized
+                    draggable={false}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
 
                   {/* Logo no centro (Marca d'água principal) */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover/card:opacity-40 transition-all duration-700 z-10">
                     <div className="relative w-32 h-16">
-                      <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                      <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" draggable={false} />
                     </div>
                   </div>
 
@@ -376,20 +385,21 @@ export default function LandingPage() {
               ))}
               {/* Duplicar para efeito infinito */}
               {featuredStyles.map((style, i) => (
-                <div key={`dup-${i}`} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 pointer-events-none snap-center group/card">
+                <div key={`dup-${i}`} draggable="false" className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 snap-center group/card cursor-pointer">
                 <Image
                   src={style.img_url}
                   alt={style.titulo}
                   fill
                   className="object-cover transition duration-700 group-hover/card:scale-110"
                   unoptimized
+                  draggable={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
 
                 {/* Logo no centro (Marca d'água principal) */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover/card:opacity-40 transition-all duration-700 z-10">
                   <div className="relative w-32 h-16">
-                    <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
+                    <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" draggable={false} />
                   </div>
                 </div>
 
