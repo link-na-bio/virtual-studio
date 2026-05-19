@@ -482,7 +482,7 @@ export default function LandingPage() {
               <CuratorCard
                 name="Luana Costa"
                 instaHandle="@luana.bruno_"
-                styleName="Executivo/Corporativo"
+                styleName="Estúdio"
                 beforeImg="/antes_luana.jpg"
                 afterImg="/depois_luana.jpg"
                 instaLink="https://www.instagram.com/luana.bruno_"
@@ -814,8 +814,8 @@ export default function LandingPage() {
                       setActiveCampaignIndex(idx);
                     }}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === activeCampaignIndex
-                        ? 'bg-studio-gold w-4'
-                        : 'bg-white/20 hover:bg-white/40'
+                      ? 'bg-studio-gold w-4'
+                      : 'bg-white/20 hover:bg-white/40'
                       }`}
                     title={`Ver campanha ${idx + 1}`}
                   />
