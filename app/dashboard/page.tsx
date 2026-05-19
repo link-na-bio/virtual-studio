@@ -1261,7 +1261,7 @@ export default function Dashboard() {
       </aside>
 
       {/* ÁREA PRINCIPAL */}
-      <main className="flex-1 overflow-y-auto bg-[#121212] pt-20 pb-24 md:pt-8 md:pb-8 relative">
+      <main className="flex-1 bg-[#121212] pt-20 pb-24 md:pt-8 md:pb-8 relative">
         <header className="fixed top-0 left-0 right-0 h-16 bg-studio-black/80 backdrop-blur-xl border-b border-white/5 z-[100] flex items-center justify-between px-6 md:hidden">
           <div className="flex items-center gap-2"><div className="relative w-40 h-[60px]"><Image src="/logo_transparente_.png" alt="Logo" fill className="object-contain object-left" priority /></div><h1 className="text-white text-xs font-bold font-display tracking-widest leading-none hidden sm:block">VIRTUAL STUDIO</h1></div>
           <button onClick={handleLogout} className="p-2 bg-white/5 rounded-lg border border-white/10 text-red-500"><LogOut size={16} /></button>
