@@ -150,8 +150,8 @@ export default function LandingPage() {
     }
   );
   // Replicar os estilos para garantir que o carrossel tenha itens suficientes (mínimo de 15) para uma animação infinita suave
-  const featuredStyles = studioAndExecutiveStyles.length > 0 
-    ? Array(Math.ceil(15 / studioAndExecutiveStyles.length)).fill(studioAndExecutiveStyles).flat() 
+  const featuredStyles = studioAndExecutiveStyles.length > 0
+    ? Array(Math.ceil(15 / studioAndExecutiveStyles.length)).fill(studioAndExecutiveStyles).flat()
     : galleryData.slice(0, 15);
 
 
@@ -281,13 +281,13 @@ export default function LandingPage() {
           <h2 className="text-5xl font-bold mb-4 font-display italic">ESTILOS EM <span className="text-studio-gold">DESTAQUE</span></h2>
           <p className="text-studio-gold tracking-widest uppercase text-sm font-light">Nosso Acervo Exclusivo</p>
         </div>
-        
+
         {/* Carrossel Infinito (Marquee) */}
         <div className="relative w-full flex overflow-hidden group mb-12">
           {/* Fades nas bordas */}
           <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-studio-black to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-studio-black to-transparent z-10 pointer-events-none"></div>
-          
+
           <div className="flex animate-marquee group-hover:pause gap-4 px-4 min-w-max">
             {featuredStyles.map((style, i) => (
               <div key={i} className="relative w-64 h-80 rounded-xl overflow-hidden gold-border-gradient shrink-0 cursor-pointer group/card">
@@ -299,7 +299,7 @@ export default function LandingPage() {
                   unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
-                
+
                 {/* Logo no centro (Marca d'água principal) */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover/card:opacity-40 transition-all duration-700 z-10">
                   <div className="relative w-32 h-16">
@@ -347,7 +347,7 @@ export default function LandingPage() {
 
         <div className="mt-16 text-center">
           <Link href="/galeria" className="inline-flex items-center justify-center gap-4 bg-studio-gold text-studio-black px-12 py-5 font-extrabold uppercase tracking-[0.2em] hover:bg-studio-gold-light hover:scale-105 transition-all shadow-[0_0_30px_rgba(212,175,55,0.4)] rounded-xl text-sm group">
-            VER CATÁLOGO COMPLETO NO WHATSAPP <ArrowRight size={20} className="group-hover:translate-x-2 transition" />
+            VER CATÁLOGO COMPLETO <ArrowRight size={20} className="group-hover:translate-x-2 transition" />
           </Link>
         </div>
       </section>
@@ -524,7 +524,7 @@ export default function LandingPage() {
           <div className="mt-16 max-w-4xl mx-auto bg-gradient-to-r from-studio-gold/10 via-transparent to-studio-gold/10 border border-studio-gold/20 rounded-2xl p-8 md:p-10 text-center relative overflow-hidden group shadow-[0_0_30px_rgba(212,175,55,0.05)]">
             <div className="absolute top-0 right-0 w-32 h-32 bg-studio-gold/5 blur-[40px] rounded-full pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-studio-gold/5 blur-[40px] rounded-full pointer-events-none"></div>
-            
+
             <span className="inline-flex items-center gap-2 px-3 py-1 bg-studio-gold/10 border border-studio-gold/20 rounded-full text-[10px] text-studio-gold uppercase tracking-widest font-bold mb-4">
               <Handshake size={12} className="text-studio-gold" /> Parceria de Sucesso
             </span>
@@ -534,8 +534,8 @@ export default function LandingPage() {
             <p className="text-gray-400 font-light text-sm md:text-base max-w-2xl mx-auto mb-6 leading-relaxed">
               Tem um público engajado e entende de imagem? Venha fazer parte do seleto grupo de curadores do <span className="text-studio-gold font-semibold">Virtual Studio</span> e ofereça ensaios exclusivos com a sua assinatura visual para fechar mais parcerias.
             </p>
-            <Link 
-              href="https://wa.me/556193314473?text=Olá! Gostaria de saber mais sobre como ser um curador parceiro no Virtual Studio." 
+            <Link
+              href="https://wa.me/556193314473?text=Olá! Gostaria de saber mais sobre como ser um curador parceiro no Virtual Studio."
               target="_blank"
               className="inline-flex items-center gap-3 bg-studio-gold text-studio-black px-8 py-4 text-xs font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all shadow-[0_10px_20px_rgba(212,175,55,0.15)] rounded-lg hover:-translate-y-0.5"
             >
@@ -813,11 +813,10 @@ export default function LandingPage() {
                       e.preventDefault();
                       setActiveCampaignIndex(idx);
                     }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === activeCampaignIndex 
-                        ? 'bg-studio-gold w-4' 
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === activeCampaignIndex
+                        ? 'bg-studio-gold w-4'
                         : 'bg-white/20 hover:bg-white/40'
-                    }`}
+                      }`}
                     title={`Ver campanha ${idx + 1}`}
                   />
                 ))}
