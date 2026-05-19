@@ -157,7 +157,7 @@ export default function GalleryPage() {
 
                   {/* Logo no centro (Marca d'água principal) */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-all duration-700 z-10">
-                    <div className="relative w-32 h-16">
+                    <div className="relative w-24 h-12">
                       <Image src="/logo_transparente_.png" alt="Logo Watermark" fill className="object-contain grayscale" />
                     </div>
                   </div>
