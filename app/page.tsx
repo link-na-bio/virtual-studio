@@ -137,7 +137,6 @@ export default function LandingPage() {
 
   // --- CAROUSEL LOGIC ---
   const carouselRef = useRef<HTMLDivElement>(null);
-  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -147,7 +146,7 @@ export default function LandingPage() {
     const scrollContainer = carouselRef.current;
     
     const scrollStep = () => {
-      if (scrollContainer && !isCarouselHovered && !isDragging) {
+      if (scrollContainer && !isDragging) {
         // Velocidade mais lenta do carrossel (0.4 px por frame)
         scrollContainer.scrollLeft += 0.4;
         
@@ -161,7 +160,7 @@ export default function LandingPage() {
 
     animationId = requestAnimationFrame(scrollStep);
     return () => cancelAnimationFrame(animationId);
-  }, [isCarouselHovered, isDragging]);
+  }, [isDragging]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -171,7 +170,6 @@ export default function LandingPage() {
 
   const handleMouseLeave = () => {
     setIsDragging(false);
-    setIsCarouselHovered(false);
   };
 
   const handleMouseUp = () => {
@@ -343,10 +341,7 @@ export default function LandingPage() {
           <div 
             ref={carouselRef}
             className="flex overflow-x-auto scrollbar-hide snap-x md:snap-none snap-mandatory cursor-grab active:cursor-grabbing w-full pb-4"
-            onMouseEnter={() => setIsCarouselHovered(true)}
             onMouseLeave={handleMouseLeave}
-            onTouchStart={() => setIsCarouselHovered(true)}
-            onTouchEnd={() => setIsCarouselHovered(false)}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
