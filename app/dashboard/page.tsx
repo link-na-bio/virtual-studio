@@ -1723,7 +1723,7 @@ export default function Dashboard() {
 
         {/* ----------------- ABA NOVO PEDIDO ----------------- */}
         {activeTab === 'novo' && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key="novo" className="px-8 flex-1 flex flex-col">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="novo" className="px-8 flex-1 flex flex-col">
             {isRestricted ? (
               <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-12 bg-rose-500/5 border border-dashed border-rose-500/20 rounded-2xl">
                 <div className="w-20 h-20 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center mb-6"><Lock size={40} /></div>
