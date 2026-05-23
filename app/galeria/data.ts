@@ -15,7 +15,7 @@ export const galleryData = [
     "id": "aee2021e-7a4c-47b8-8949-6dd38f991958",
     "titulo": "Selfie Esportivo",
     "categoria": "Copa 2026",
-    "descricao": "2026",
+    "descricao": "Copa 2026",
     "img_url": "/images/galeria/selfie-esportivo-aee2021e-7a4c-47b8-8949-6dd38f991958.webp",
     "criado_em": "2026-05-11T21:31:38.655986+00:00",
     "genero": "Ambos",
@@ -2040,23 +2040,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "ac1a9af8-4d6a-4f5b-9893-fcea1b6b096c",
-    "titulo": "Padrão (Balões 49)",
+    "id": "004b59f8-7360-4963-b1cf-ea07ccdb68fc",
+    "titulo": "Niver Vermelho",
     "categoria": "Evento",
-    "descricao": "Impacto festivo monumental e altamente instagramável. O brilho dos balões grandes atrai o olhar, garantindo foco central na conquista e no protagonismo da modelo.",
-    "img_url": "/images/galeria/padr-o-bal-es-49--ac1a9af8-4d6a-4f5b-9893-fcea1b6b096c.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "af4fca50-b692-449a-9e9b-d5865a1e7561",
-    "titulo": "Aniversário (Couro)",
-    "categoria": "Evento",
-    "descricao": "Sensualidade empoderada e sofisticação tátil. O couro marrom cria um impacto visual de poder, segurança e requinte, sendo altamente associado a sucesso e confiança.",
-    "img_url": "/images/galeria/anivers-rio-couro--af4fca50-b692-449a-9e9b-d5865a1e7561.webp",
+    "descricao": "Magnetismo e paixão audaciosa. O tom vermelho intenso comanda total atenção e transmite uma confiança inabalável para seduzir e conquistar.",
+    "img_url": "/images/galeria/niver-vermelho-004b59f8-7360-4963-b1cf-ea07ccdb68fc.webp",
     "criado_em": "2026-03-21T23:38:18.626801+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -2100,18 +2088,6 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "004b59f8-7360-4963-b1cf-ea07ccdb68fc",
-    "titulo": "Niver Vermelho",
-    "categoria": "Evento",
-    "descricao": "Magnetismo e paixão audaciosa. O tom vermelho intenso comanda total atenção e transmite uma confiança inabalável para seduzir e conquistar.",
-    "img_url": "/images/galeria/niver-vermelho-004b59f8-7360-4963-b1cf-ea07ccdb68fc.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
     "id": "4ee6b334-9d99-4f80-b7ba-91402b8dd581",
     "titulo": "Formatura 01",
     "categoria": "Formatura",
@@ -2121,6 +2097,18 @@ export const galleryData = [
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": "A high-resolution studio photograph of a person celebrating their graduation. The individual is smiling broadly, holding a black graduation cap with a tassel in both hands raised above their head. They are wearing a traditional black graduation gown with prominent emerald green fabric accents on the sleeves and a matching green sash around their waist, along with a white lace jabot. The background is a neutral grey studio wall, illuminated by soft, professional studio lighting. The focus is sharp on the person and their attire.",
+    "ativo": true
+  },
+  {
+    "id": "73934601-e104-4a0e-ab7a-0f4c9ef1ee8c",
+    "titulo": "Aniversário (Champanhe 35)",
+    "categoria": "Evento",
+    "descricao": "Glamour refinado e brindes inesquecíveis. Elementos de cristal e bebida refletora exalam sucesso de alto nível e vitórias de elite.",
+    "img_url": "/images/galeria/anivers-rio-champanhe-35--73934601-e104-4a0e-ab7a-0f4c9ef1ee8c.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
     "ativo": true
   },
   {
@@ -2208,6 +2196,30 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "ac1a9af8-4d6a-4f5b-9893-fcea1b6b096c",
+    "titulo": "Padrão (Balões 49)",
+    "categoria": "Evento",
+    "descricao": "Impacto festivo monumental e altamente instagramável. O brilho dos balões grandes atrai o olhar, garantindo foco central na conquista e no protagonismo da modelo.",
+    "img_url": "/images/galeria/padr-o-bal-es-49--ac1a9af8-4d6a-4f5b-9893-fcea1b6b096c.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "89894fe0-a89e-4c47-92e1-13e560620cf7",
+    "titulo": "Velas",
+    "categoria": "Evento",
+    "descricao": "Celebração luminosa e vibrante. As velas geram pontos de luz (bokeh) que capturam atenção imediata, transmitindo alegria genuína e um luxo acolhedor, ideal para marcos importantes.",
+    "img_url": "/images/galeria/velas-89894fe0-a89e-4c47-92e1-13e560620cf7.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
     "id": "a2d202d0-957e-420e-a4dc-1c630b60d980",
     "titulo": "Segurando Blazer",
     "categoria": "Estúdio",
@@ -2232,26 +2244,14 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "3ce86706-4af3-457c-92fe-67af2ac4436e",
-    "titulo": "Básico",
-    "categoria": "Evento",
-    "descricao": "Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.",
-    "img_url": "/images/galeria/b-sico-3ce86706-4af3-457c-92fe-67af2ac4436e.webp",
+    "id": "e0e873d2-7701-403a-9a81-bfdb98288770",
+    "titulo": "COM Estetoscópio",
+    "categoria": "Área da Saúde",
+    "descricao": "Autoridade clínica, precisão e acolhimento humano. O estilo transmite credibilidade fotográfica máxima e conhecimento técnico impecável no setor de saúde.",
+    "img_url": "/images/galeria/com-estetosc-pio-e0e873d2-7701-403a-9a81-bfdb98288770.webp",
     "criado_em": "2026-03-21T23:38:18.626801+00:00",
     "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "89894fe0-a89e-4c47-92e1-13e560620cf7",
-    "titulo": "Velas",
-    "categoria": "Evento",
-    "descricao": "Celebração luminosa e vibrante. As velas geram pontos de luz (bokeh) que capturam atenção imediata, transmitindo alegria genuína e um luxo acolhedor, ideal para marcos importantes.",
-    "img_url": "/images/galeria/velas-89894fe0-a89e-4c47-92e1-13e560620cf7.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "dica_roupa": "Autoridade clínica, precisão e acolhimento humano. O estilo transmite credibilidade fotográfica máxima e conhecimento técnico impecável no setor de saúde.",
     "prompt": null,
     "ativo": true
   },
@@ -2280,6 +2280,18 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "af4fca50-b692-449a-9e9b-d5865a1e7561",
+    "titulo": "Aniversário (Couro)",
+    "categoria": "Evento",
+    "descricao": "Sensualidade empoderada e sofisticação tátil. O couro marrom cria um impacto visual de poder, segurança e requinte, sendo altamente associado a sucesso e confiança.",
+    "img_url": "/images/galeria/anivers-rio-couro--af4fca50-b692-449a-9e9b-d5865a1e7561.webp",
+    "criado_em": "2026-03-21T23:38:18.626801+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
     "id": "a6494ad3-1853-4e93-9c0a-238cfae4c95e",
     "titulo": "Aniversário Branco",
     "categoria": "Evento",
@@ -2292,23 +2304,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "e0e873d2-7701-403a-9a81-bfdb98288770",
-    "titulo": "COM Estetoscópio",
-    "categoria": "Área da Saúde",
-    "descricao": "Autoridade clínica, precisão e acolhimento humano. O estilo transmite credibilidade fotográfica máxima e conhecimento técnico impecável no setor de saúde.",
-    "img_url": "/images/galeria/com-estetosc-pio-e0e873d2-7701-403a-9a81-bfdb98288770.webp",
-    "criado_em": "2026-03-21T23:38:18.626801+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Autoridade clínica, precisão e acolhimento humano. O estilo transmite credibilidade fotográfica máxima e conhecimento técnico impecável no setor de saúde.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "73934601-e104-4a0e-ab7a-0f4c9ef1ee8c",
-    "titulo": "Aniversário (Champanhe 35)",
+    "id": "3ce86706-4af3-457c-92fe-67af2ac4436e",
+    "titulo": "Básico",
     "categoria": "Evento",
-    "descricao": "Glamour refinado e brindes inesquecíveis. Elementos de cristal e bebida refletora exalam sucesso de alto nível e vitórias de elite.",
-    "img_url": "/images/galeria/anivers-rio-champanhe-35--73934601-e104-4a0e-ab7a-0f4c9ef1ee8c.webp",
+    "descricao": "Equilíbrio estético primoroso e hiper-realismo visual impecável. O foco refinado exalta com luxo o clima do retrato e confere prestígio memorável.",
+    "img_url": "/images/galeria/b-sico-3ce86706-4af3-457c-92fe-67af2ac4436e.webp",
     "criado_em": "2026-03-21T23:38:18.626801+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
