@@ -54,11 +54,21 @@ async function main() {
         if (fs.existsSync(localPath)) {
           console.log(` -> Already exists, skipping download.`);
         } else {
-          const response = await fetch(estilo.img_url);
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          
-          const arrayBuffer = await response.arrayBuffer();
-          const buffer = Buffer.from(arrayBuffer);
+          let buffer;
+          if (estilo.img_url.startsWith('http://') || estilo.img_url.startsWith('https://')) {
+            const response = await fetch(estilo.img_url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            
+            const arrayBuffer = await response.arrayBuffer();
+            buffer = Buffer.from(arrayBuffer);
+          } else {
+            const relativePath = estilo.img_url.startsWith('/') ? estilo.img_url.substring(1) : estilo.img_url;
+            const fullLocalSrcPath = path.join(__dirname, 'public', relativePath);
+            if (!fs.existsSync(fullLocalSrcPath)) {
+              throw new Error(`Local file not found at ${fullLocalSrcPath}`);
+            }
+            buffer = fs.readFileSync(fullLocalSrcPath);
+          }
 
           await sharp(buffer)
             .resize({ width: 1200, withoutEnlargement: true })
