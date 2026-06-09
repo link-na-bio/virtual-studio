@@ -1360,7 +1360,7 @@ export const galleryData = [
     "titulo": "Lifestyle URBANO",
     "categoria": "Lifestyle",
     "descricao": "Estilo urbano moderno com atitude e sofisticação em cenário de metrópole.",
-    "img_url": "/lifestyleurbano.png",
+    "img_url": "/images/galeria/lifestyle-urbano-d6160273-dedf-4512-993b-ff463286788b.webp",
     "criado_em": "2026-03-22T21:42:53.497476+00:00",
     "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, jaquetas, camadas ou acessórios urbanos. Evite estampas muito chamativas para um resultado mais elegante.",
