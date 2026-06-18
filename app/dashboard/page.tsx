@@ -20,7 +20,7 @@ const CAMPANHAS_SAZONAIS = [
     ativo: true,
     titulo: 'Especial Dia dos Pais 👔',
     descricao: 'Celebre com um retrato inesquecível! 1 Estilo Temático em altíssima resolução.',
-    categoria: 'Especial Dia dos Pais',
+    categoria: 'ESPECIAL DIA DOS PAIS',
     preco: 19.90,
     estilos: '1 Estilo Temático',
     styleClass: 'border-blue-500/30 hover:border-blue-500/60 bg-gradient-to-r from-blue-950/40 to-studio-black shadow-[0_0_30px_rgba(59,130,246,0.15)]',
@@ -545,10 +545,10 @@ export default function Dashboard() {
       };
 
       // O Pacote Sazonal também é salvo com prefixo especial
-      const seasonalCategories = CAMPANHAS_SAZONAIS.map(c => c.categoria);
+      const seasonalCategories = CAMPANHAS_SAZONAIS.map(c => c.categoria.toLowerCase());
       const isSazonal = selectedStyles.some(s => {
         const styleInfo = galleryData.find(g => g.titulo === s);
-        return styleInfo && seasonalCategories.includes(styleInfo.categoria);
+        return styleInfo && seasonalCategories.includes(styleInfo.categoria.toLowerCase());
       }) || selectedStyles.includes('Páscoa VIP') || selectedStyles.includes('Mãe VIP') || selectedStyles.includes('ESTILO_SOBMEDIDA');
       const finalPackageName = isSazonal ? 'sazonal' : getDynamicPackageName(selectedStyles.length);
 
@@ -1881,7 +1881,7 @@ export default function Dashboard() {
                               const campanhaAtiva = CAMPANHAS_SAZONAIS[activeSazonalIndex];
                               const IconComponent = campanhaAtiva.icon === 'user' ? User : Trophy;
                               const iconColor = campanhaAtiva.icon === 'user' ? 'text-blue-500 animate-pulse' : 'text-yellow-400';
-                              const stylesList = galleryData.filter(s => s.categoria === campanhaAtiva.categoria);
+                              const stylesList = galleryData.filter(s => s.categoria?.toLowerCase() === campanhaAtiva.categoria?.toLowerCase());
 
                               return (
                                 <div ref={sazonalScrollRef} className="mb-12">

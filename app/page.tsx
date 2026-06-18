@@ -112,7 +112,7 @@ export default function LandingPage() {
       ativo: true,
       titulo: 'Especial Dia dos Pais 👔',
       descricao: 'Surpreenda com um retrato de autoridade perfeito! 1 Estilo Temático em altíssima resolução.',
-      categoria: 'Especial Dia dos Pais',
+      categoria: 'ESPECIAL DIA DOS PAIS',
       styleClass: 'border-blue-500/30 hover:border-blue-500/60 bg-gradient-to-r from-blue-950/40 to-studio-black/80 shadow-[0_0_30px_rgba(59,130,246,0.15)]',
       glowClass: 'bg-blue-500/10',
       iconBg: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
