@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp, Sparkles, Instagram, Layers, MousePointerClick, Heart, Handshake, Mail, PlusCircle, Palette, Users, X, UploadCloud, Trophy } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp, Sparkles, Instagram, Layers, MousePointerClick, Heart, Handshake, Mail, PlusCircle, Palette, Users, User, X, UploadCloud, Trophy } from 'lucide-react';
 import CuratorCard from '@/components/CuratorCard';
 import SalesNotification from '@/components/SalesNotification';
 import Link from 'next/link';
@@ -108,16 +108,16 @@ export default function LandingPage() {
 
   const CAMPANHAS_SAZONAIS = [
     {
-      id: 'namorados',
+      id: 'pais',
       ativo: true,
-      titulo: 'Especial Dia dos Namorados 💖',
-      descricao: 'Celebre o amor com um retrato romântico perfeito! 1 Estilo Temático em altíssima resolução.',
-      categoria: 'Especial Dia dos namorados',
-      styleClass: 'border-rose-500/30 hover:border-rose-500/60 bg-gradient-to-r from-rose-950/40 to-studio-black/80 shadow-[0_0_30px_rgba(244,63,94,0.15)]',
-      glowClass: 'bg-rose-500/10',
-      iconBg: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+      titulo: 'Especial Dia dos Pais 👔',
+      descricao: 'Surpreenda com um retrato de autoridade perfeito! 1 Estilo Temático em altíssima resolução.',
+      categoria: 'Especial Dia dos Pais',
+      styleClass: 'border-blue-500/30 hover:border-blue-500/60 bg-gradient-to-r from-blue-950/40 to-studio-black/80 shadow-[0_0_30px_rgba(59,130,246,0.15)]',
+      glowClass: 'bg-blue-500/10',
+      iconBg: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
       tagText: 'ESPECIAL',
-      icon: 'heart'
+      icon: 'user'
     },
     {
       id: 'copa',
@@ -841,8 +841,8 @@ export default function LandingPage() {
                           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
                             <div className="flex items-center gap-4">
                               <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 border group-hover:scale-110 transition-transform ${campanha.iconBg}`}>
-                                {campanha.icon === 'heart' ? (
-                                  <Heart size={20} fill="currentColor" className="opacity-80" />
+                                {campanha.icon === 'user' ? (
+                                  <User size={20} className="opacity-80" />
                                 ) : (
                                   <Trophy size={20} className="opacity-80" />
                                 )}
