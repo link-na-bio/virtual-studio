@@ -1,5 +1,41 @@
 export const galleryData = [
   {
+    "id": "3c19738e-a985-45f1-a039-2c3c5495da5f",
+    "titulo": "Retrato de Família Monocromático",
+    "categoria": "ESPECIAL DIA DOS PAIS",
+    "descricao": "Fotografia de estúdio dramática e sofisticada em plano médio (medium shot). Destaca a forte conexão e o afeto entre pai e filha utilizando vestimentas totalmente pretas contra um fundo escuro e uma iluminação estilo \"spotlight\" zenital que confere elegância atemporal e profundidade artística à cena.",
+    "img_url": "/images/galeria/retrato-de-fam-lia-monocrom-tico-3c19738e-a985-45f1-a039-2c3c5495da5f.webp",
+    "criado_em": "2026-06-19T00:37:45.569777+00:00",
+    "genero": "Ambos",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "[STYLE:] Premium editorial photography, intimate family lifestyle studio portrait, dramatic low-key cinematic aesthetic, portrait orientation 4:5 1080*1440, vertical composition.\n\n[SUBJECT:] A mature man (father archetype) paired with a young woman (daughter archetype), together projecting a serene, loving, and deeply connected familial presence.\n\n[POSE:] Dynamic, completely random interactive family studio pose. The specific closeness, embrace style, and body orientation must vary unpredictably with each generation. For this iteration, the daughter is positioned slightly behind the seated father, wrapping her arms tenderly around his chest from behind, with her hands resting crossed over his upper torso. Both look directly into the camera lens with soft, warm, peaceful expressions. Natural body weight distribution.\n\n[OUTFIT:] Coordinated, minimalist all-black studio attire. The father is dressed in a dark, solid black long-sleeved button-down dress shirt with a clean collar and rolled cuffs. The daughter wears a matching solid black long-sleeved fitted top.\n\n[TEXTURES:] Smooth matte cotton fabric of the black button-down shirt, soft woven textile of the black top, smooth and clean skin textures, soft matte finish of the dark textured background.\n\n[ENVIRONMENT:] A minimalist, sophisticated dark studio interior featuring a solid, uniform matte dark charcoal grey or black seamless backdrop. Pure and completely distraction-free composition.\n\n[LIGHTING:] Dramatic cinematic lighting featuring a soft overhead spotlight (zenital light) that creates a subtle halo effect on top of the subjects' positions. Soft front-left studio key light balanced with controlled fill light, creating delicate, non-aggressive gradient shadows on the skin. Beautifully controlled contrast with a smooth highlight roll-off tuned precisely for skin.\n\n[PHOTOGRAPHY:] Premier editorial photography, Canon EOS R5, 85mm lens, f/2.2 aperture, ISO 100, 1/160s shutter speed, shallow depth of field, skin-priority exposure, professional retouch baseline, precise focus firmly locked on the eyes of both subjects.\n\n[EFFECTS:] ultra clean skin rendering, zero noise on skin, zero artificial grain, no micro-contrast on skin, no texture exaggeration, smooth tonal transitions, soft gradient skin shading, natural diffusion on skin highlights, skin luminance evenly distributed, controlled softness ONLY on skin, high sharpness on eyes and clothing textures, medium sharpness on environment, selective sharpening, skin excluded from sharpening, cinematic color grading, sophisticated dark tones, soft contrast curve, no HDR processing, no clarity boost, microcontrast removed from faces, subtle skin diffusion, highlight bloom very controlled.\n\n⚡ Flux.1 Dev Optimized Prompt\n\nEditorial photography, a premium lifestyle studio portrait of a father and his young adult daughter, portrait orientation 4:5 1080*1440, vertical composition. The subjects share a dynamic, completely random interactive close pose that changes unpredictably with each generation, displaying a loving familial connection as they look directly into the lens. They wear coordinated all-black studio attire, with the father in a solid black button-down shirt and the daughter in a matching long-sleeved top wrapping her arms affectionately around him from behind. Set against a uniform dark charcoal seamless studio backdrop with a dramatic overhead spotlight illuminating the scene. Shot with soft diffused front-left studio lighting, Canon EOS R5, 85mm lens at f/2.2, shallow depth of field with precise focus on their eyes. clean skin rendering, soft skin tones, no skin noise, no oversharpening, smooth skin gradients, natural skin only",
+    "ativo": true
+  },
+  {
+    "id": "e4c18a05-2e3a-43b5-864d-f539b589e3b6",
+    "titulo": "Afetivo Familiar de Estúdio",
+    "categoria": "ESPECIAL DIA DOS PAIS",
+    "descricao": "Fotografia de estúdio emocional em plano médio-fechado (close-up/medium shot) capturando o vínculo afetuoso de uma família. Destaca-se pelo uso de texturas aconchegantes em tricô e um fundo verde-oliva terroso minimalista que evoca elegância atemporal e calor humano.",
+    "img_url": "/images/galeria/afetivo-familiar-de-est-dio-e4c18a05-2e3a-43b5-864d-f539b589e3b6.webp",
+    "criado_em": "2026-06-19T00:19:26.964428+00:00",
+    "genero": "Ambos",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "[STYLE:] Premium editorial photography, intimate family lifestyle studio portrait, timeless warm aesthetic, portrait orientation 4:5 1080*1440, vertical composition.\n\n[SUBJECT:] An older man (father archetype) paired with an adult woman (daughter archetype), together projecting a serene, loving, and deeply connected familial presence.\n\n[POSE:] Dynamic, completely random interactive family studio pose. The specific closeness, embrace style, and seating alignment must vary unpredictably with each generation. For this iteration, the daughter stands slightly behind the seated father, wrapping her arms tenderly around his neck and chest from behind, with her hands interlocked with his. Her head rests gently against his side. Both look directly into the camera lens with soft, warm, peaceful expressions. Natural body weight distribution.\n\n[OUTFIT:] Coordinated, high-end casual autumn knitwear. The father is dressed in a dark, solid black crewneck ribbed knit sweater. The daughter wears a contrasting light cream/off-white thick textured crewneck knit sweater with loose sleeves and fine ribbed cuffs. Elegant, clean natural manicure.\n\n[TEXTURES:] Distinct ribbed vertical pattern of the black knit sweater, soft woven fabric texture of the cream-colored sweater, smooth and clean skin textures, soft matte finish of the seamless background.\n\n[ENVIRONMENT:] A minimalist, sophisticated studio interior featuring a solid, uniform matte olive-green seamless backdrop. Pure and completely distraction-free close-up composition.\n\n[LIGHTING:] Soft, diffused front-left studio key light; balanced fill light from the right side creating delicate, non-aggressive gradient shadows on the skin. Beautifully controlled contrast with a smooth highlight roll-off tuned precisely for skin to achieve an editorial feel.\n\n[PHOTOGRAPHY:] Premier editorial photography, Canon EOS R5, 85mm lens, f/2.2 aperture, ISO 100, 1/160s shutter speed, shallow depth of field, skin-priority exposure, professional retouch baseline, precise focus firmly locked on the eyes of both subjects.\n\n[EFFECTS:] ultra clean skin rendering, zero noise on skin, zero artificial grain, no micro-contrast on skin, no texture exaggeration, smooth tonal transitions, soft gradient skin shading, natural diffusion on skin highlights, skin luminance evenly distributed, controlled softness ONLY on skin, high sharpness on eyes and sweater textures, medium sharpness on environment, selective sharpening, skin excluded from sharpening, cinematic color grading, warm sophisticated tones, soft contrast curve, no HDR processing, no clarity boost, microcontrast removed from faces, subtle skin diffusion, highlight bloom very controlled.\n\n⚡ Flux.1 Dev Optimized Prompt\n\nEditorial photography, a premium lifestyle studio portrait of an older father and his adult daughter, portrait orientation 4:5 1080*1440, vertical composition. The subjects share a dynamic, completely random interactive close pose that changes unpredictably with each generation, displaying a deep and loving familial connection as they look directly into the lens. The father wears a solid black ribbed knit crewneck sweater, and the daughter wears a contrasting thick light cream textured knit sweater, wrapping her arms affectionately around him from behind. Set against a solid, uniform matte olive-green seamless studio backdrop. Shot with soft, diffused front-left studio lighting, Canon EOS R5, 85mm lens at f/2.2, shallow depth of field with precise focus on their eyes. clean skin rendering, soft skin tones, no skin noise, no oversharpening, smooth skin gradients, natural skin only",
+    "ativo": true
+  },
+  {
+    "id": "afa6788b-0d2d-4ab9-ae8c-a63e77a6be5d",
+    "titulo": "Afetivo de Família em Estúdio",
+    "categoria": "ESPECIAL DIA DOS PAIS",
+    "descricao": "Fotografia de estúdio intimista em close-up focado no vínculo familiar. Destaca expressões genuínas e paleta de cores acolhedora sobre fundo marrom terroso.",
+    "img_url": "/images/galeria/afetivo-de-fam-lia-em-est-dio-afa6788b-0d2d-4ab9-ae8c-a63e77a6be5d.webp",
+    "criado_em": "2026-06-18T23:50:01.117154+00:00",
+    "genero": "Ambos",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": "[STYLE:] Editorial photography, premium close-up family lifestyle portrait, warm minimalist aesthetic, portrait orientation 4:5 1080*1440, vertical composition.\n[SUBJECT:] A man (father figure) and a young boy (son figure), radiating a joyful, close, and deeply affectionate familial presence.\n[POSE:] Dynamic, random interactive paternal studio pose. The exact close-up arrangement, cheek-to-cheek proximity, and embrace mechanics (such as the child hugging the neck or resting against the chest) must vary unpredictably with each generation. Both look toward the lens with genuine, wide smiles. Natural weight distribution.\n[OUTFIT:] The man wears a dark navy blue zip-up jacket over a crisp, solid white crewneck t-shirt. The young boy wears a simple, matching solid white crewneck t-shirt.\n[TEXTURES:] Soft matte cotton fabric of the white t-shirts, structured woven textile of the navy jacket, smooth uniform texture of the backdrop.\n[ENVIRONMENT:] Pure, minimalist studio setting with a clean, uniform warm solid brown seamless backdrop. Completely distraction-free close-up composition.\n[LIGHTING:] Soft, diffused front-left key light; balanced fill light creating gentle shadows. Even studio illumination with a warm color temperature. Smooth highlight roll-off tuned for skin.\n[PHOTOGRAPHY:] Premium editorial photography, Canon EOS R5, 85mm lens, f/2.2 aperture, ISO 100, 1/160s shutter speed, shallow depth of field, skin-priority exposure, precise focus on the eyes.\n[EFFECTS:] ultra clean skin rendering, zero noise on skin, zero artificial grain, no micro-contrast on skin, no texture exaggeration, smooth tonal transitions, natural diffusion on skin highlights, skin luminance evenly distributed, controlled softness ONLY on skin, high sharpness on eyes and clothing details, medium sharpness on environment, selective sharpening, skin excluded from sharpening, cinematic color grading with rich warm tones, soft contrast curve, no HDR processing, no clarity boost, microcontrast removed from faces.\n\n⚡ Flux.1 Dev Optimized Prompt\n\nEditorial photography, a premium close-up family lifestyle studio portrait of a father and his young son, portrait orientation 4:5 1080*1440, vertical composition. The subjects share a dynamic, completely random interactive close pose that changes unpredictably with each generation, showcasing a joyful paternal bond with genuine wide smiles. The man wears a dark navy blue jacket over a solid white t-shirt, and the boy wears a matching clean white t-shirt. Set against a solid, uniform warm brown seamless studio backdrop. Shot with soft, diffused front-left studio lighting, Canon EOS R5, 85mm lens at f/2.2, shallow depth of field with precise focus on their eyes. clean skin rendering, soft skin tones, no skin noise, no oversharpening, smooth skin gradients, natural skin only.",
+    "ativo": true
+  },
+  {
     "id": "c800480b-96e3-49bb-a2d1-e8de8651a52b",
     "titulo": "Editorial Urbano Pai e Filho",
     "categoria": "ESPECIAL DIA DOS PAIS",
@@ -804,11 +840,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "467f534a-4b22-448c-8551-e3b7cdcd8bac",
-    "titulo": "Cenário 37/50",
+    "id": "4d80ba17-bb7d-4c10-9d58-245aab3586ff",
+    "titulo": "Cenário 36/50",
     "categoria": "EXECUTIVO",
-    "descricao": "Simpatia calorosa, harmonia de tons e estética de negócios suave.",
-    "img_url": "/images/galeria/cen-rio-37-50-467f534a-4b22-448c-8551-e3b7cdcd8bac.webp",
+    "descricao": "Graciosidade imponente e poder refinado de alta classe.",
+    "img_url": "/images/galeria/cen-rio-36-50-4d80ba17-bb7d-4c10-9d58-245aab3586ff.webp",
     "criado_em": "2026-03-22T21:42:53.497476+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1416,6 +1452,18 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "467f534a-4b22-448c-8551-e3b7cdcd8bac",
+    "titulo": "Cenário 37/50",
+    "categoria": "EXECUTIVO",
+    "descricao": "Simpatia calorosa, harmonia de tons e estética de negócios suave.",
+    "img_url": "/images/galeria/cen-rio-37-50-467f534a-4b22-448c-8551-e3b7cdcd8bac.webp",
+    "criado_em": "2026-03-22T21:42:53.497476+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
     "id": "c49a4eac-6473-423d-9d4b-81bb0ca71c8f",
     "titulo": "Estúdio 04/50",
     "categoria": "Estúdio",
@@ -1423,18 +1471,6 @@ export const galleryData = [
     "img_url": "/images/galeria/est-dio-04-50-c49a4eac-6473-423d-9d4b-81bb0ca71c8f.webp",
     "criado_em": "2026-03-22T21:42:53.497476+00:00",
     "genero": "Masculino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "4d80ba17-bb7d-4c10-9d58-245aab3586ff",
-    "titulo": "Cenário 36/50",
-    "categoria": "EXECUTIVO",
-    "descricao": "Graciosidade imponente e poder refinado de alta classe.",
-    "img_url": "/images/galeria/cen-rio-36-50-4d80ba17-bb7d-4c10-9d58-245aab3586ff.webp",
-    "criado_em": "2026-03-22T21:42:53.497476+00:00",
-    "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
     "ativo": true
@@ -1656,35 +1692,23 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "094e1250-2c94-47a1-b0c0-a7900d9b9e03",
-    "titulo": "Cenário 32/50",
-    "categoria": "Casual",
-    "descricao": "Elegância urbana, ambição e sofisticação casual.",
-    "img_url": "/images/galeria/cen-rio-32-50-094e1250-2c94-47a1-b0c0-a7900d9b9e03.webp",
-    "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Masculino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "08e31f7a-883e-4ef4-9a06-26d38f0555f1",
-    "titulo": "Cenário 38/50",
-    "categoria": "Lifestyle",
-    "descricao": "Confiança ágil e estética streetwear de alto padrão.",
-    "img_url": "/images/galeria/cen-rio-38-50-08e31f7a-883e-4ef4-9a06-26d38f0555f1.webp",
-    "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Masculino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
     "id": "90afd860-e58d-4da0-b5cd-a914bc120402",
     "titulo": "Cenário 37/50",
     "categoria": "Casual",
     "descricao": "Energia lúdica, assertiva e estética de moda vanguardista.",
     "img_url": "/images/galeria/cen-rio-37-50-90afd860-e58d-4da0-b5cd-a914bc120402.webp",
+    "criado_em": "2026-03-22T16:15:34.80926+00:00",
+    "genero": "Masculino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "094e1250-2c94-47a1-b0c0-a7900d9b9e03",
+    "titulo": "Cenário 32/50",
+    "categoria": "Casual",
+    "descricao": "Elegância urbana, ambição e sofisticação casual.",
+    "img_url": "/images/galeria/cen-rio-32-50-094e1250-2c94-47a1-b0c0-a7900d9b9e03.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
     "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1716,11 +1740,11 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "0ded6dff-4265-4538-bb70-fe5f74f3cfe7",
-    "titulo": "Cenário 21/50",
-    "categoria": "Editorial",
-    "descricao": "Conforto luminoso, intimidade e graciosidade executiva.",
-    "img_url": "/images/galeria/cen-rio-21-50-0ded6dff-4265-4538-bb70-fe5f74f3cfe7.webp",
+    "id": "940fb96f-88c0-42f3-ac1c-82d999e9b152",
+    "titulo": "CENÁRIO 40/50",
+    "categoria": "EXECUTIVO",
+    "descricao": "Sofisticação corporativa de altíssimo nível com brilho executivo cinematográfico.",
+    "img_url": "/images/galeria/cen-rio-40-50-940fb96f-88c0-42f3-ac1c-82d999e9b152.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1740,30 +1764,6 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "1bf25ad6-e06b-44f4-aedd-ab610b444638",
-    "titulo": "Cenário 34/50",
-    "categoria": "EXECUTIVO",
-    "descricao": "Liderança polida, foco apurado e produtividade empoderada.",
-    "img_url": "/images/galeria/cen-rio-34-50-1bf25ad6-e06b-44f4-aedd-ab610b444638.webp",
-    "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": "[STYLE: modern corporate portrait, editorial business photography with a clean and warm aesthetic, minimalistic luxury office vibe], [POSE: standing upright with torso slightly angled, one hand resting on hip while the other gently holds the shirt collar, body leaning subtly against a desk, confident and composed posture], [TEXTURES: crisp cotton shirt with smooth matte finish and subtle fabric folds, high-waisted tailored trousers with structured wool texture, polished leather belt with metallic buckle, soft matte wooden desk surface, brushed metal laptop body, stacked paper folders with semi-gloss coating, wall panels with layered matte and satin finishes, ambient light diffusing across surfaces], [ENVIRONMENT: contemporary office interior with vertical wooden slat wall, decorative geometric wall panels emitting warm indirect lighting, desk setup including laptop, documents, and office accessories, blurred background with depth emphasizing professional workspace], [PHOTOGRAPHY: shot on Canon EOS R5 with RF 85mm f/1.2L lens, shallow depth of field, aperture around f/1.8, soft natural window light combined with warm practical lights, creamy bokeh background, medium framing portrait], [EFFECTS: warm color grading, soft highlights, subtle skin smoothing, depth enhancement, gentle vignette, cinematic light bloom around illuminated panels]",
-    "ativo": true
-  },
-  {
-    "id": "940fb96f-88c0-42f3-ac1c-82d999e9b152",
-    "titulo": "CENÁRIO 40/50",
-    "categoria": "EXECUTIVO",
-    "descricao": "Sofisticação corporativa de altíssimo nível com brilho executivo cinematográfico.",
-    "img_url": "/images/galeria/cen-rio-40-50-940fb96f-88c0-42f3-ac1c-82d999e9b152.webp",
-    "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
     "id": "016dd2c8-721c-4ae5-af8e-0a4aec041fc8",
     "titulo": "Lifestyle 46/50",
     "categoria": "Lifestyle",
@@ -1776,15 +1776,39 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "14621382-aab8-4368-a7ab-5e5f7346e392",
-    "titulo": "Cenário 22/50",
-    "categoria": "Casual",
-    "descricao": "Liderança inspiradora com forte conexão à luz urbana.",
-    "img_url": "/images/galeria/cen-rio-22-50-14621382-aab8-4368-a7ab-5e5f7346e392.webp",
+    "id": "08e31f7a-883e-4ef4-9a06-26d38f0555f1",
+    "titulo": "Cenário 38/50",
+    "categoria": "Lifestyle",
+    "descricao": "Confiança ágil e estética streetwear de alto padrão.",
+    "img_url": "/images/galeria/cen-rio-38-50-08e31f7a-883e-4ef4-9a06-26d38f0555f1.webp",
+    "criado_em": "2026-03-22T16:15:34.80926+00:00",
+    "genero": "Masculino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "73284ffa-0b14-47ce-b9b3-6fc52c42ed74",
+    "titulo": "Lifestyle 50/50",
+    "categoria": "Lifestyle",
+    "descricao": "Visão futurista, postura imponente e determinação corporativa.",
+    "img_url": "/images/galeria/lifestyle-50-50-73284ffa-0b14-47ce-b9b3-6fc52c42ed74.webp",
+    "criado_em": "2026-03-22T16:15:34.80926+00:00",
+    "genero": "Masculino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "1bf25ad6-e06b-44f4-aedd-ab610b444638",
+    "titulo": "Cenário 34/50",
+    "categoria": "EXECUTIVO",
+    "descricao": "Liderança polida, foco apurado e produtividade empoderada.",
+    "img_url": "/images/galeria/cen-rio-34-50-1bf25ad6-e06b-44f4-aedd-ab610b444638.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
+    "prompt": "[STYLE: modern corporate portrait, editorial business photography with a clean and warm aesthetic, minimalistic luxury office vibe], [POSE: standing upright with torso slightly angled, one hand resting on hip while the other gently holds the shirt collar, body leaning subtly against a desk, confident and composed posture], [TEXTURES: crisp cotton shirt with smooth matte finish and subtle fabric folds, high-waisted tailored trousers with structured wool texture, polished leather belt with metallic buckle, soft matte wooden desk surface, brushed metal laptop body, stacked paper folders with semi-gloss coating, wall panels with layered matte and satin finishes, ambient light diffusing across surfaces], [ENVIRONMENT: contemporary office interior with vertical wooden slat wall, decorative geometric wall panels emitting warm indirect lighting, desk setup including laptop, documents, and office accessories, blurred background with depth emphasizing professional workspace], [PHOTOGRAPHY: shot on Canon EOS R5 with RF 85mm f/1.2L lens, shallow depth of field, aperture around f/1.8, soft natural window light combined with warm practical lights, creamy bokeh background, medium framing portrait], [EFFECTS: warm color grading, soft highlights, subtle skin smoothing, depth enhancement, gentle vignette, cinematic light bloom around illuminated panels]",
     "ativo": true
   },
   {
@@ -1793,6 +1817,18 @@ export const galleryData = [
     "categoria": "Estúdio",
     "descricao": "Entusiasmo, calor humano e dinamismo acolhedor.",
     "img_url": "/images/galeria/est-dio-03-50-3e73fbbb-7cf7-4619-ab55-6fd4d7480698.webp",
+    "criado_em": "2026-03-22T16:15:34.80926+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "0ded6dff-4265-4538-bb70-fe5f74f3cfe7",
+    "titulo": "Cenário 21/50",
+    "categoria": "Editorial",
+    "descricao": "Conforto luminoso, intimidade e graciosidade executiva.",
+    "img_url": "/images/galeria/cen-rio-21-50-0ded6dff-4265-4538-bb70-fe5f74f3cfe7.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
@@ -1812,18 +1848,6 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "10ba79fb-e4d1-4ca9-855a-e763b716364a",
-    "titulo": "Cenário 27/50",
-    "categoria": "Editorial",
-    "descricao": "Poder carismático formidável e ambiente de luxo imponente.",
-    "img_url": "/images/galeria/cen-rio-27-50-10ba79fb-e4d1-4ca9-855a-e763b716364a.webp",
-    "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
     "id": "9015f70b-e5a6-40cc-95ec-7fa124de6d2b",
     "titulo": "Cenário 30/50",
     "categoria": "Lifestyle",
@@ -1836,25 +1860,37 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "73284ffa-0b14-47ce-b9b3-6fc52c42ed74",
-    "titulo": "Lifestyle 50/50",
-    "categoria": "Lifestyle",
-    "descricao": "Visão futurista, postura imponente e determinação corporativa.",
-    "img_url": "/images/galeria/lifestyle-50-50-73284ffa-0b14-47ce-b9b3-6fc52c42ed74.webp",
+    "id": "14621382-aab8-4368-a7ab-5e5f7346e392",
+    "titulo": "Cenário 22/50",
+    "categoria": "Casual",
+    "descricao": "Liderança inspiradora com forte conexão à luz urbana.",
+    "img_url": "/images/galeria/cen-rio-22-50-14621382-aab8-4368-a7ab-5e5f7346e392.webp",
     "criado_em": "2026-03-22T16:15:34.80926+00:00",
-    "genero": "Masculino",
+    "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
     "ativo": true
   },
   {
-    "id": "0c4e3caa-f467-4d39-9054-f39c9472126c",
-    "titulo": "Cenário 28/50",
-    "categoria": "Casual",
-    "descricao": "Estilo relaxado, urbano e editorial moderno.",
-    "img_url": "/images/galeria/cen-rio-28-50-0c4e3caa-f467-4d39-9054-f39c9472126c.webp",
+    "id": "10ba79fb-e4d1-4ca9-855a-e763b716364a",
+    "titulo": "Cenário 27/50",
+    "categoria": "Editorial",
+    "descricao": "Poder carismático formidável e ambiente de luxo imponente.",
+    "img_url": "/images/galeria/cen-rio-27-50-10ba79fb-e4d1-4ca9-855a-e763b716364a.webp",
+    "criado_em": "2026-03-22T16:15:34.80926+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "18d706bb-3430-4d38-92d2-dafa07472b54",
+    "titulo": "Estúdio 08/50",
+    "categoria": "Estúdio",
+    "descricao": "Cores vibrantes, calor radiante e dinamismo em apresentações.",
+    "img_url": "/images/galeria/est-dio-08-50-18d706bb-3430-4d38-92d2-dafa07472b54.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Masculino",
+    "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
     "ativo": true
@@ -1872,13 +1908,13 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "31dbb111-7a0f-4c0c-8b77-39cd803481da",
-    "titulo": "Cenário 24/50",
-    "categoria": "EXECUTIVO",
-    "descricao": "Refinamento aconchegante e postura profissional convidativa.",
-    "img_url": "/images/galeria/cen-rio-24-50-31dbb111-7a0f-4c0c-8b77-39cd803481da.webp",
+    "id": "0c4e3caa-f467-4d39-9054-f39c9472126c",
+    "titulo": "Cenário 28/50",
+    "categoria": "Casual",
+    "descricao": "Estilo relaxado, urbano e editorial moderno.",
+    "img_url": "/images/galeria/cen-rio-28-50-0c4e3caa-f467-4d39-9054-f39c9472126c.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
+    "genero": "Masculino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
     "ativo": true
@@ -1944,6 +1980,18 @@ export const galleryData = [
     "ativo": true
   },
   {
+    "id": "31dbb111-7a0f-4c0c-8b77-39cd803481da",
+    "titulo": "Cenário 24/50",
+    "categoria": "EXECUTIVO",
+    "descricao": "Refinamento aconchegante e postura profissional convidativa.",
+    "img_url": "/images/galeria/cen-rio-24-50-31dbb111-7a0f-4c0c-8b77-39cd803481da.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
     "id": "50ff3789-fb52-4d38-b810-7189b86efaf7",
     "titulo": "Estúdio 14/50",
     "categoria": "Estúdio",
@@ -1968,18 +2016,6 @@ export const galleryData = [
     "ativo": true
   },
   {
-    "id": "b6f27c6b-ad71-4f26-b025-7dc329c71f42",
-    "titulo": "Estúdio 18/50",
-    "categoria": "Estúdio",
-    "descricao": "Aura intelectual profunda e centelha de inspiração criativa.",
-    "img_url": "/images/galeria/est-dio-18-50-b6f27c6b-ad71-4f26-b025-7dc329c71f42.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
     "id": "290cf840-6c62-4ac7-9e84-ffb7a42c9777",
     "titulo": "Cenário 39/50",
     "categoria": "Editorial",
@@ -1987,6 +2023,18 @@ export const galleryData = [
     "img_url": "/images/galeria/cen-rio-39-50-290cf840-6c62-4ac7-9e84-ffb7a42c9777.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
     "genero": "Masculino",
+    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
+    "prompt": null,
+    "ativo": true
+  },
+  {
+    "id": "b6f27c6b-ad71-4f26-b025-7dc329c71f42",
+    "titulo": "Estúdio 18/50",
+    "categoria": "Estúdio",
+    "descricao": "Aura intelectual profunda e centelha de inspiração criativa.",
+    "img_url": "/images/galeria/est-dio-18-50-b6f27c6b-ad71-4f26-b025-7dc329c71f42.webp",
+    "criado_em": "2026-03-22T05:15:08.588291+00:00",
+    "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
     "prompt": null,
     "ativo": true
@@ -2045,18 +2093,6 @@ export const galleryData = [
     "categoria": "Estúdio",
     "descricao": "Elegância minimalista, autoconfiança e poder sutil.",
     "img_url": "/images/galeria/est-dio-01-50-26247d1c-8e77-4575-b8ad-fa5b8fd4dc5e.webp",
-    "criado_em": "2026-03-22T05:15:08.588291+00:00",
-    "genero": "Feminino",
-    "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
-    "prompt": null,
-    "ativo": true
-  },
-  {
-    "id": "18d706bb-3430-4d38-92d2-dafa07472b54",
-    "titulo": "Estúdio 08/50",
-    "categoria": "Estúdio",
-    "descricao": "Cores vibrantes, calor radiante e dinamismo em apresentações.",
-    "img_url": "/images/galeria/est-dio-08-50-18d706bb-3430-4d38-92d2-dafa07472b54.webp",
     "criado_em": "2026-03-22T05:15:08.588291+00:00",
     "genero": "Feminino",
     "dica_roupa": "Prefira roupas lisas, blazers ou camisas de cores neutras. Evite estampas muito chamativas para um resultado mais elegante com a IA.",
