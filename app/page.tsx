@@ -933,6 +933,10 @@ export default function LandingPage() {
                     </div>
                   </div>
                   <div className="shrink-0 w-full sm:w-auto mt-4 sm:mt-0 flex flex-col items-center sm:items-end gap-2">
+                    <div className="text-center sm:text-right flex flex-col items-center sm:items-end mb-1">
+                      <span className="text-2xl font-bold text-studio-gold tracking-wider">R$ 69,90</span>
+                      <p className="text-[9px] text-studio-gold/60 uppercase tracking-widest font-bold leading-none mt-1">por estilo adicional</p>
+                    </div>
                     <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest bg-white/5 px-6 py-3 rounded-lg border border-white/10 group-hover:bg-studio-gold group-hover:text-studio-black transition-all">
                       <PlusCircle size={16} /> Adicionar
                     </div>
