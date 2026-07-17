@@ -94,6 +94,28 @@ const lojistasWorkflowAvatars: AvatarWorkflow[] = [
     product_original_url: "/images/lojistas/product-before-m-suit.jpeg",
     product_transformed_url: "/images/lojistas/product-after-m-suit.jpeg",
     style_category: "Clássico Atemporal"
+  },
+  {
+    id: "VS-F-005",
+    nome: "Beatriz Ferraz",
+    categoria: "Minimalismo de Estúdio",
+    genero: "Feminino",
+    descricao: "Recorte nítido e iluminação suave de estúdio corporativo. Desenvolvido especialmente para realçar brilho de metais, colares e joias finas.",
+    image_sheet_url: "/images/lojistas/sheet-f-005.png",
+    product_original_url: "/images/lojistas/product-before-necklace.png",
+    product_transformed_url: "/images/lojistas/product-after-necklace.png",
+    style_category: "Minimalismo de Estúdio"
+  },
+  {
+    id: "VS-M-006",
+    nome: "Gabriel Silva",
+    categoria: "Elegância Urbana",
+    genero: "Masculino",
+    descricao: "Atmosfera urbana vibrante com luz natural difusa. Excelente para destacar o design, textura e caimento de tênis casuais e calçados premium.",
+    image_sheet_url: "/images/lojistas/sheet-m-006.png",
+    product_original_url: "/images/lojistas/tenis-nike.jpeg",
+    product_transformed_url: "/images/lojistas/product-after-shoes.png",
+    style_category: "Elegância Urbana"
   }
 ];
 

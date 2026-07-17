@@ -41,3 +41,23 @@ A professional Mediterranean female model character sheet, showing 6 different a
 ```text
 A professional handsome black male model character sheet, showing 6 different angles and poses of the same man, short black hair, wearing a simple white t-shirt and black trousers, minimalist dark studio background, high-end commercial fashion photography, 8k resolution, realistic lighting and skin texture, highly detailed
 ```
+
+---
+
+## 5. Avatar VS-F-005 (Beatriz Ferraz)
+- **Gênero:** Feminino
+- **Estilo:** Minimalismo de Estúdio (Foco em Colares e Joias)
+- **Prompt:**
+```text
+A professional Brazilian female model character sheet, showing 6 different angles and poses of the same attractive woman, light brown skin, straight dark hair, wearing a clean white t-shirt and dark jeans, minimalist dark studio background, high-end commercial fashion photography, 8k resolution, crisp detail, realistic lighting and skin texture
+```
+
+---
+
+## 6. Avatar VS-M-006 (Gabriel Silva)
+- **Gênero:** Masculino
+- **Estilo:** Elegância Urbana (Foco em Tênis e Calçados)
+- **Prompt:**
+```text
+A professional Latino male model character sheet, showing 6 different angles and poses of the same handsome man, short dark hair, wearing a clean white t-shirt and grey trousers, minimalist dark studio background, high-end commercial fashion photography, 8k resolution, crisp detail, realistic lighting and skin texture
+```
