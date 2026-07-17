@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ChevronLeft,
+  ChevronRight,
   Check,
   Star,
   ArrowRight,
@@ -37,6 +38,65 @@ import { packsLojistas, doresLojistas, faqsLojistas, depoimentosLojistas, Avatar
 import { galleryData } from '@/app/galeria/data';
 import SalesNotification from '@/components/SalesNotification';
 
+interface AvatarWorkflow {
+  id: string;
+  nome: string;
+  categoria: string;
+  genero: 'Feminino' | 'Masculino';
+  descricao: string;
+  image_sheet_url: string;
+  product_original_url: string;
+  product_transformed_url: string;
+  style_category: string;
+}
+
+const lojistasWorkflowAvatars: AvatarWorkflow[] = [
+  {
+    id: "VS-F-001",
+    nome: "Sophia Vance",
+    categoria: "Elegância Urbana",
+    genero: "Feminino",
+    descricao: "Perfil cosmopolita, expressivo e de alta autoridade visual. Perfeito para blazers, joias contemporâneas e óculos.",
+    image_sheet_url: "/images/lojistas/sheet-f-001.png",
+    product_original_url: "/images/lojistas/product-before.png",
+    product_transformed_url: "/images/lojistas/product-after-f.png",
+    style_category: "Elegância Urbana"
+  },
+  {
+    id: "VS-M-002",
+    nome: "Lucas Sterling",
+    categoria: "Minimalismo de Estúdio",
+    genero: "Masculino",
+    descricao: "Estética limpa, olhar magnético e postura impecável. Ideal para relógios, camisaria e perfumes premium.",
+    image_sheet_url: "/images/lojistas/sheet-m-002.png",
+    product_original_url: "/images/lojistas/product-before.png",
+    product_transformed_url: "/images/lojistas/product-after-m.png",
+    style_category: "Minimalismo de Estúdio"
+  },
+  {
+    id: "VS-F-003",
+    nome: "Elena Rostova",
+    categoria: "Luxo Casual",
+    genero: "Feminino",
+    descricao: "Atmosfera sofisticada com toque despojado e iluminação suave de fim de tarde. Excelente para bolsas de couro e semijoias.",
+    image_sheet_url: "/images/lojistas/sheet-f-001.png",
+    product_original_url: "/images/lojistas/product-before.png",
+    product_transformed_url: "/images/lojistas/product-after-f.png",
+    style_category: "Luxo Casual"
+  },
+  {
+    id: "VS-M-004",
+    nome: "Marcus Blackwood",
+    categoria: "Clássico Atemporal",
+    genero: "Masculino",
+    descricao: "Presença imponente, contraste low-key e elegância clássica. Desenvolvido para trajes finos e marcas masculinas premium.",
+    image_sheet_url: "/images/lojistas/sheet-m-002.png",
+    product_original_url: "/images/lojistas/product-before.png",
+    product_transformed_url: "/images/lojistas/product-after-m.png",
+    style_category: "Clássico Atemporal"
+  }
+];
+
 export default function LojistasPage() {
   const [activeCategory, setActiveCategory] = useState<string>('Todos');
   const [selectedAvatars, setSelectedAvatars] = useState<AvatarModel[]>([]);
@@ -47,6 +107,30 @@ export default function LojistasPage() {
   const [sliderHero, setSliderHero] = useState<number>(55);
   const [sliderCase1, setSliderCase1] = useState<number>(50);
   const [sliderCase2, setSliderCase2] = useState<number>(50);
+
+  // Estados e Handlers para o Carrossel de Avatares (Workflow)
+  const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  const activeAvatar = lojistasWorkflowAvatars[currentAvatarIndex];
+
+  const handleNextAvatar = () => {
+    setCurrentAvatarIndex((prev) => (prev + 1) % lojistasWorkflowAvatars.length);
+    setCurrentSlideIndex(0);
+  };
+
+  const handlePrevAvatar = () => {
+    setCurrentAvatarIndex((prev) => (prev - 1 + lojistasWorkflowAvatars.length) % lojistasWorkflowAvatars.length);
+    setCurrentSlideIndex(0);
+  };
+
+  const handleNextSlide = () => {
+    setCurrentSlideIndex((prev) => (prev + 1) % 4);
+  };
+
+  const handlePrevSlide = () => {
+    setCurrentSlideIndex((prev) => (prev - 1 + 4) % 4);
+  };
 
   // Mapeia galleryData (excluindo categorias que não são voltadas para lojistas B2B)
   const EXCLUDED_CATEGORIES = [
@@ -471,133 +555,222 @@ export default function LojistasPage() {
         </div>
       </section>
 
-      {/* 4. SEÇÃO "NOSSOS MODELOS VIRTUAIS DE ELITE" (Galeria de Avatares - IDÊNTICA EM FUNCIONALIDADE AO /GALERIA) */}
-      <section id="modelos" className="py-24 bg-[#0a0a0a] border-t border-white/5 scroll-mt-24">
-        <div className="container mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-12">
+      {/* 4. SEÇÃO "NOSSOS MODELOS VIRTUAIS DE ELITE" (Carrossel de Avatares) */}
+      <section id="modelos" className="py-24 bg-[#0a0a0a] border-t border-white/5 scroll-mt-24 relative overflow-hidden">
+        {/* Background glow decorativo */}
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-studio-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
             <p className="text-studio-gold uppercase tracking-[0.4em] text-xs font-bold mb-3 font-display">
               CATÁLOGO DE AVATARES
             </p>
-            <h2 className="text-3xl md:text-6xl font-extrabold mb-6 italic uppercase tracking-tighter font-display">
+            <h2 className="text-3xl md:text-5xl font-extrabold mb-6 italic uppercase tracking-tighter font-display">
               Escolha o <span className="text-studio-gold">Avatar Perfeito</span> Para Sua Marca
             </h2>
             <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed">
-              Clique para visualizar os detalhes ou selecione os modelos para montar seu pacote de fotos. Cada avatar possui iluminação, caimento de roupas e texturas otimizadas.
+              Navegue pelos nossos modelos virtuais e visualize o workflow de estilo do Virtual Studio. Veja a transformação de um produto simples em um ensaio de luxo.
             </p>
           </div>
 
-          {/* Filtros e Grid de Avatares temporariamente invisíveis */}
-          {false && (
-            <>
-              {/* Filtros de Categoria em Grid/Wrap (Idêntico ao /galeria) */}
-              <div className="flex flex-col gap-4 mb-12 max-w-4xl mx-auto">
-                {/* Filtro por Estilo / Categoria */}
-                <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`whitespace-nowrap px-5 sm:px-6 py-2.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${activeCategory === cat
-                        ? 'bg-studio-gold border-studio-gold text-studio-black shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-105'
-                        : 'bg-transparent border-studio-gold/30 text-studio-gold hover:border-studio-gold hover:bg-studio-gold/10'
-                        }`}
-                    >
-                      {cat === 'Todos' ? '✨ Ver Todos os Avatares' : cat}
-                    </button>
-                  ))}
-                </div>
-              </div>
+          {/* Componente Carrossel Interativo */}
+          <div className="max-w-5xl mx-auto bg-[#111111]/80 border border-white/10 rounded-3xl p-6 sm:p-10 backdrop-blur-md relative shadow-2xl">
+            {/* Navegação entre Avatares (Setas Laterais) - Desktop */}
+            <button
+              onClick={handlePrevAvatar}
+              className="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-[#141414] border border-white/10 text-white hover:text-studio-black hover:bg-studio-gold hover:border-studio-gold hover:scale-110 size-12 rounded-full items-center justify-center transition-all cursor-pointer shadow-lg"
+              aria-label="Avatar anterior"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={handleNextAvatar}
+              className="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-[#141414] border border-white/10 text-white hover:text-studio-black hover:bg-studio-gold hover:border-studio-gold hover:scale-110 size-12 rounded-full items-center justify-center transition-all cursor-pointer shadow-lg"
+              aria-label="Próximo avatar"
+            >
+              <ChevronRight size={24} />
+            </button>
 
-              {/* Grid de Avatares */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto">
-                <AnimatePresence mode="popLayout">
-                  {filteredAvatars.map((avatar) => {
-                    const isSelected = selectedAvatars.some(a => a.id === avatar.id);
-                    return (
-                      <motion.div
-                        key={avatar.id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.35 }}
-                        onClick={() => setModalAvatar(avatar)}
-                        className={`group relative aspect-[4/5] overflow-hidden rounded-2xl block cursor-pointer transition-all duration-300 bg-studio-black border ${isSelected
-                          ? 'ring-4 ring-studio-gold border-studio-gold shadow-[0_0_30px_rgba(212,175,55,0.3)]'
-                          : 'border-white/10 hover:border-studio-gold/50 hover:shadow-2xl'
-                          }`}
-                      >
-                        {/* Imagem de Fundo */}
-                        <div className="absolute inset-0 bg-studio-black">
+            {/* Selector de Modelos no Topo */}
+            <div className="flex justify-center gap-3 mb-8 flex-wrap">
+              {lojistasWorkflowAvatars.map((av, idx) => (
+                <button
+                  key={av.id}
+                  onClick={() => { setCurrentAvatarIndex(idx); setCurrentSlideIndex(0); }}
+                  className={`px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all border ${currentAvatarIndex === idx
+                    ? 'bg-studio-gold border-studio-gold text-studio-black shadow-[0_0_15px_rgba(212,175,55,0.35)] scale-105'
+                    : 'bg-transparent border-white/10 text-gray-400 hover:border-white/20 hover:text-white'
+                    }`}
+                >
+                  {av.id} ({av.genero === 'Feminino' ? 'F' : 'M'})
+                </button>
+              ))}
+            </div>
+
+            {/* Grid Principal: Esquerda Imagem, Direita Texto e Controles de Workflow */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+              {/* Esquerda: Container da Imagem com Aspect Ratio 4:5 */}
+              <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5] w-full rounded-2xl overflow-hidden bg-studio-black/60 border border-white/5 shadow-inner">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`${currentAvatarIndex}-${currentSlideIndex}`}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="absolute inset-0 w-full h-full"
+                  >
+                    {currentSlideIndex === 3 ? (
+                      /* Slide 4: CTA com Logo Gold Premium */
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#181613] to-studio-black flex flex-col items-center justify-center p-8 text-center select-none">
+                        <div className="relative w-32 h-32 mb-6">
                           <Image
-                            src={avatar.img_url}
-                            alt={`${avatar.nome} - ${avatar.categoria}`}
+                            src="/logo_transparente_.png"
+                            alt="Virtual Studio Logo"
                             fill
-                            className={`object-cover sm:object-contain transition-all duration-700 ${isSelected ? 'scale-105 opacity-100' : 'group-hover:scale-110 opacity-85 group-hover:opacity-100'
-                              } select-none pointer-events-none`}
-                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                            className="object-contain filter drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]"
                             unoptimized
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-studio-black/30 to-transparent opacity-90"></div>
                         </div>
-
-                        {/* Badge Destaque */}
-                        {avatar.destaque && (
-                          <div className="absolute top-3 left-3 z-20 bg-studio-gold/90 text-studio-black text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md shadow flex items-center gap-1">
-                            <Star size={10} className="fill-studio-black" /> Top Escolha
-                          </div>
-                        )}
-
-                        {/* Ícone de Seleção Rápida */}
-                        <button
-                          onClick={(e) => toggleAvatar(avatar, e)}
-                          aria-label={`Selecionar avatar ${avatar.nome}`}
-                          className={`absolute top-3 right-3 z-30 size-9 rounded-full flex items-center justify-center transition-all ${isSelected
-                            ? 'bg-studio-gold text-studio-black shadow-lg scale-110'
-                            : 'bg-black/60 text-white/70 border border-white/20 hover:bg-studio-gold hover:text-studio-black'
-                            }`}
-                        >
-                          <Check size={18} strokeWidth={isSelected ? 3 : 2} />
-                        </button>
-
-                        {/* Detalhes na parte inferior do card */}
-                        <div className="absolute bottom-4 left-0 right-0 px-4 text-center z-20 transition-all duration-300">
-                          <span className="text-studio-gold text-[9px] uppercase font-bold tracking-[0.2em] block mb-3">
-                            {avatar.codigo} • {avatar.categoria}
-                          </span>
-
-                          <div className="flex items-center justify-center gap-2">
-                            <span
-                              onClick={(e) => toggleAvatar(avatar, e)}
-                              className={`text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border transition-all ${isSelected
-                                ? 'bg-studio-gold text-studio-black border-studio-gold shadow'
-                                : 'bg-white/10 text-white border-white/20 hover:bg-studio-gold hover:text-studio-black hover:border-studio-gold'
-                                }`}
-                            >
-                              {isSelected ? '✓ Selecionado' : '+ Selecionar'}
-                            </span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
+                        <p className="text-studio-gold text-[10px] font-black uppercase tracking-[0.25em] mb-2">Virtual Studio</p>
+                        <h3 className="text-lg font-bold uppercase text-white font-display tracking-widest">Estúdio Fotográfico IA</h3>
+                        <div className="w-12 h-[1px] bg-studio-gold/30 mt-4"></div>
+                      </div>
+                    ) : (
+                      /* Slides 1, 2, 3: Imagem do workflow */
+                      <Image
+                        src={currentSlideIndex === 0 ? activeAvatar.image_sheet_url : currentSlideIndex === 1 ? activeAvatar.product_original_url : activeAvatar.product_transformed_url}
+                        alt={currentSlideIndex === 0 ? `Avatar ID: ${activeAvatar.id}` : currentSlideIndex === 1 ? 'Seu Produto Original' : 'Seu Produto no Virtual Studio'}
+                        fill
+                        className="object-cover"
+                        unoptimized
+                        priority
+                      />
+                    )}
+                  </motion.div>
                 </AnimatePresence>
+
+                {/* Sombra interna do gradiente */}
+                {currentSlideIndex !== 3 && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-studio-black/60 via-transparent to-transparent pointer-events-none"></div>
+                )}
               </div>
 
-              {filteredAvatars.length === 0 && (
-                <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 max-w-xl mx-auto">
-                  <Camera size={48} className="mx-auto text-gray-500 mb-4" />
-                  <p className="text-gray-400 font-bold uppercase tracking-widest">Nenhum avatar encontrado nesta combinação de filtro.</p>
-                  <button
-                    onClick={() => { setActiveCategory('Todos'); }}
-                    className="mt-4 text-xs text-studio-gold underline uppercase tracking-widest font-bold"
-                  >
-                    Limpar filtros e ver todos
-                  </button>
+              {/* Direita: Detalhes, Workflow e CTA */}
+              <div className="flex flex-col justify-between h-full min-h-[300px] sm:min-h-[350px]">
+                <div>
+                  {/* Badge de Etapa */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="bg-studio-gold/10 text-studio-gold px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-[0.15em] border border-studio-gold/20">
+                      Passo {currentSlideIndex + 1} de 4
+                    </span>
+                    <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">
+                      {currentSlideIndex === 0 && 'O Avatar / Referência'}
+                      {currentSlideIndex === 1 && 'O Produto do Lojista'}
+                      {currentSlideIndex === 2 && 'Resultado Final IA'}
+                      {currentSlideIndex === 3 && 'Parceria WhatsApp'}
+                    </span>
+                  </div>
+
+                  {/* Título com transição suave */}
+                  <AnimatePresence mode="wait">
+                    <motion.h3
+                      key={`${currentAvatarIndex}-${currentSlideIndex}-title`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-2xl sm:text-3xl font-extrabold uppercase text-white tracking-tight font-display mb-4"
+                    >
+                      {currentSlideIndex === 0 && `Avatar ID: ${activeAvatar.id}`}
+                      {currentSlideIndex === 1 && 'Seu Produto Original'}
+                      {currentSlideIndex === 2 && 'Seu Produto no Virtual Studio'}
+                      {currentSlideIndex === 3 && 'Gostou deste Avatar?'}
+                    </motion.h3>
+                  </AnimatePresence>
+
+                  {/* Descrição */}
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={`${currentAvatarIndex}-${currentSlideIndex}-desc`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-gray-400 text-sm sm:text-base font-light leading-relaxed mb-8"
+                    >
+                      {currentSlideIndex === 0 && `${activeAvatar.genero}, ${activeAvatar.style_category}. ${activeAvatar.descricao}`}
+                      {currentSlideIndex === 1 && 'Assim como você nos enviaria. Fundo neutro, iluminação padrão.'}
+                      {currentSlideIndex === 2 && `Transformado em um ensaio fotorrealista 8K no estilo ${activeAvatar.style_category}, pronto para vender!`}
+                      {currentSlideIndex === 3 && 'Escolha este modelo e envie as fotos do seu produto. Nós cuidamos do resto!'}
+                    </motion.p>
+                  </AnimatePresence>
                 </div>
-              )}
-            </>
-          )}
+
+                {/* Controles de Slides do Workflow */}
+                <div className="mt-auto">
+                  {/* Navegação de Passos (Tabs Interativas) */}
+                  <div className="grid grid-cols-4 gap-2 mb-6">
+                    {['01. Avatar', '02. Antes', '03. Depois', '04. Escolher'].map((stepName, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentSlideIndex(idx)}
+                        className={`py-2 rounded-lg text-[9px] sm:text-[10px] font-bold uppercase tracking-wider transition-all border ${currentSlideIndex === idx
+                          ? 'bg-studio-gold/15 border-studio-gold text-studio-gold shadow'
+                          : 'bg-transparent border-white/5 text-gray-500 hover:border-white/10 hover:text-gray-400'
+                          }`}
+                      >
+                        {stepName}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Botões de Ação na Direita */}
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    {currentSlideIndex === 3 ? (
+                      /* CTA Final para WhatsApp */
+                      <a
+                        href={`https://wa.me/556193314473?text=${encodeURIComponent(`Olá, tenho interesse em usar o avatar ${activeAvatar.id} para meus ensaios.`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-studio-gold text-studio-black py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-studio-gold-light hover:scale-[1.02] transition-all flex items-center justify-center gap-2 shadow-lg shadow-studio-gold/20 cursor-pointer text-center"
+                      >
+                        <MessageCircle size={18} className="fill-studio-black" />
+                        Escolher Avatar {activeAvatar.id}
+                      </a>
+                    ) : (
+                      /* Avançar Workflow */
+                      <button
+                        onClick={handleNextSlide}
+                        className="w-full bg-white/10 border border-white/20 text-white hover:bg-white/20 py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        Avançar no Workflow <ArrowRight size={16} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Seta e Controle de Navegação de Avatares - Mobile (Aparece no rodapé no mobile) */}
+            <div className="flex md:hidden justify-between items-center mt-8 pt-6 border-t border-white/5">
+              <button
+                onClick={handlePrevAvatar}
+                className="bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center gap-1 cursor-pointer"
+              >
+                ← Anterior
+              </button>
+              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">
+                {currentAvatarIndex + 1} / {lojistasWorkflowAvatars.length}
+              </span>
+              <button
+                onClick={handleNextAvatar}
+                className="bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center gap-1 cursor-pointer"
+              >
+                Próximo →
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
