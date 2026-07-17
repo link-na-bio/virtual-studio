@@ -121,7 +121,7 @@ export default function LandingPage() {
     },
     {
       id: 'copa',
-      ativo: true,
+      ativo: false,
       titulo: 'Especial Copa 2026 ⚽',
       descricao: 'Entre no clima da torcida! Crie retratos esportivos temáticos incríveis em alta definição.',
       categoria: 'Copa 2026',
@@ -131,7 +131,7 @@ export default function LandingPage() {
       tagText: 'TEMPO LIMITADO',
       icon: 'trophy'
     }
-  ];
+  ].filter(c => c.ativo);
 
   const [activeCampaignIndex, setActiveCampaignIndex] = useState(0);
 
@@ -228,6 +228,7 @@ export default function LandingPage() {
             <li><a className="hover:text-studio-gold transition" href="#galeria">Estilos</a></li>
             <li><a className="hover:text-studio-gold transition" href="#processo">Processo</a></li>
             <li><a className="hover:text-studio-gold transition" href="#precos">Packs</a></li>
+            <li><Link className="hover:text-studio-gold transition font-bold text-studio-gold" href="/lojistas">Lojistas</Link></li>
             <li><a className="hover:text-studio-gold transition" href="#contato">Contato</a></li>
           </ul>
           <Link href="/signup" className="bg-studio-gold text-studio-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
@@ -877,45 +878,51 @@ export default function LandingPage() {
               </AnimatePresence>
 
               {/* Controles do Carrossel (Dots) */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
-                {CAMPANHAS_SAZONAIS.map((_, idx) => (
+              {CAMPANHAS_SAZONAIS.length > 1 && (
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
+                  {CAMPANHAS_SAZONAIS.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveCampaignIndex(idx);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === activeCampaignIndex
+                        ? 'bg-studio-gold w-4'
+                        : 'bg-white/20 hover:bg-white/40'
+                        }`}
+                      title={`Ver campanha ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Setas de navegação (no hover do container) */}
+              {CAMPANHAS_SAZONAIS.length > 1 && (
+                <>
                   <button
-                    key={idx}
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
-                      setActiveCampaignIndex(idx);
+                      setActiveCampaignIndex((prev) => (prev - 1 + CAMPANHAS_SAZONAIS.length) % CAMPANHAS_SAZONAIS.length);
                     }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === activeCampaignIndex
-                      ? 'bg-studio-gold w-4'
-                      : 'bg-white/20 hover:bg-white/40'
-                      }`}
-                    title={`Ver campanha ${idx + 1}`}
-                  />
-                ))}
-              </div>
-
-              {/* Setas de navegação (no hover do container) */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveCampaignIndex((prev) => (prev - 1 + CAMPANHAS_SAZONAIS.length) % CAMPANHAS_SAZONAIS.length);
-                }}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 transition-all z-30 opacity-0 group-hover/container:opacity-100 hidden sm:flex"
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveCampaignIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
-                }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 transition-all z-30 opacity-0 group-hover/container:opacity-100 hidden sm:flex"
-              >
-                <ChevronRight size={16} />
-              </button>
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 transition-all z-30 opacity-0 group-hover/container:opacity-100 hidden sm:flex"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveCampaignIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
+                    }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-black/60 transition-all z-30 opacity-0 group-hover/container:opacity-100 hidden sm:flex"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </>
+              )}
             </div>
 
             {/* CTA Serviço Sob Medida */}
@@ -1161,6 +1168,7 @@ export default function LandingPage() {
 
             {/* Legal Links */}
             <div className="flex flex-col items-center gap-3 text-[10px] text-gray-400 uppercase tracking-widest font-light order-3 md:order-2">
+              <Link href="/lojistas" className="hover:text-white transition-colors text-studio-gold font-medium">Lojistas B2B</Link>
               <Link href="/termos-de-uso" className="hover:text-studio-gold transition-colors">Termos de Uso</Link>
               <Link href="/politica-de-privacidade" className="hover:text-studio-gold transition-colors">Política de Privacidade</Link>
             </div>

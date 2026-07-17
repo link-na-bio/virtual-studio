@@ -18,8 +18,10 @@ function AdminStyleImage({ style }: { style: any }) {
     const uniqueId = style.id;
     const safeTitle = (style.titulo || 'img').toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
     const localUrl = `/images/galeria/${safeTitle}-${uniqueId}.webp`;
-    setSrc(localUrl);
-    setHasError(false);
+    setTimeout(() => {
+      setSrc(localUrl);
+      setHasError(false);
+    }, 0);
   }, [style]);
 
   const handleError = () => {

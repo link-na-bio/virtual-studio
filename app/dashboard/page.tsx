@@ -34,7 +34,7 @@ const CAMPANHAS_SAZONAIS = [
   },
   {
     id: 'copa',
-    ativo: true,
+    ativo: false,
     titulo: 'Especial Copa 2026 ⚽',
     descricao: 'Entre no clima da torcida! Crie retratos esportivos temáticos incríveis em alta definição.',
     categoria: 'Copa 2026',
@@ -49,7 +49,7 @@ const CAMPANHAS_SAZONAIS = [
     borderColor: 'border-green-500',
     selectedGlow: 'shadow-[0_0_20px_rgba(34,197,94,0.3)]'
   }
-];
+].filter(c => c.ativo);
 
 // Componente para renderização de imagem de estilo com fallback local
 const DashboardStyleImage = ({ style, unoptimized = true }: { style: any, unoptimized?: boolean }) => {
@@ -1831,41 +1831,47 @@ export default function Dashboard() {
                         </AnimatePresence>
 
                         {/* Setas de navegação manual */}
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveSazonalIndex((prev) => (prev - 1 + CAMPANHAS_SAZONAIS.length) % CAMPANHAS_SAZONAIS.length);
-                          }}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#121212]/80 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:scale-105 transition-all z-30 opacity-0 group-hover/sazonal:opacity-100 hidden md:flex"
-                        >
-                          <ChevronLeft size={16} />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveSazonalIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
-                          }}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#121212]/80 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:scale-105 transition-all z-30 opacity-0 group-hover/sazonal:opacity-100 hidden md:flex"
-                        >
-                          <ChevronRight size={16} />
-                        </button>
-
-                        {/* Indicadores (dots) de paginação */}
-                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-30">
-                          {CAMPANHAS_SAZONAIS.map((_, idx) => (
+                        {CAMPANHAS_SAZONAIS.length > 1 && (
+                          <>
                             <button
-                              key={idx}
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setActiveSazonalIndex(idx);
+                                setActiveSazonalIndex((prev) => (prev - 1 + CAMPANHAS_SAZONAIS.length) % CAMPANHAS_SAZONAIS.length);
                               }}
-                              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === activeSazonalIndex ? 'bg-studio-gold w-3' : 'bg-white/30 hover:bg-white/50'}`}
-                            />
-                          ))}
-                        </div>
+                              className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#121212]/80 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:scale-105 transition-all z-30 opacity-0 group-hover/sazonal:opacity-100 hidden md:flex"
+                            >
+                              <ChevronLeft size={16} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveSazonalIndex((prev) => (prev + 1) % CAMPANHAS_SAZONAIS.length);
+                              }}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#121212]/80 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:scale-105 transition-all z-30 opacity-0 group-hover/sazonal:opacity-100 hidden md:flex"
+                            >
+                              <ChevronRight size={16} />
+                            </button>
+                          </>
+                        )}
+
+                        {/* Indicadores (dots) de paginação */}
+                        {CAMPANHAS_SAZONAIS.length > 1 && (
+                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-30">
+                            {CAMPANHAS_SAZONAIS.map((_, idx) => (
+                              <button
+                                key={idx}
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveSazonalIndex(idx);
+                                }}
+                                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === activeSazonalIndex ? 'bg-studio-gold w-3' : 'bg-white/30 hover:bg-white/50'}`}
+                              />
+                            ))}
+                          </div>
+                        )}
                       </div>
 
                       {/* ESTEIRA DE ALTA CONVERSÃO DINÂMICA - CAMPANHAS SAZONAIS */}

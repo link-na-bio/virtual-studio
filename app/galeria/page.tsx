@@ -91,10 +91,12 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
 
   useEffect(() => {
     // Utilize static data instead of fetching from Supabase
-    setStyles(galleryData);
-    const uniqueCategories = Array.from(new Set(galleryData.map((s: any) => s.categoria))).filter(Boolean) as string[];
-    setCategories(['Todos', ...uniqueCategories]);
-    setIsLoading(false);
+    setTimeout(() => {
+      setStyles(galleryData);
+      const uniqueCategories = Array.from(new Set(galleryData.map((s: any) => s.categoria))).filter(Boolean) as string[];
+      setCategories(['Todos', ...uniqueCategories]);
+      setIsLoading(false);
+    }, 0);
   }, []);
 
   const filteredItems = activeCategory === 'Todos'

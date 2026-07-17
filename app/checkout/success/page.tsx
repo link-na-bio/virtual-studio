@@ -149,7 +149,7 @@ function SuccessContent() {
                 <div className="text-emerald-500"><Download size={24} /></div>
                 <div>
                   <h5 className="text-xs font-bold text-white uppercase tracking-wider">Liberação da Galeria</h5>
-                  <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-widest leading-relaxed">As suas fotos ficarão imediatamente disponíveis na aba "Meus Ensaios".</p>
+                  <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-widest leading-relaxed">As suas fotos ficarão imediatamente disponíveis na aba &quot;Meus Ensaios&quot;.</p>
                 </div>
               </div>
             </div>

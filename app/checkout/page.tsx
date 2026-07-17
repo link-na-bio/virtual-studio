@@ -92,11 +92,11 @@ function CheckoutContent() {
       setInfoCalculada({ ...baseInfo, isLegacy: true });
     } else {
       // Regra Nova (À La Carte Dinâmico)
-      const estilos = (pedido.fotos_selecionadas && pedido.fotos_selecionadas.length > 0) 
-        ? pedido.fotos_selecionadas 
+      const estilos = (pedido.fotos_selecionadas && pedido.fotos_selecionadas.length > 0)
+        ? pedido.fotos_selecionadas
         : (pedido.estilos || []);
       const hasSobMedida = estilos.includes('ESTILO_SOBMEDIDA');
-      
+
       // Filtra estilos normais (excluindo o Sob Medida)
       const estilosNormais = estilos.filter((s: string) => s !== 'ESTILO_SOBMEDIDA');
       const qtdNormais = estilosNormais.length;
@@ -268,15 +268,15 @@ function CheckoutContent() {
       {/* SIDEBAR DO CLIENTE */}
       <aside className="w-64 border-r border-white/5 bg-studio-black flex flex-col sticky top-0 h-screen hidden md:flex shrink-0">
         <div className="p-6">
-        <div className="p-8 flex flex-col items-center text-center border-b border-white/5 mb-4">
-          <div className="flex flex-col items-center">
-            <div className="relative w-[150px] h-[150px] -mt-[40px] -mb-[60px] flex items-center justify-center pointer-events-none">
-              <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+          <div className="p-8 flex flex-col items-center text-center border-b border-white/5 mb-4">
+            <div className="flex flex-col items-center">
+              <div className="relative w-[150px] h-[150px] -mt-[40px] -mb-[60px] flex items-center justify-center pointer-events-none">
+                <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
+              </div>
+              <div className="h-[1px] w-2/3 bg-gradient-to-r from-transparent via-studio-gold/50 to-transparent mt-2 mb-1"></div>
+              <p className="text-studio-gold text-[14px] uppercase tracking-widest font-bold">Checkout</p>
             </div>
-            <div className="h-[1px] w-2/3 bg-gradient-to-r from-transparent via-studio-gold/50 to-transparent mt-2 mb-1"></div>
-            <p className="text-studio-gold text-[14px] uppercase tracking-widest font-bold">Checkout</p>
           </div>
-        </div>
           <nav className="flex flex-col gap-1">
             <button onClick={() => router.push('/dashboard')} className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-studio-gold transition-colors"><Home size={18} /><span className="text-sm font-medium">Home</span></button>
           </nav>
@@ -315,7 +315,7 @@ function CheckoutContent() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-300 w-full text-left max-w-md mx-auto">
                 <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> {infoCalculada.fotos} fotos HD Inclusas</div>
-                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Sem marca d'água</div>
+                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Sem marca d&apos;água</div>
                 <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Uso comercial livre</div>
                 <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-studio-gold" /> Liberação via PIX</div>
               </div>

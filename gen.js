@@ -521,7 +521,7 @@ for (let i = 0; i < lines.length; i++) {
         continue;
     }
     
-    if (line.match(/^\\d{2}\\/50$/)) {
+    if (line.match(/^\d{2}\/50$/)) {
         continue;
     }
     
@@ -542,7 +542,7 @@ for (let i = 0; i < lines.length; i++) {
         const categoriaSql = categoria.replace(/'/g, "''");
         const impactoSql = impacto.replace(/'/g, "''");
         
-        const sql = \`INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES ('\${tituloSql}', '\${categoriaSql}', '\${impactoSql}', '\${currentGender}', '\${dicaRoupa}', '');\`;
+        const sql = `INSERT INTO public.estilos (titulo, categoria, descricao, genero, dica_roupa, img_url) VALUES ('${tituloSql}', '${categoriaSql}', '${impactoSql}', '${currentGender}', '${dicaRoupa}', '');`;
         sqlStatements.push(sql);
     }
 }
