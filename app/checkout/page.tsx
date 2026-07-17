@@ -149,6 +149,7 @@ function CheckoutContent() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => { if (e.target.files && e.target.files.length > 0) setComprovante(e.target.files[0]); };
 
   const handleConfirmPix = async () => {
+    if (!orderId) return;
     if (!comprovante) { alert("Anexe o comprovativo para continuarmos."); return; }
     setIsConfirmingPix(true);
 

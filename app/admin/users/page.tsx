@@ -111,7 +111,7 @@ export default function AdminUsers() {
       }));
 
       // Garantir que o Admin aparece destacado
-      if (!uniqueUsers.some(u => u.email === 'brunomeueditor@gmail.com')) {
+      if (!uniqueUsers.some((u: any) => u.email === 'brunomeueditor@gmail.com')) {
         uniqueUsers.push({
           id: 'admin-bruno',
           email: 'brunomeueditor@gmail.com',
@@ -124,7 +124,7 @@ export default function AdminUsers() {
       }
 
       // Ordenar por mais recentes primeiro
-      uniqueUsers.sort((a, b) => new Date(b.joined).getTime() - new Date(a.joined).getTime());
+      uniqueUsers.sort((a: any, b: any) => new Date(b.joined).getTime() - new Date(a.joined).getTime());
 
       setUsers(uniqueUsers);
       setFilteredUsers(uniqueUsers);
@@ -135,7 +135,7 @@ export default function AdminUsers() {
 
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      const recentes = uniqueUsers.filter(u => new Date(u.joined) >= thirtyDaysAgo).length;
+      const recentes = uniqueUsers.filter((u: any) => new Date(u.joined) >= thirtyDaysAgo).length;
       setNewUsersThisMonth(recentes);
 
     } catch (err: any) {

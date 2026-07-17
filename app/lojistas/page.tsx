@@ -61,8 +61,20 @@ export default function LojistasPage() {
     'gestação & natureza'
   ];
 
+  const EXCLUDED_TITLES = [
+    'live-action com bob esponja',
+    'lifestyle 41/50',
+    'lifestyle 43/50',
+    'lifestyle 44/50',
+    'estúdio 16/50'
+  ];
+
   const avataresLojistas: AvatarModel[] = galleryData
-    .filter(item => !EXCLUDED_CATEGORIES.includes(item.categoria?.toLowerCase() || ''))
+    .filter(item => {
+      const isExcludedCategory = EXCLUDED_CATEGORIES.includes(item.categoria?.toLowerCase() || '');
+      const isExcludedTitle = EXCLUDED_TITLES.includes(item.titulo?.toLowerCase() || '');
+      return !isExcludedCategory && !isExcludedTitle;
+    })
     .map((item, index) => ({
       id: item.id,
       codigo: `VS-${(index + 1).toString().padStart(3, '0')}`,
@@ -580,7 +592,7 @@ export default function LojistasPage() {
               <Camera size={48} className="mx-auto text-gray-500 mb-4" />
               <p className="text-gray-400 font-bold uppercase tracking-widest">Nenhum avatar encontrado nesta combinação de filtro.</p>
               <button
-                onClick={() => { setActiveCategory('Todos'); setActiveGender('Todos'); }}
+                onClick={() => { setActiveCategory('Todos'); }}
                 className="mt-4 text-xs text-studio-gold underline uppercase tracking-widest font-bold"
               >
                 Limpar filtros e ver todos
