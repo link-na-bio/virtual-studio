@@ -102,8 +102,8 @@ const lojistasWorkflowAvatars: AvatarWorkflow[] = [
     genero: "Feminino",
     descricao: "Recorte nítido e iluminação suave de estúdio corporativo. Desenvolvido especialmente para realçar brilho de metais, colares e joias finas.",
     image_sheet_url: "/images/lojistas/sheet-f-005.png",
-    product_original_url: "/images/lojistas/product-before-necklace.png",
-    product_transformed_url: "/images/lojistas/product-after-necklace.png",
+    product_original_url: "/images/lojistas/colar-brinco.jpg",
+    product_transformed_url: "/images/lojistas/colar-brinco.png",
     style_category: "Minimalismo de Estúdio"
   },
   {
