@@ -559,15 +559,9 @@ export default function LojistasPage() {
 
                     {/* Detalhes na parte inferior do card */}
                     <div className="absolute bottom-4 left-0 right-0 px-4 text-center z-20 transition-all duration-300">
-                      <span className="text-studio-gold text-[9px] uppercase font-bold tracking-[0.2em] block mb-1">
+                      <span className="text-studio-gold text-[9px] uppercase font-bold tracking-[0.2em] block mb-3">
                         {avatar.codigo} • {avatar.categoria}
                       </span>
-                      <h3 className="text-base sm:text-lg font-bold uppercase font-display tracking-wide text-white drop-shadow">
-                        {avatar.nome}
-                      </h3>
-                      <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-3">
-                        {avatar.genero} • {avatar.etnia}
-                      </p>
 
                       <div className="flex items-center justify-center gap-2">
                         <span
