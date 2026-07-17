@@ -486,112 +486,117 @@ export default function LojistasPage() {
             </p>
           </div>
 
-          {/* Filtros de Categoria em Grid/Wrap (Idêntico ao /galeria) */}
-          <div className="flex flex-col gap-4 mb-12 max-w-4xl mx-auto">
-            {/* Filtro por Estilo / Categoria */}
-            <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`whitespace-nowrap px-5 sm:px-6 py-2.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${activeCategory === cat
-                    ? 'bg-studio-gold border-studio-gold text-studio-black shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-105'
-                    : 'bg-transparent border-studio-gold/30 text-studio-gold hover:border-studio-gold hover:bg-studio-gold/10'
-                    }`}
-                >
-                  {cat === 'Todos' ? '✨ Ver Todos os Avatares' : cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Grid de Avatares */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto">
-            <AnimatePresence mode="popLayout">
-              {filteredAvatars.map((avatar) => {
-                const isSelected = selectedAvatars.some(a => a.id === avatar.id);
-                return (
-                  <motion.div
-                    key={avatar.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.35 }}
-                    onClick={() => setModalAvatar(avatar)}
-                    className={`group relative aspect-[4/5] overflow-hidden rounded-2xl block cursor-pointer transition-all duration-300 bg-studio-black border ${isSelected
-                      ? 'ring-4 ring-studio-gold border-studio-gold shadow-[0_0_30px_rgba(212,175,55,0.3)]'
-                      : 'border-white/10 hover:border-studio-gold/50 hover:shadow-2xl'
-                      }`}
-                  >
-                    {/* Imagem de Fundo */}
-                    <div className="absolute inset-0 bg-studio-black">
-                      <Image
-                        src={avatar.img_url}
-                        alt={`${avatar.nome} - ${avatar.categoria}`}
-                        fill
-                        className={`object-cover sm:object-contain transition-all duration-700 ${isSelected ? 'scale-105 opacity-100' : 'group-hover:scale-110 opacity-85 group-hover:opacity-100'
-                          } select-none pointer-events-none`}
-                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                        unoptimized
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-studio-black/30 to-transparent opacity-90"></div>
-                    </div>
-
-                    {/* Badge Destaque */}
-                    {avatar.destaque && (
-                      <div className="absolute top-3 left-3 z-20 bg-studio-gold/90 text-studio-black text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md shadow flex items-center gap-1">
-                        <Star size={10} className="fill-studio-black" /> Top Escolha
-                      </div>
-                    )}
-
-                    {/* Ícone de Seleção Rápida */}
+          {/* Filtros e Grid de Avatares temporariamente invisíveis */}
+          {false && (
+            <>
+              {/* Filtros de Categoria em Grid/Wrap (Idêntico ao /galeria) */}
+              <div className="flex flex-col gap-4 mb-12 max-w-4xl mx-auto">
+                {/* Filtro por Estilo / Categoria */}
+                <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
+                  {categories.map((cat) => (
                     <button
-                      onClick={(e) => toggleAvatar(avatar, e)}
-                      aria-label={`Selecionar avatar ${avatar.nome}`}
-                      className={`absolute top-3 right-3 z-30 size-9 rounded-full flex items-center justify-center transition-all ${isSelected
-                        ? 'bg-studio-gold text-studio-black shadow-lg scale-110'
-                        : 'bg-black/60 text-white/70 border border-white/20 hover:bg-studio-gold hover:text-studio-black'
+                      key={cat}
+                      onClick={() => setActiveCategory(cat)}
+                      className={`whitespace-nowrap px-5 sm:px-6 py-2.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${activeCategory === cat
+                        ? 'bg-studio-gold border-studio-gold text-studio-black shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-105'
+                        : 'bg-transparent border-studio-gold/30 text-studio-gold hover:border-studio-gold hover:bg-studio-gold/10'
                         }`}
                     >
-                      <Check size={18} strokeWidth={isSelected ? 3 : 2} />
+                      {cat === 'Todos' ? '✨ Ver Todos os Avatares' : cat}
                     </button>
+                  ))}
+                </div>
+              </div>
 
-                    {/* Detalhes na parte inferior do card */}
-                    <div className="absolute bottom-4 left-0 right-0 px-4 text-center z-20 transition-all duration-300">
-                      <span className="text-studio-gold text-[9px] uppercase font-bold tracking-[0.2em] block mb-3">
-                        {avatar.codigo} • {avatar.categoria}
-                      </span>
+              {/* Grid de Avatares */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto">
+                <AnimatePresence mode="popLayout">
+                  {filteredAvatars.map((avatar) => {
+                    const isSelected = selectedAvatars.some(a => a.id === avatar.id);
+                    return (
+                      <motion.div
+                        key={avatar.id}
+                        layout
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.35 }}
+                        onClick={() => setModalAvatar(avatar)}
+                        className={`group relative aspect-[4/5] overflow-hidden rounded-2xl block cursor-pointer transition-all duration-300 bg-studio-black border ${isSelected
+                          ? 'ring-4 ring-studio-gold border-studio-gold shadow-[0_0_30px_rgba(212,175,55,0.3)]'
+                          : 'border-white/10 hover:border-studio-gold/50 hover:shadow-2xl'
+                          }`}
+                      >
+                        {/* Imagem de Fundo */}
+                        <div className="absolute inset-0 bg-studio-black">
+                          <Image
+                            src={avatar.img_url}
+                            alt={`${avatar.nome} - ${avatar.categoria}`}
+                            fill
+                            className={`object-cover sm:object-contain transition-all duration-700 ${isSelected ? 'scale-105 opacity-100' : 'group-hover:scale-110 opacity-85 group-hover:opacity-100'
+                              } select-none pointer-events-none`}
+                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                            unoptimized
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-studio-black via-studio-black/30 to-transparent opacity-90"></div>
+                        </div>
 
-                      <div className="flex items-center justify-center gap-2">
-                        <span
+                        {/* Badge Destaque */}
+                        {avatar.destaque && (
+                          <div className="absolute top-3 left-3 z-20 bg-studio-gold/90 text-studio-black text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md shadow flex items-center gap-1">
+                            <Star size={10} className="fill-studio-black" /> Top Escolha
+                          </div>
+                        )}
+
+                        {/* Ícone de Seleção Rápida */}
+                        <button
                           onClick={(e) => toggleAvatar(avatar, e)}
-                          className={`text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border transition-all ${isSelected
-                            ? 'bg-studio-gold text-studio-black border-studio-gold shadow'
-                            : 'bg-white/10 text-white border-white/20 hover:bg-studio-gold hover:text-studio-black hover:border-studio-gold'
+                          aria-label={`Selecionar avatar ${avatar.nome}`}
+                          className={`absolute top-3 right-3 z-30 size-9 rounded-full flex items-center justify-center transition-all ${isSelected
+                            ? 'bg-studio-gold text-studio-black shadow-lg scale-110'
+                            : 'bg-black/60 text-white/70 border border-white/20 hover:bg-studio-gold hover:text-studio-black'
                             }`}
                         >
-                          {isSelected ? '✓ Selecionado' : '+ Selecionar'}
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </div>
+                          <Check size={18} strokeWidth={isSelected ? 3 : 2} />
+                        </button>
 
-          {filteredAvatars.length === 0 && (
-            <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 max-w-xl mx-auto">
-              <Camera size={48} className="mx-auto text-gray-500 mb-4" />
-              <p className="text-gray-400 font-bold uppercase tracking-widest">Nenhum avatar encontrado nesta combinação de filtro.</p>
-              <button
-                onClick={() => { setActiveCategory('Todos'); }}
-                className="mt-4 text-xs text-studio-gold underline uppercase tracking-widest font-bold"
-              >
-                Limpar filtros e ver todos
-              </button>
-            </div>
+                        {/* Detalhes na parte inferior do card */}
+                        <div className="absolute bottom-4 left-0 right-0 px-4 text-center z-20 transition-all duration-300">
+                          <span className="text-studio-gold text-[9px] uppercase font-bold tracking-[0.2em] block mb-3">
+                            {avatar.codigo} • {avatar.categoria}
+                          </span>
+
+                          <div className="flex items-center justify-center gap-2">
+                            <span
+                              onClick={(e) => toggleAvatar(avatar, e)}
+                              className={`text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border transition-all ${isSelected
+                                ? 'bg-studio-gold text-studio-black border-studio-gold shadow'
+                                : 'bg-white/10 text-white border-white/20 hover:bg-studio-gold hover:text-studio-black hover:border-studio-gold'
+                                }`}
+                            >
+                              {isSelected ? '✓ Selecionado' : '+ Selecionar'}
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
+
+              {filteredAvatars.length === 0 && (
+                <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 max-w-xl mx-auto">
+                  <Camera size={48} className="mx-auto text-gray-500 mb-4" />
+                  <p className="text-gray-400 font-bold uppercase tracking-widest">Nenhum avatar encontrado nesta combinação de filtro.</p>
+                  <button
+                    onClick={() => { setActiveCategory('Todos'); }}
+                    className="mt-4 text-xs text-studio-gold underline uppercase tracking-widest font-bold"
+                  >
+                    Limpar filtros e ver todos
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
