@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp, Sparkles, Instagram, Layers, MousePointerClick, Heart, Handshake, Mail, PlusCircle, Palette, Users, User, X, UploadCloud, Trophy } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, CheckCheck, Star, ArrowRight, Zap, ChevronDown, ChevronUp, Sparkles, Instagram, Layers, MousePointerClick, Heart, Handshake, Mail, PlusCircle, Palette, Users, User, X, UploadCloud, Trophy, Menu } from 'lucide-react';
 import CuratorCard from '@/components/CuratorCard';
 import SalesNotification from '@/components/SalesNotification';
 import Link from 'next/link';
@@ -59,6 +59,7 @@ export default function LandingPage() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [windowWidth, setWindowWidth] = useState(1200);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const nextTestimonial = () => {
     setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -216,14 +217,14 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-studio-black overflow-x-hidden selection:bg-studio-gold selection:text-studio-black">
       {/* Header */}
-      <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-studio-black/90 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'}`}>
-        <nav className="container mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="relative w-[200px] h-[200px] -my-[80px] flex items-center justify-center z-10 pointer-events-none">
+      <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-studio-black/95 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'}`}>
+        <nav className="container mx-auto px-6 flex justify-between items-center relative">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="relative w-[150px] sm:w-[200px] h-[150px] sm:h-[200px] -my-[60px] sm:-my-[80px] flex items-center justify-center z-10 pointer-events-none">
               <Image src="/logo_transparente_.png" alt="Virtual Studio Logo" fill className="object-contain" priority />
             </div>
             <span className="font-display text-lg tracking-widest hidden md:block"></span>
-          </div>
+          </Link>
           <ul className="hidden md:flex gap-8 text-sm uppercase tracking-widest font-display">
             <li><a className="hover:text-studio-gold transition" href="#galeria">Estilos</a></li>
             <li><a className="hover:text-studio-gold transition" href="#processo">Processo</a></li>
@@ -231,10 +232,92 @@ export default function LandingPage() {
             <li><Link className="hover:text-studio-gold transition font-bold text-studio-gold" href="/lojistas">Lojistas</Link></li>
             <li><a className="hover:text-studio-gold transition" href="#contato">Contato</a></li>
           </ul>
-          <Link href="/signup" className="bg-studio-gold text-studio-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
-            Começar Agora
-          </Link>
+          
+          <div className="flex items-center gap-4">
+            <Link href="/signup" className="hidden sm:block bg-studio-gold text-studio-black px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+              Começar Agora
+            </Link>
+
+            {/* Botão Hambúrguer Mobile */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-white hover:text-studio-gold transition focus:outline-none z-50"
+              aria-label="Alternar Menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </nav>
+
+        {/* Menu Mobile Dropdown Drawer */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="md:hidden bg-studio-black/95 border-t border-white/5 backdrop-blur-lg overflow-hidden absolute top-full left-0 w-full z-40"
+            >
+              <ul className="px-6 py-8 flex flex-col gap-6 text-sm uppercase tracking-widest font-display text-center">
+                <li>
+                  <a
+                    className="block hover:text-studio-gold transition py-2 border-b border-white/5"
+                    href="#galeria"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Estilos
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="block hover:text-studio-gold transition py-2 border-b border-white/5"
+                    href="#processo"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Processo
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="block hover:text-studio-gold transition py-2 border-b border-white/5"
+                    href="#precos"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Packs
+                  </a>
+                </li>
+                <li>
+                  <Link
+                    className="block hover:text-studio-gold transition py-2 border-b border-white/5 font-bold text-studio-gold"
+                    href="/lojistas"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Lojistas
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    className="block hover:text-studio-gold transition py-2 border-b border-white/5"
+                    href="#contato"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Contato
+                  </a>
+                </li>
+                <li className="pt-4">
+                  <Link
+                    href="/signup"
+                    className="w-full block bg-studio-gold text-studio-black py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-studio-gold-light transition"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Começar Agora
+                  </Link>
+                </li>
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Hero Section */}
