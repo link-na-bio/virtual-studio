@@ -58,8 +58,8 @@ const lojistasWorkflowAvatars: AvatarWorkflow[] = [
     genero: "Feminino",
     descricao: "Perfil cosmopolita, expressivo e de alta autoridade visual. Perfeito para blazers, joias contemporâneas e óculos.",
     image_sheet_url: "/images/lojistas/sheet-f-001.png",
-    product_original_url: "/images/lojistas/product-before.png",
-    product_transformed_url: "/images/lojistas/product-after-f.png",
+    product_original_url: "/images/lojistas/blusa-aura.png",
+    product_transformed_url: "/images/lojistas/product-after-f-blouse.png",
     style_category: "Elegância Urbana"
   },
   {
@@ -69,8 +69,8 @@ const lojistasWorkflowAvatars: AvatarWorkflow[] = [
     genero: "Masculino",
     descricao: "Estética limpa, olhar magnético e postura impecável. Ideal para relógios, camisaria e perfumes premium.",
     image_sheet_url: "/images/lojistas/sheet-m-002.png",
-    product_original_url: "/images/lojistas/product-before.png",
-    product_transformed_url: "/images/lojistas/product-after-m.png",
+    product_original_url: "/images/lojistas/casaco-calça-masculino.png",
+    product_transformed_url: "/images/lojistas/product-after-m-outfit.png",
     style_category: "Minimalismo de Estúdio"
   },
   {
@@ -79,9 +79,9 @@ const lojistasWorkflowAvatars: AvatarWorkflow[] = [
     categoria: "Luxo Casual",
     genero: "Feminino",
     descricao: "Atmosfera sofisticada com toque despojado e iluminação suave de fim de tarde. Excelente para bolsas de couro e semijoias.",
-    image_sheet_url: "/images/lojistas/sheet-f-001.png",
-    product_original_url: "/images/lojistas/product-before.png",
-    product_transformed_url: "/images/lojistas/product-after-f.png",
+    image_sheet_url: "/images/lojistas/sheet-f-003.png",
+    product_original_url: "/images/lojistas/vestido-verde.jpeg",
+    product_transformed_url: "/images/lojistas/product-after-f-dress.png",
     style_category: "Luxo Casual"
   },
   {
@@ -90,9 +90,9 @@ const lojistasWorkflowAvatars: AvatarWorkflow[] = [
     categoria: "Clássico Atemporal",
     genero: "Masculino",
     descricao: "Presença imponente, contraste low-key e elegância clássica. Desenvolvido para trajes finos e marcas masculinas premium.",
-    image_sheet_url: "/images/lojistas/sheet-m-002.png",
-    product_original_url: "/images/lojistas/product-before.png",
-    product_transformed_url: "/images/lojistas/product-after-m.png",
+    image_sheet_url: "/images/lojistas/sheet-m-004.png",
+    product_original_url: "/images/lojistas/product-before-m-suit.jpeg",
+    product_transformed_url: "/images/lojistas/product-after-m-suit.jpeg",
     style_category: "Clássico Atemporal"
   }
 ];
@@ -939,15 +939,15 @@ export default function LojistasPage() {
                     </div>
                   </div>
 
-                  {/* Lista de Benefícios */}
-                  <ul className="space-y-3.5 mb-10">
+                  {/* Lista de Benefícios (Ocultada temporariamente) */}
+                  {/* <ul className="space-y-3.5 mb-10">
                     {pack.beneficios.map((ben, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm text-gray-300 font-light leading-snug">
                         <Check size={18} className="text-studio-gold shrink-0 mt-0.5" />
                         <span>{ben}</span>
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
                 </div>
 
                 {/* Botão CTA para o WhatsApp */}
