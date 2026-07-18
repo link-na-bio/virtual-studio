@@ -615,12 +615,12 @@ export default function LojistasPage() {
             </button>
 
             {/* Selector de Modelos no Topo */}
-            <div className="flex justify-center gap-3 mb-8 flex-wrap">
+            <div className="flex justify-start md:justify-center gap-2 mb-6 overflow-x-auto pb-3 scrollbar-none flex-nowrap -mx-6 px-6 md:mx-0 md:px-0 scroll-smooth">
               {lojistasWorkflowAvatars.map((av, idx) => (
                 <button
                   key={av.id}
                   onClick={() => { setCurrentAvatarIndex(idx); setCurrentSlideIndex(0); }}
-                  className={`px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all border ${currentAvatarIndex === idx
+                  className={`px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all border shrink-0 ${currentAvatarIndex === idx
                     ? 'bg-studio-gold border-studio-gold text-studio-black shadow-[0_0_15px_rgba(212,175,55,0.35)] scale-105'
                     : 'bg-transparent border-white/10 text-gray-400 hover:border-white/20 hover:text-white'
                     }`}
@@ -632,8 +632,8 @@ export default function LojistasPage() {
 
             {/* Grid Principal: Esquerda Imagem, Direita Texto e Controles de Workflow */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-              {/* Esquerda: Container da Imagem com Aspect Ratio 4:5 */}
-              <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5] w-full rounded-2xl overflow-hidden bg-studio-black/60 border border-white/5 shadow-inner">
+              {/* Esquerda: Container da Imagem com Aspect Ratio 4:5 (Limitado no Mobile) */}
+              <div className="relative aspect-square md:aspect-[4/5] max-h-[260px] sm:max-h-[320px] md:max-h-none w-full rounded-2xl overflow-hidden bg-studio-black/60 border border-white/5 shadow-inner">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`${currentAvatarIndex}-${currentSlideIndex}`}
@@ -653,6 +653,7 @@ export default function LojistasPage() {
                             fill
                             className="object-contain filter drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]"
                             unoptimized
+                            priority
                           />
                         </div>
                         <p className="text-studio-gold text-[10px] font-black uppercase tracking-[0.25em] mb-2">Virtual Studio</p>
@@ -680,7 +681,7 @@ export default function LojistasPage() {
               </div>
 
               {/* Direita: Detalhes, Workflow e CTA */}
-              <div className="flex flex-col justify-between h-full min-h-[300px] sm:min-h-[350px]">
+              <div className="flex flex-col justify-between h-full min-h-[220px] md:min-h-[350px]">
                 <div>
                   {/* Badge de Etapa */}
                   <div className="flex items-center gap-2 mb-4">
@@ -720,7 +721,7 @@ export default function LojistasPage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="text-gray-400 text-sm sm:text-base font-light leading-relaxed mb-8"
+                      className="text-gray-400 text-sm sm:text-base font-light leading-relaxed mb-4 md:mb-8"
                     >
                       {currentSlideIndex === 0 && `${activeAvatar.genero}, ${activeAvatar.style_category}. ${activeAvatar.descricao}`}
                       {currentSlideIndex === 1 && 'Assim como você nos enviaria. Fundo neutro, iluminação padrão.'}
