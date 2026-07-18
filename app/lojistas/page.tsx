@@ -552,26 +552,26 @@ export default function LojistasPage() {
           </div>
 
           {/* Destaques comparativos */}
-          <div className="mt-16 bg-gradient-to-r from-studio-gold/10 via-[#1a1a1a] to-studio-gold/10 border border-studio-gold/30 rounded-2xl p-8 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-around gap-6 text-center">
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="text-studio-gold shrink-0" size={26} />
-              <div className="text-left">
-                <p className="text-white font-bold text-base uppercase">Qualidade Cinematográfica</p>
-                <p className="text-gray-400 text-xs">Iluminação física & texturas reais</p>
+          <div className="mt-16 bg-gradient-to-r from-studio-gold/10 via-[#1a1a1a] to-studio-gold/10 border border-studio-gold/30 rounded-2xl p-8 max-w-2xl md:max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-around gap-6 text-left">
+            <div className="flex items-start gap-3 w-full md:w-auto">
+              <CheckCircle2 className="text-studio-gold shrink-0 mt-1" size={22} />
+              <div>
+                <p className="text-white font-bold text-base uppercase leading-snug">Qualidade Cinematográfica</p>
+                <p className="text-gray-400 text-xs mt-0.5">Iluminação física & texturas reais</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="text-studio-gold shrink-0" size={26} />
-              <div className="text-left">
-                <p className="text-white font-bold text-base uppercase">Economia Absoluta</p>
-                <p className="text-gray-400 text-xs">Até 80% mais barato que estúdios</p>
+            <div className="flex items-start gap-3 w-full md:w-auto">
+              <CheckCircle2 className="text-studio-gold shrink-0 mt-1" size={22} />
+              <div>
+                <p className="text-white font-bold text-base uppercase leading-snug">Economia Absoluta</p>
+                <p className="text-gray-400 text-xs mt-0.5">Até 80% mais barato que estúdios</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="text-studio-gold shrink-0" size={26} />
-              <div className="text-left">
-                <p className="text-white font-bold text-base uppercase">Licença Comercial Total</p>
-                <p className="text-gray-400 text-xs">Para Site, Instagram, Meta Ads & Google</p>
+            <div className="flex items-start gap-3 w-full md:w-auto">
+              <CheckCircle2 className="text-studio-gold shrink-0 mt-1" size={22} />
+              <div>
+                <p className="text-white font-bold text-base uppercase leading-snug">Licença Comercial Total</p>
+                <p className="text-gray-400 text-xs mt-0.5">Para Site, Instagram, Meta Ads & Google</p>
               </div>
             </div>
           </div>
