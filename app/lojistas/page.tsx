@@ -546,7 +546,7 @@ export default function LojistasPage() {
                 Receba seu Ensaio
               </h3>
               <p className="text-gray-400 text-sm leading-relaxed font-light">
-                Nossa IA generativa combinada com curadoria artística humana entrega imagens fotorrealistas Full HD, com luzes, caimento perfeito e prontas para vender no seu e-commerce.
+                Nossa IA generativa combinada com curadoria artística humana entrega imagens fotorrealistas Full HD, com luzes, caimento perfeito e prontas para usar em suas redes sociais e e-commerce.
               </p>
             </div>
           </div>
@@ -763,7 +763,7 @@ export default function LojistasPage() {
                         Escolher Avatar {activeAvatar.id}
                       </a>
                     ) : (
-                       /* Avançar Workflow (Apenas Desktop) */
+                      /* Avançar Workflow (Apenas Desktop) */
                       <button
                         onClick={handleNextSlide}
                         className="hidden md:flex w-full bg-white/10 border border-white/20 text-white hover:bg-white/20 py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all items-center justify-center gap-2 cursor-pointer"
