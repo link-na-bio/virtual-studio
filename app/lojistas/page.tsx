@@ -342,18 +342,18 @@ export default function LojistasPage() {
               </div>
 
               {/* Badges de Confiança */}
-              <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-3 gap-4 text-center lg:text-left">
-                <div>
+              <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 text-center lg:text-left">
+                <div className="flex flex-col items-center lg:items-start">
                   <p className="text-studio-gold font-serif text-2xl md:text-3xl font-bold italic">80% -</p>
-                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-medium">Economia no Custo por Foto</p>
+                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-medium mt-1">Economia no Custo por Foto</p>
                 </div>
-                <div>
+                <div className="flex flex-col items-center lg:items-start">
                   <p className="text-studio-gold font-serif text-2xl md:text-3xl font-bold italic">Full HD</p>
-                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-medium">Resolução Fotorrealista</p>
+                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-medium mt-1">Resolução Fotorrealista</p>
                 </div>
-                <div>
+                <div className="flex flex-col items-center lg:items-start">
                   <p className="text-studio-gold font-serif text-2xl md:text-3xl font-bold italic">Até 48h</p>
-                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-medium">Entrega Rápida</p>
+                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-medium mt-1">Entrega Rápida</p>
                 </div>
               </div>
             </motion.div>
@@ -428,12 +428,13 @@ export default function LojistasPage() {
                   {/* Labels Antes/Depois */}
                   <div className="absolute top-4 left-4 z-20 pointer-events-none">
                     <span className="bg-black/80 text-gray-300 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded border border-white/10">
-                      ← Antes (Sua Foto Simples)
+                      ← Antes <span className="hidden sm:inline">(Sua Foto Simples)</span>
                     </span>
                   </div>
                   <div className="absolute top-4 right-4 z-20 pointer-events-none">
                     <span className="bg-studio-gold text-studio-black text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded shadow-lg">
-                      Depois (Com Virtual Studio) →
+                      <span className="sm:hidden">Depois →</span>
+                      <span className="hidden sm:inline">Depois (Com Virtual Studio) →</span>
                     </span>
                   </div>
                 </div>
