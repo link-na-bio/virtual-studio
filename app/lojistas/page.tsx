@@ -931,15 +931,18 @@ export default function LojistasPage() {
                   </p>
 
                   {/* Preço em destaque com R$ 13,58 e similares */}
-                  <div className="bg-black/40 border border-white/5 rounded-2xl p-5 mb-8 text-center">
-                    <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Preço por Foto:</div>
-                    <div className="text-4xl sm:text-5xl font-black font-display text-studio-gold tracking-tight">
-                      R$ {pack.precoPorFoto.toFixed(2).replace('.', ',')}
+                  <div className="bg-black/40 border border-white/5 rounded-2xl p-5 mb-8 text-center h-[180px] flex flex-col justify-between">
+                    <div>
+                      <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Preço por Foto:</div>
+                      <div className="text-4xl sm:text-5xl font-black font-display text-studio-gold tracking-tight">
+                        R$ {pack.precoPorFoto.toFixed(2).replace('.', ',')}
+                      </div>
                     </div>
-                    <div className="text-xs text-emerald-400 font-bold mt-2 flex items-center justify-center gap-1">
-                      <TrendingUp size={14} /> {pack.descontoTexto}
+                    <div className="text-xs text-emerald-400 font-bold flex items-center justify-center gap-1 min-h-[32px] text-center">
+                      <TrendingUp size={14} className="shrink-0" />
+                      <span className="leading-tight">{pack.descontoTexto}</span>
                     </div>
-                    <div className="text-xs text-gray-500 mt-2 pt-2 border-t border-white/5 font-mono">
+                    <div className="text-xs text-gray-500 pt-2 border-t border-white/5 font-mono">
                       Investimento Total do Pack: R$ {pack.precoTotal.toFixed(2).replace('.', ',')}
                     </div>
                   </div>
@@ -955,19 +958,30 @@ export default function LojistasPage() {
                   </ul> */}
                 </div>
 
-                {/* Botão CTA para o WhatsApp */}
-                <a
-                  href={getWhatsAppLinkPack(pack.nome, pack.waMensagem)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-full py-4 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 text-center ${pack.destaque
-                    ? 'bg-studio-gold text-studio-black hover:bg-studio-gold-light shadow-xl shadow-studio-gold/30 hover:scale-105'
-                    : 'bg-white/10 text-white hover:bg-studio-gold hover:text-studio-black border border-white/10'
-                    }`}
-                >
-                  <MessageCircle size={18} className={pack.destaque ? 'fill-studio-black' : ''} />
-                  Contratar {pack.nome}
-                </a>
+                {/* Container Inferior (Garante que o Limite de Avatares e o Botão fiquem alinhados e com o mesmo espaçamento em todos os cards) */}
+                <div className="mt-6 w-full">
+                  {/* Limite de Avatares */}
+                  <div className="flex items-center justify-center gap-2 text-gray-300 mb-6">
+                    <Users size={16} className="text-studio-gold shrink-0" />
+                    <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.15em]">
+                      {pack.limiteAvatares}
+                    </span>
+                  </div>
+
+                  {/* Botão CTA para o WhatsApp */}
+                  <a
+                    href={getWhatsAppLinkPack(pack.nome, pack.waMensagem)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-full py-4 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 text-center ${pack.destaque
+                      ? 'bg-studio-gold text-studio-black hover:bg-studio-gold-light shadow-xl shadow-studio-gold/30 hover:scale-105'
+                      : 'bg-white/10 text-white hover:bg-studio-gold hover:text-studio-black border border-white/10'
+                      }`}
+                  >
+                    <MessageCircle size={18} className={pack.destaque ? 'fill-studio-black' : ''} />
+                    Contratar {pack.nome}
+                  </a>
+                </div>
               </div>
             ))}
           </div>

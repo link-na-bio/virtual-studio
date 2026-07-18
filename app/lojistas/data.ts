@@ -204,6 +204,7 @@ export const packsLojistas = [
     precoPorFoto: 13.58,
     descontoTexto: "Preço unitário de R$ 13,58",
     destaque: false,
+    limiteAvatares: "Direito a 1 avatar",
     beneficios: [
       "5 Fotos fotorrealistas em Full HD Ultra Nitidez",
       "Escolha 1 modelo/avatar",
@@ -218,17 +219,18 @@ export const packsLojistas = [
   {
     id: "premium",
     nome: "Pack Premium",
-    badge: "🔥 O Mais Escolhido pelas Lojas",
+    badge: "🔥 O Mais Escolhido",
     qtdFotos: 10,
     precoTotal: 97.90,
     precoPorFoto: 9.79,
     descontoTexto: "Economia de R$ 3,79 por foto vs. Essencial",
     destaque: true,
+    limiteAvatares: "Até 2 avatares",
     beneficios: [
       "10 Fotos fotorrealistas em Full HD Ultra Nitidez",
-      "Escolha de até 1 modelo/avatar",
+      "Escolha de até 2 modelo/avatar",
       "Ajuste fino de textura, relevo e cor exata do seu produto",
-      "Direção de arte & curadoria humana em cada imagem e controle rigoroso de qualidade",
+      "Direção de arte & curadoria humana em cada imagem",
       "Licença comercial para e-commerce, Redes Sociais e Ads",
       "Prioridade na fila de processamento VIP (Até 48h)",
       "Garantia de Risco Zero com aprovação prévia com marca d'água"
@@ -245,6 +247,7 @@ export const packsLojistas = [
     precoPorFoto: 7.40,
     descontoTexto: "Melhor preço garantido: Apenas R$ 7,40 por foto",
     destaque: false,
+    limiteAvatares: "Até 3 avatares",
     beneficios: [
       "20 Fotos fotorrealistas em Full HD Ultra Nitidez",
       "Liberdade total para combinar avatares, cenários e ângulos",
