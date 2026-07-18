@@ -632,8 +632,8 @@ export default function LojistasPage() {
 
             {/* Grid Principal: Esquerda Imagem, Direita Texto e Controles de Workflow */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-              {/* Esquerda: Container da Imagem com Aspect Ratio 4:5 (Limitado no Mobile) */}
-              <div className="relative aspect-square md:aspect-[4/5] max-h-[260px] sm:max-h-[320px] md:max-h-none w-full rounded-2xl overflow-hidden bg-studio-black/60 border border-white/5 shadow-inner">
+              {/* Esquerda: Container da Imagem com Aspect Ratio 4:5 */}
+              <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5] w-full rounded-2xl overflow-hidden bg-studio-black/60 border border-white/5 shadow-inner">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`${currentAvatarIndex}-${currentSlideIndex}`}
@@ -763,10 +763,10 @@ export default function LojistasPage() {
                         Escolher Avatar {activeAvatar.id}
                       </a>
                     ) : (
-                      /* Avançar Workflow */
+                       /* Avançar Workflow (Apenas Desktop) */
                       <button
                         onClick={handleNextSlide}
-                        className="w-full bg-white/10 border border-white/20 text-white hover:bg-white/20 py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        className="hidden md:flex w-full bg-white/10 border border-white/20 text-white hover:bg-white/20 py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all items-center justify-center gap-2 cursor-pointer"
                       >
                         Avançar no Workflow <ArrowRight size={16} />
                       </button>
@@ -774,25 +774,6 @@ export default function LojistasPage() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Seta e Controle de Navegação de Avatares - Mobile (Aparece no rodapé no mobile) */}
-            <div className="flex md:hidden justify-between items-center mt-8 pt-6 border-t border-white/5">
-              <button
-                onClick={handlePrevAvatar}
-                className="bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center gap-1 cursor-pointer"
-              >
-                ← Anterior
-              </button>
-              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">
-                {currentAvatarIndex + 1} / {lojistasWorkflowAvatars.length}
-              </span>
-              <button
-                onClick={handleNextAvatar}
-                className="bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center gap-1 cursor-pointer"
-              >
-                Próximo →
-              </button>
             </div>
           </div>
         </div>
