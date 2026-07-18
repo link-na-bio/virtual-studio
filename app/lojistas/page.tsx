@@ -979,7 +979,7 @@ export default function LojistasPage() {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-studio-gold text-xs font-bold uppercase tracking-[0.3em] block mb-3 font-display">
-              CASES REAIS & PROVA SOCIAL
+              CASOS REAIS & PROVA SOCIAL
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold uppercase italic tracking-tight font-display mb-6">
               Lojistas que <span className="text-studio-gold">Transformaram Suas Vendas</span> com o Virtual Studio
