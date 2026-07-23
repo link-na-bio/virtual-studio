@@ -164,7 +164,7 @@ export default function LojistasPage() {
     'especial dia das mães',
     'newborn',
     'formatura',
-    'gestação & natureza'
+    'gestação'
   ];
 
   const EXCLUDED_TITLES = [
