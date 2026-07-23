@@ -38,6 +38,9 @@ async function main() {
 
   const staticData = [];
 
+  const forceAll = process.argv.includes('--force');
+  const forceId = process.argv.find(a => a.startsWith('--force-id='))?.split('=')[1];
+
   for (let i = 0; i < estilos.length; i++) {
     const estilo = estilos[i];
     let localUrl = null;
@@ -51,7 +54,9 @@ async function main() {
         const localPath = path.join(publicGaleriaDir, fileName);
         localUrl = `/images/galeria/${fileName}`;
 
-        if (fs.existsSync(localPath)) {
+        const shouldForce = forceAll || (forceId && (estilo.id === forceId || estilo.titulo.toLowerCase().includes(forceId.toLowerCase())));
+
+        if (fs.existsSync(localPath) && !shouldForce) {
           console.log(` -> Already exists, skipping download.`);
         } else {
           let buffer;

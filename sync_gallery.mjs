@@ -6,7 +6,8 @@ console.log("🔄 Iniciando sincronização da Galeria...\n");
 try {
   // 1. Run migration
   console.log("1️⃣ Buscando novos estilos no banco de dados e processando imagens...");
-  execSync('node migrate_gallery.mjs', { stdio: 'inherit' });
+  const extraArgs = process.argv.slice(2).join(' ');
+  execSync(`node migrate_gallery.mjs ${extraArgs}`, { stdio: 'inherit' });
 
   // 2. Check for changes in git
   console.log("\n2️⃣ Verificando se há novos arquivos ou dados...");
