@@ -26,7 +26,7 @@ try {
   // 3. Add, Commit and Push
   console.log("3️⃣ Preparando commit...");
   // Use "git add" using the shell
-  execSync('git add public/images/galeria app/galeria/data.ts', { stdio: 'inherit' });
+  execSync('git add .', { stdio: 'inherit' });
   
   // Adding user defined commit message
   execSync('git commit -m "🎨 UI: Sincronização automática de novos estilos da galeria"', { stdio: 'inherit' });
