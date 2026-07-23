@@ -12,7 +12,7 @@ try {
   console.log("\n2️⃣ Verificando se há novos arquivos ou dados...");
   
   // Checking porcelain status specifically for the data file and images folder
-  const statusBuffer = execSync('git status --porcelain public/images/galeria/ app/galeria/data.ts');
+  const statusBuffer = execSync('git status --porcelain public/images/galeria app/galeria/data.ts');
   const status = statusBuffer.toString().trim();
 
   if (!status) {
@@ -25,7 +25,7 @@ try {
   // 3. Add, Commit and Push
   console.log("3️⃣ Preparando commit...");
   // Use "git add" using the shell
-  execSync('git add public/images/galeria/ app/galeria/data.ts', { stdio: 'inherit' });
+  execSync('git add public/images/galeria app/galeria/data.ts', { stdio: 'inherit' });
   
   // Adding user defined commit message
   execSync('git commit -m "🎨 UI: Sincronização automática de novos estilos da galeria"', { stdio: 'inherit' });
