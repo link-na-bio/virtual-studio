@@ -2039,7 +2039,7 @@ export default function Dashboard() {
                       )}
                     </section>
 
-                    {/* CTA Serviço Sob Medida (Mobile) */}
+                    {/* CTA Serviço Sob Medida (EM STAND BY) (Mobile)
                     <div
                       onClick={() => toggleStyle('ESTILO_SOBMEDIDA')}
                       className={`mb-12 w-full border rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden text-left cursor-pointer lg:hidden ${selectedStyles.includes('ESTILO_SOBMEDIDA') ? 'border-studio-gold bg-studio-gold/10 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-studio-gold/30 hover:border-studio-gold bg-[#121212]/80 backdrop-blur-sm shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]'}`}
@@ -2067,6 +2067,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                     </div>
+                    */}
                   </div>
 
                   <div className="space-y-6">
@@ -2086,7 +2087,7 @@ export default function Dashboard() {
                       </div>
                     </div>
 
-                    {/* CTA Serviço Sob Medida (Desktop) */}
+                    {/* CTA Serviço Sob Medida (EM STAND BY) (Desktop)
                     <div
                       onClick={() => toggleStyle('ESTILO_SOBMEDIDA')}
                       className={`w-full border rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden text-left cursor-pointer hidden lg:block ${selectedStyles.includes('ESTILO_SOBMEDIDA') ? 'border-studio-gold bg-studio-gold/10 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-studio-gold/30 hover:border-studio-gold bg-[#121212]/80 backdrop-blur-sm shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]'}`}
@@ -2111,6 +2112,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                     </div>
+                    */}
 
                   </div>
                 </div>

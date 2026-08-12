@@ -1010,7 +1010,7 @@ export default function LandingPage() {
               )}
             </div>
 
-            {/* CTA Serviço Sob Medida */}
+            {/* CTA Serviço Sob Medida (EM STAND BY)
             <Link href="/signup" className="block w-full">
               <div className="border border-studio-gold/30 hover:border-studio-gold bg-[#121212]/80 backdrop-blur-sm rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden text-left shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]">
                 <div className="absolute top-0 right-0 bg-studio-gold text-studio-black text-[10px] font-bold px-4 py-1.5 uppercase tracking-widest rounded-bl-xl">PREMIUM</div>
@@ -1037,6 +1037,7 @@ export default function LandingPage() {
                 </div>
               </div>
             </Link>
+            */}
 
             <p className="mt-8 text-gray-500 text-sm italic font-light tracking-widest uppercase">Comece agora sua jornada definitiva de imagem</p>
           </motion.div>
