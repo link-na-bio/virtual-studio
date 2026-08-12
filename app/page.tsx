@@ -754,7 +754,7 @@ export default function LandingPage() {
                       <Check size={14} className="text-studio-gold" /> <strong>5 fotos</strong> em Alta Resolução
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Check size={14} className="text-studio-gold" /> Escolha de <strong>1 estilos</strong> exatos
+                      <Check size={14} className="text-studio-gold" /> Escolha de <strong>1 estilo</strong> exato
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
                       <Check size={14} className="text-studio-gold" /> Curadoria manual de qualidade
@@ -813,7 +813,7 @@ export default function LandingPage() {
                       <Star size={14} className="text-studio-gold fill-studio-gold" /> <strong>10 fotos</strong> em Alta Resolução
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <CheckCheck size={14} className="text-studio-gold" /> Escolha de <strong>2 estilos</strong> exatos
+                      <CheckCheck size={14} className="text-studio-gold" /> Escolha de até <strong>2 estilos</strong> exatos
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
                       <CheckCheck size={14} className="text-studio-gold" /> Curadoria manual de qualidade
@@ -869,7 +869,7 @@ export default function LandingPage() {
                       <Zap size={14} className="text-studio-gold shadow-[0_0_10px_rgba(195,157,93,0.5)]" /> <strong>20 fotos</strong> em Alta Resolução
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300">
-                      <Check size={14} className="text-studio-gold" /> Escolha de <strong>3 estilos</strong> exatos
+                      <Check size={14} className="text-studio-gold" /> Escolha de até <strong>3 estilos</strong> exatos
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-300 font-bold text-studio-gold">
                       <Sparkles size={14} /> Retoque FINO avançado
