@@ -16,21 +16,21 @@ declare global { interface Window { JSZip: any; } }
 
 const CAMPANHAS_SAZONAIS = [
   {
-    id: 'pais',
+    id: 'aniversario',
     ativo: true,
-    titulo: 'Especial Dia dos Pais 👔',
-    descricao: 'Celebre com um retrato inesquecível! 1 Estilo Temático em altíssima resolução.',
+    titulo: 'Especial de Aniversário 🎈',
+    descricao: 'Celebre seu mês de aniversário com um retrato inesquecível! 1 Estilo Temático em altíssima resolução.',
     categoria: 'ESPECIAL DIA DOS PAIS',
     preco: 19.90,
     estilos: '1 Estilo Temático',
-    styleClass: 'border-blue-500/30 hover:border-blue-500/60 bg-gradient-to-r from-blue-950/40 to-studio-black shadow-[0_0_30px_rgba(59,130,246,0.15)]',
-    glowClass: 'bg-blue-500/10',
-    iconBg: 'bg-blue-500/20 text-blue-400 border-blue-500/40 hover:bg-blue-500 hover:text-white',
-    icon: 'user',
-    tagText: 'NOVIDADE',
-    buttonColor: 'bg-blue-500 hover:bg-blue-600',
-    borderColor: 'border-blue-500',
-    selectedGlow: 'shadow-[0_0_20px_rgba(59,130,246,0.3)]'
+    styleClass: 'border-fuchsia-500/30 hover:border-fuchsia-500/60 bg-gradient-to-r from-fuchsia-950/40 to-studio-black shadow-[0_0_30px_rgba(217,70,239,0.15)]',
+    glowClass: 'bg-fuchsia-500/10',
+    iconBg: 'bg-fuchsia-500/20 text-fuchsia-400 border-fuchsia-500/40 hover:bg-fuchsia-500 hover:text-white',
+    icon: 'sparkles',
+    tagText: 'OFERTA',
+    buttonColor: 'bg-fuchsia-500 hover:bg-fuchsia-600',
+    borderColor: 'border-fuchsia-500',
+    selectedGlow: 'shadow-[0_0_20px_rgba(217,70,239,0.3)]'
   },
   {
     id: 'copa',
@@ -1777,8 +1777,8 @@ export default function Dashboard() {
                         <AnimatePresence mode="wait">
                           {CAMPANHAS_SAZONAIS.map((campanha, idx) => {
                             if (idx !== activeSazonalIndex) return null;
-                            const IconComponent = campanha.icon === 'user' ? User : Trophy;
-                            const iconColor = campanha.icon === 'user' ? 'text-blue-500 animate-pulse' : 'text-yellow-400';
+                            const IconComponent = campanha.icon === 'sparkles' ? Sparkles : campanha.icon === 'user' ? User : Trophy;
+                            const iconColor = campanha.icon === 'sparkles' ? 'text-fuchsia-500 animate-pulse' : campanha.icon === 'user' ? 'text-blue-500 animate-pulse' : 'text-yellow-400';
 
                             return (
                               <motion.div
@@ -1800,7 +1800,7 @@ export default function Dashboard() {
                                 }}
                                 className={`w-full border-2 rounded-2xl p-6 relative overflow-hidden transition-all duration-500 cursor-pointer ${campanha.styleClass} ${showSazonalCollection && campanha.selectedGlow ? `${campanha.borderColor} ${campanha.selectedGlow}` : ''}`}
                               >
-                                <div className={`absolute top-0 right-0 ${campanha.icon === 'user' ? 'bg-blue-500' : 'bg-green-600'} text-white text-[9px] font-black px-4 py-1.5 uppercase tracking-[0.2em] rounded-bl-xl shadow-lg z-20 animate-pulse`}>
+                                <div className={`absolute top-0 right-0 ${campanha.icon === 'sparkles' ? 'bg-fuchsia-500' : campanha.icon === 'user' ? 'bg-blue-500' : 'bg-green-600'} text-white text-[9px] font-black px-4 py-1.5 uppercase tracking-[0.2em] rounded-bl-xl shadow-lg z-20 animate-pulse`}>
                                   {campanha.tagText}
                                 </div>
 
@@ -1885,8 +1885,8 @@ export default function Dashboard() {
                           >
                             {(() => {
                               const campanhaAtiva = CAMPANHAS_SAZONAIS[activeSazonalIndex];
-                              const IconComponent = campanhaAtiva.icon === 'user' ? User : Trophy;
-                              const iconColor = campanhaAtiva.icon === 'user' ? 'text-blue-500 animate-pulse' : 'text-yellow-400';
+                              const IconComponent = campanhaAtiva.icon === 'sparkles' ? Sparkles : campanhaAtiva.icon === 'user' ? User : Trophy;
+                              const iconColor = campanhaAtiva.icon === 'sparkles' ? 'text-fuchsia-500 animate-pulse' : campanhaAtiva.icon === 'user' ? 'text-blue-500 animate-pulse' : 'text-yellow-400';
                               const stylesList = galleryData.filter(s => s.categoria?.toLowerCase() === campanhaAtiva.categoria?.toLowerCase());
 
                               return (
@@ -1900,20 +1900,20 @@ export default function Dashboard() {
                                   </div>
 
                                   <div className="relative group/esteira">
-                                    <button type="button" onClick={() => scrollSazonalEsteira('left')} className={`absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex ${campanhaAtiva.icon === 'user' ? 'hover:text-blue-500 hover:border-blue-500' : 'hover:text-green-500 hover:border-green-500'}`}><ChevronLeft size={24} className="pr-[2px] pt-[1px]" /></button>
+                                    <button type="button" onClick={() => scrollSazonalEsteira('left')} className={`absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex ${campanhaAtiva.icon === 'sparkles' ? 'hover:text-fuchsia-500 hover:border-fuchsia-500' : campanhaAtiva.icon === 'user' ? 'hover:text-blue-500 hover:border-blue-500' : 'hover:text-green-500 hover:border-green-500'}`}><ChevronLeft size={24} className="pr-[2px] pt-[1px]" /></button>
 
                                     <div ref={sazonalEsteiraScrollRef} className="flex overflow-x-auto snap-x gap-6 pb-6 no-scrollbar scroll-smooth">
                                       {stylesList.map((style) => {
                                         const isSelected = selectedStyles.includes(style.titulo);
                                         return (
-                                          <div key={style.id} onClick={() => toggleStyle(style.titulo)} className={`min-w-[240px] md:min-w-[280px] h-[360px] snap-start relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all group/card ${isSelected ? `${campanhaAtiva.borderColor} scale-[0.98] ${campanhaAtiva.selectedGlow}` : `border-white/10 ${campanhaAtiva.icon === 'user' ? 'hover:border-blue-500/50' : 'hover:border-green-500/50'}`}`}>
+                                          <div key={style.id} onClick={() => toggleStyle(style.titulo)} className={`min-w-[240px] md:min-w-[280px] h-[360px] snap-start relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all group/card ${isSelected ? `${campanhaAtiva.borderColor} scale-[0.98] ${campanhaAtiva.selectedGlow}` : `border-white/10 ${campanhaAtiva.icon === 'sparkles' ? 'hover:border-fuchsia-500/50' : campanhaAtiva.icon === 'user' ? 'hover:border-blue-500/50' : 'hover:border-green-500/50'}`}`}>
                                             <Image src={style.img_url} alt={style.titulo} fill className="object-cover transition-transform duration-700 group-hover/card:scale-110" unoptimized />
 
-                                            <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-5 transition-all ${isSelected ? (campanhaAtiva.icon === 'user' ? 'bg-blue-500/10' : 'bg-green-500/10') : 'opacity-90'}`}>
+                                            <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-5 transition-all ${isSelected ? (campanhaAtiva.icon === 'sparkles' ? 'bg-fuchsia-500/10' : campanhaAtiva.icon === 'user' ? 'bg-blue-500/10' : 'bg-green-500/10') : 'opacity-90'}`}>
                                               <div className="translate-y-4 group-hover/card:translate-y-0 transition-transform duration-300">
                                                 <p className="text-sm font-bold uppercase tracking-widest text-white mb-2">{style.titulo}</p>
 
-                                                <div className={`w-full py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all backdrop-blur-md border ${isSelected ? (campanhaAtiva.icon === 'user' ? 'bg-blue-500 text-white border-blue-500' : 'bg-green-600 text-white border-green-600') : `bg-black/50 text-white border-white/20 ${campanhaAtiva.icon === 'user' ? 'group-hover/card:bg-blue-500/80 group-hover/card:border-blue-500' : 'group-hover/card:bg-green-600/80 group-hover/card:border-green-600'}`}`}>
+                                                <div className={`w-full py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all backdrop-blur-md border ${isSelected ? (campanhaAtiva.icon === 'sparkles' ? 'bg-fuchsia-500 text-white border-fuchsia-500' : campanhaAtiva.icon === 'user' ? 'bg-blue-500 text-white border-blue-500' : 'bg-green-600 text-white border-green-600') : `bg-black/50 text-white border-white/20 ${campanhaAtiva.icon === 'sparkles' ? 'group-hover/card:bg-fuchsia-500/80 group-hover/card:border-fuchsia-500' : campanhaAtiva.icon === 'user' ? 'group-hover/card:bg-blue-500/80 group-hover/card:border-blue-500' : 'group-hover/card:bg-green-600/80 group-hover/card:border-green-600'}`}`}>
                                                   {isSelected ? <><CheckCircle2 size={16} /> Selecionado</> : <><PlusCircle size={16} /> Selecionar Estilo</>}
                                                 </div>
                                               </div>
@@ -1923,7 +1923,7 @@ export default function Dashboard() {
                                       })}
                                     </div>
 
-                                    <button type="button" onClick={() => scrollSazonalEsteira('right')} className={`absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex ${campanhaAtiva.icon === 'user' ? 'hover:text-blue-500 hover:border-blue-500' : 'hover:text-green-500 hover:border-green-500'}`}><ChevronRight size={24} className="pl-[2px] pt-[1px]" /></button>
+                                    <button type="button" onClick={() => scrollSazonalEsteira('right')} className={`absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center text-white transition-all shadow-xl opacity-0 group-hover/esteira:opacity-100 hidden md:flex ${campanhaAtiva.icon === 'sparkles' ? 'hover:text-fuchsia-500 hover:border-fuchsia-500' : campanhaAtiva.icon === 'user' ? 'hover:text-blue-500 hover:border-blue-500' : 'hover:text-green-500 hover:border-green-500'}`}><ChevronRight size={24} className="pl-[2px] pt-[1px]" /></button>
                                   </div>
                                 </div>
                               );
