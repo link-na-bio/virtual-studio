@@ -20,7 +20,7 @@ const CAMPANHAS_SAZONAIS = [
     ativo: true,
     titulo: 'Especial de Aniversário 🎈',
     descricao: 'Celebre seu mês de aniversário com um retrato inesquecível! 1 Estilo Temático em altíssima resolução.',
-    categoria: 'ESPECIAL DIA DOS PAIS',
+    categoria: 'EVENTO',
     preco: 19.90,
     estilos: '1 Estilo Temático',
     styleClass: 'border-fuchsia-500/30 hover:border-fuchsia-500/60 bg-gradient-to-r from-fuchsia-950/40 to-studio-black shadow-[0_0_30px_rgba(217,70,239,0.15)]',

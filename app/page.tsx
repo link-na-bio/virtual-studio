@@ -113,7 +113,7 @@ export default function LandingPage() {
       ativo: true,
       titulo: 'Especial de Aniversário 🎈',
       descricao: 'Celebre com um retrato inesquecível! 1 Estilo Temático em altíssima resolução.',
-      categoria: 'ESPECIAL DIA DOS PAIS',
+      categoria: 'EVENTO',
       styleClass: 'border-fuchsia-500/30 hover:border-fuchsia-500/60 bg-gradient-to-r from-fuchsia-950/40 to-studio-black/80 shadow-[0_0_30px_rgba(217,70,239,0.15)]',
       glowClass: 'bg-fuchsia-500/10',
       iconBg: 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20',
