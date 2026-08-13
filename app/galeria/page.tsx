@@ -14,52 +14,100 @@ export default function GalleryPage() {
   const [categories, setCategories] = useState<string[]>(['Todos']);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStyles, setSelectedStyles] = useState<any[]>([]);
+  const [selectedPack, setSelectedPack] = useState<'AVULSO' | 'ESSENCIAL' | 'PREMIUM' | 'ELITE' | null>(null);
+  const [packWarning, setPackWarning] = useState<string | null>(null);
+
+  const PACKS = {
+    AVULSO: { nome: 'Foto Avulsa', fotos: 1, estilosMax: 99, preco: 19.90 },
+    ESSENCIAL: { nome: 'Pack Essencial', fotos: 5, estilosMax: 1, preco: 67.90 },
+    PREMIUM: { nome: 'Pack Premium', fotos: 10, estilosMax: 2, preco: 97.90 },
+    ELITE: { nome: 'Pack Elite', fotos: 20, estilosMax: 3, preco: 147.90 }
+  };
+
+  const handleSelectPack = (pack: 'AVULSO' | 'ESSENCIAL' | 'PREMIUM' | 'ELITE') => {
+    setSelectedPack(pack);
+    setSelectedStyles([]); // Limpa os estilos selecionados se trocar de pacote
+  };
 
   const toggleStyle = (style: any) => {
+    if (!selectedPack) {
+      setPackWarning("Por favor, selecione um pacote primeiro!");
+      setTimeout(() => setPackWarning(null), 3000);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setSelectedStyles(prev => {
       const isSelected = prev.find(s => s.id === style.id);
       if (isSelected) {
         return prev.filter(s => s.id !== style.id);
       } else {
+        const limite = PACKS[selectedPack].estilosMax;
+        if (prev.length >= limite) {
+          setPackWarning(`O ${PACKS[selectedPack].nome} permite no máximo ${limite} estilo(s).`);
+          setTimeout(() => setPackWarning(null), 3000);
+          return prev;
+        }
         return [...prev, style];
       }
     });
   };
 
-  const getPrecoUnitario = (qtd: number) => {
-    if (qtd >= 20) return 147.90 / 20; // R$ 7,40
-    if (qtd >= 10) return 97.90 / 10; // R$ 9,79
-    if (qtd >= 5) return 67.90 / 5;   // R$ 13,58
-    return 19.90;                     // R$ 19,90
+  const getWhatsAppLink = () => {
+    if (!selectedPack) return '';
+    const pack = PACKS[selectedPack];
+    const stylesStr = selectedStyles.map(s => s.titulo).join(', ');
+    const numEstilos = selectedStyles.length;
+    
+    // Distribuição de fotos: se for Premium (10 fotos, 2 estilos), 5 por estilo
+    let distribuicao = '';
+    if (selectedPack !== 'AVULSO' && numEstilos > 0) {
+      const fotosPorEstilo = Math.floor(pack.fotos / numEstilos);
+      distribuicao = `\n- Fotos por estilo: Aproximadamente ${fotosPorEstilo} fotos em cada`;
+    }
+
+    const totalFotos = selectedPack === 'AVULSO' ? Math.max(1, numEstilos) : pack.fotos;
+    const valorTotal = selectedPack === 'AVULSO' ? pack.preco * Math.max(1, numEstilos) : pack.preco;
+    const limiteEstilosText = selectedPack === 'AVULSO' ? `${numEstilos} estilo(s)` : `${numEstilos}/${pack.estilosMax}`;
+    
+    const text = `Olá! Montei meu pacote na galeria do Virtual Studio:
+- Pacote: ${pack.nome} (${totalFotos} fotos)
+- Estilos Escolhidos (${limiteEstilosText}): ${stylesStr || 'Ainda não escolhidos'}${distribuicao}
+- Valor Estimado: R$ ${valorTotal.toFixed(2).replace('.', ',')}
+
+Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
+    return `https://wa.me/556193314473?text=${encodeURIComponent(text)}`;
   };
 
-  const getDisplayPackageName = (qtd: number) => {
-    if (qtd >= 20) return 'Pack Elite';
-    if (qtd >= 10) return 'Pack Premium';
-    if (qtd >= 5) return 'Pack Essencial';
-    return 'Avulso';
+  const renderPackWarning = () => {
+    if (!packWarning) return null;
+    return (
+      <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-red-500/90 text-white px-6 py-3 rounded-full shadow-2xl border border-red-400 flex items-center gap-3 animate-in slide-in-from-top-4 fade-in">
+        <Sparkles size={16} />
+        <span className="text-xs font-bold uppercase tracking-widest">{packWarning}</span>
+      </div>
+    );
   };
 
   const renderDiscountTip = () => {
-    const qtd = selectedStyles.length;
-    if (qtd === 0) return null;
+    if (!selectedPack) return null;
 
     let msg = '';
     let styleClasses = '';
     let iconClass = 'text-white shrink-0 animate-pulse';
     let textClass = 'text-white font-black text-[10px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-center drop-shadow-md';
 
-    if (qtd < 5) {
-      msg = `Dica: Adicione mais ${5 - qtd} estilo(s) para liberar o desconto Essencial!`;
+    if (selectedPack === 'AVULSO') {
+      msg = `Dica: Com o Pack Essencial você leva 5 fotos por apenas R$ 67,90 (R$ 13,58 cada)!`;
       styleClasses = 'bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 border-emerald-400/50 shadow-emerald-500/40';
-    } else if (qtd < 10) {
-      msg = `🔥 Desconto Essencial Ativo! Adicione mais ${10 - qtd} estilo(s) para o Premium!`;
+    } else if (selectedPack === 'ESSENCIAL') {
+      msg = `🔥 Ótima escolha! Dica: O Pack Premium te dá o DOBRO de fotos (10) e até 2 estilos por apenas + R$ 30,00!`;
       styleClasses = 'bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 border-blue-400/50 shadow-blue-500/40';
-    } else if (qtd < 20) {
-      msg = `💎 Desconto Premium Ativo! Adicione mais ${20 - qtd} estilo(s) para o Máximo!`;
+    } else if (selectedPack === 'PREMIUM') {
+      msg = `💎 Desconto Premium Ativo! Dica: O Pack Elite tem o melhor custo-benefício (20 fotos, 3 estilos)!`;
       styleClasses = 'bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 border-purple-400/50 shadow-purple-500/40';
-    } else {
-      msg = `🏆 Parabéns! Você atingiu o desconto MÁXIMO (Pack Elite)!`;
+    } else if (selectedPack === 'ELITE') {
+      msg = `🏆 Parabéns! Você escolheu o melhor custo-benefício com o Pack Elite!`;
       styleClasses = 'bg-gradient-to-r from-yellow-500 via-studio-gold to-yellow-500 border-yellow-300/50 shadow-studio-gold/50';
       iconClass = 'text-studio-black shrink-0 animate-pulse';
       textClass = 'text-studio-black font-black text-[10px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-center drop-shadow-sm';
@@ -71,22 +119,6 @@ export default function GalleryPage() {
         <span className={textClass}>{msg}</span>
       </div>
     );
-  };
-
-  const getWhatsAppLink = () => {
-    const qtd = selectedStyles.length;
-    const packageName = getDisplayPackageName(qtd);
-    const precoUnitario = getPrecoUnitario(qtd);
-    const total = qtd * precoUnitario;
-    const names = selectedStyles.map(s => s.titulo).join(', ');
-    
-    const text = `Olá! Montei meu pacote na galeria do Virtual Studio:
-- Pacote: ${packageName} (${qtd} ${qtd === 1 ? 'Estilo' : 'Estilos'})
-- Estilos Escolhidos: ${names}
-- Preço Estimado: R$ ${total.toFixed(2).replace('.', ',')}
-
-Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
-    return `https://wa.me/556193314473?text=${encodeURIComponent(text)}`;
   };
 
   useEffect(() => {
@@ -136,6 +168,112 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
           </p>
         </motion.div>
 
+        {/* Escolha do Pacote */}
+        <div className="max-w-6xl mx-auto px-6 mb-16">
+          <h2 className="text-xl font-display font-bold uppercase tracking-widest text-studio-gold mb-6">1. Escolha o seu Pacote</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {/* Avulso */}
+            <div 
+              onClick={() => handleSelectPack('AVULSO')}
+              className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'AVULSO' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
+            >
+               <div>
+                 <h3 className="text-lg font-bold font-display uppercase tracking-wider text-white">Foto Avulsa</h3>
+                 <p className="text-xs text-gray-400 mt-2 font-light">1 Foto em Alta Resolução</p>
+                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                   <Camera size={14} className="text-studio-gold" />
+                   <span className="text-[10px] font-bold uppercase tracking-widest">Estilos Ilimitados</span>
+                 </div>
+               </div>
+               <div className="mt-6 flex items-end justify-between">
+                 <div className="flex flex-col">
+                   <span className="text-xl font-bold text-studio-gold">R$ 19,90</span>
+                   <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold">por foto</span>
+                 </div>
+                 {selectedPack === 'AVULSO' && <Check size={20} className="text-studio-gold" />}
+               </div>
+            </div>
+
+            {/* Essencial */}
+            <div 
+              onClick={() => handleSelectPack('ESSENCIAL')}
+              className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'ESSENCIAL' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
+            >
+               <div>
+                 <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Essencial</h3>
+                 <p className="text-xs text-gray-400 mt-2 font-light">5 Fotos em Alta Resolução</p>
+                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                   <Camera size={14} className="text-studio-gold" />
+                   <span className="text-xs font-bold uppercase tracking-widest">1 Estilo</span>
+                 </div>
+               </div>
+               <div className="mt-6 flex items-end justify-between">
+                 <div className="flex flex-col">
+                   <span className="text-2xl font-bold text-studio-gold">R$ 67,90</span>
+                   <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 13,58 por foto</span>
+                 </div>
+                 {selectedPack === 'ESSENCIAL' && <Check size={24} className="text-studio-gold" />}
+               </div>
+            </div>
+
+            {/* Premium */}
+            <div 
+              onClick={() => handleSelectPack('PREMIUM')}
+              className={`relative cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'PREMIUM' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
+            >
+               <div className="absolute -top-3 right-4 bg-studio-gold text-studio-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full">Recomendado</div>
+               <div>
+                 <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Premium</h3>
+                 <p className="text-xs text-gray-400 mt-2 font-light">10 Fotos em Alta Resolução</p>
+                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                   <Camera size={14} className="text-studio-gold" />
+                   <span className="text-xs font-bold uppercase tracking-widest">Até 2 Estilos</span>
+                 </div>
+               </div>
+               <div className="mt-6 flex items-end justify-between">
+                 <div className="flex flex-col">
+                   <span className="text-2xl font-bold text-studio-gold">R$ 97,90</span>
+                   <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 9,79 por foto</span>
+                 </div>
+                 {selectedPack === 'PREMIUM' && <Check size={24} className="text-studio-gold" />}
+               </div>
+            </div>
+
+            {/* Elite */}
+            <div 
+              onClick={() => handleSelectPack('ELITE')}
+              className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'ELITE' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
+            >
+               <div>
+                 <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Elite</h3>
+                 <p className="text-xs text-gray-400 mt-2 font-light">20 Fotos em Alta Resolução</p>
+                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                   <Camera size={14} className="text-studio-gold" />
+                   <span className="text-xs font-bold uppercase tracking-widest">Até 3 Estilos</span>
+                 </div>
+               </div>
+               <div className="mt-6 flex items-end justify-between">
+                 <div className="flex flex-col">
+                   <span className="text-2xl font-bold text-studio-gold">R$ 147,90</span>
+                   <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 7,40 por foto</span>
+                 </div>
+                 {selectedPack === 'ELITE' && <Check size={24} className="text-studio-gold" />}
+               </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-6 mb-8 text-left">
+          <h2 className="text-xl font-display font-bold uppercase tracking-widest text-studio-gold mb-2">2. Selecione os Estilos</h2>
+          <p className="text-gray-400 text-sm font-light">
+            {selectedPack 
+              ? selectedPack === 'AVULSO' 
+                  ? 'Você escolheu Foto Avulsa. Pode escolher quantos estilos quiser, e cada um será R$ 19,90.'
+                  : `Você escolheu o ${PACKS[selectedPack].nome}. Você pode selecionar até ${PACKS[selectedPack].estilosMax} estilo(s).` 
+              : 'Selecione um pacote acima para começar a escolher seus estilos.'}
+          </p>
+        </div>
+
         {/* Filtros em Grid/Wrap */}
         <div className="flex flex-wrap justify-center gap-3 mb-16 max-w-4xl mx-auto px-6">
           {categories.map((cat) => (
@@ -156,6 +294,7 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
       {/* Grid de Galeria */}
       <section className="container mx-auto px-6 pb-32 flex-1">
         {renderDiscountTip()}
+        {renderPackWarning()}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
             <Loader2 className="animate-spin text-studio-gold" size={40} />
@@ -374,7 +513,7 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
 
       {/* Floating Action Button (WhatsApp) */}
       <AnimatePresence>
-        {selectedStyles.length > 0 && (
+        {selectedPack && selectedStyles.length > 0 && (
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -389,10 +528,10 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
             >
               <div className="flex flex-col items-start">
                 <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-70">
-                  {getDisplayPackageName(selectedStyles.length)} ({selectedStyles.length} {selectedStyles.length === 1 ? 'estilo' : 'estilos'})
+                  {PACKS[selectedPack].nome} {selectedPack === 'AVULSO' ? `(${selectedStyles.length} estilos)` : `(${selectedStyles.length}/${PACKS[selectedPack].estilosMax} estilos)`}
                 </span>
                 <span className="text-xs sm:text-sm font-bold uppercase tracking-wider mt-0.5">
-                  Pedir via WhatsApp • R$ {(selectedStyles.length * getPrecoUnitario(selectedStyles.length)).toFixed(2).replace('.', ',')}
+                  Pedir via WhatsApp • R$ {selectedPack === 'AVULSO' ? (PACKS[selectedPack].preco * Math.max(1, selectedStyles.length)).toFixed(2).replace('.', ',') : PACKS[selectedPack].preco.toFixed(2).replace('.', ',')}
                 </span>
               </div>
               <div className="bg-studio-black/10 p-3 rounded-xl group-hover:bg-studio-black/20 transition-colors">
