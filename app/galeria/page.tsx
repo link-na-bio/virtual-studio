@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, Camera, Star, ArrowRight, Loader2, Instagram, Mail, MessageCircle, ShieldCheck, LayoutDashboard, Cloud, Check, Download, Sparkles } from 'lucide-react';
 import { galleryData } from './data';
+import { supabase } from '@/lib/supabaseClient';
 import SalesNotification from '@/components/SalesNotification';
 
 export default function GalleryPage() {
@@ -122,14 +123,31 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
   };
 
   useEffect(() => {
-    // Utilize static data instead of fetching from Supabase
-    setTimeout(() => {
-      const activeStyles = galleryData.filter((s: any) => s.ativo !== false);
-      setStyles(activeStyles);
-      const uniqueCategories = Array.from(new Set(activeStyles.map((s: any) => s.categoria))).filter(Boolean) as string[];
-      setCategories(['Todos', ...uniqueCategories]);
-      setIsLoading(false);
-    }, 0);
+    const fetchStyles = async () => {
+      try {
+        const { data, error } = await supabase.from('estilos').select('*').order('criado_em', { ascending: false });
+        if (data && !error) {
+          const activeStyles = data.filter((s: any) => s.ativo !== false);
+          setStyles(activeStyles);
+          const uniqueCategories = Array.from(new Set(activeStyles.map((s: any) => s.categoria))).filter(Boolean) as string[];
+          setCategories(['Todos', ...uniqueCategories]);
+        } else {
+          // Fallback para dados estáticos
+          const activeStyles = galleryData.filter((s: any) => s.ativo !== false);
+          setStyles(activeStyles);
+          const uniqueCategories = Array.from(new Set(activeStyles.map((s: any) => s.categoria))).filter(Boolean) as string[];
+          setCategories(['Todos', ...uniqueCategories]);
+        }
+      } catch (err) {
+        const activeStyles = galleryData.filter((s: any) => s.ativo !== false);
+        setStyles(activeStyles);
+        const uniqueCategories = Array.from(new Set(activeStyles.map((s: any) => s.categoria))).filter(Boolean) as string[];
+        setCategories(['Todos', ...uniqueCategories]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchStyles();
   }, []);
 
   const filteredItems = activeCategory === 'Todos'
