@@ -124,8 +124,9 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
   useEffect(() => {
     // Utilize static data instead of fetching from Supabase
     setTimeout(() => {
-      setStyles(galleryData);
-      const uniqueCategories = Array.from(new Set(galleryData.map((s: any) => s.categoria))).filter(Boolean) as string[];
+      const activeStyles = galleryData.filter((s: any) => s.ativo !== false);
+      setStyles(activeStyles);
+      const uniqueCategories = Array.from(new Set(activeStyles.map((s: any) => s.categoria))).filter(Boolean) as string[];
       setCategories(['Todos', ...uniqueCategories]);
       setIsLoading(false);
     }, 0);
