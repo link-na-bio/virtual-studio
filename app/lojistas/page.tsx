@@ -931,19 +931,20 @@ export default function LojistasPage() {
                   </p>
 
                   {/* Preço em destaque com R$ 13,58 e similares */}
-                  <div className="bg-black/40 border border-white/5 rounded-2xl p-5 mb-8 text-center h-[180px] flex flex-col justify-between">
+                  <div className="bg-black/40 border border-white/5 rounded-2xl p-5 mb-8 text-center min-h-[220px] flex flex-col justify-between">
                     <div>
                       <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Preço por Foto:</div>
                       <div className="text-4xl sm:text-5xl font-black font-display text-studio-gold tracking-tight">
                         R$ {pack.precoPorFoto.toFixed(2).replace('.', ',')}
                       </div>
                     </div>
-                    <div className="text-xs text-emerald-400 font-bold flex items-center justify-center gap-1 min-h-[32px] text-center">
+                    <div className="text-xs text-emerald-400 font-bold flex items-center justify-center gap-1 min-h-[32px] text-center my-2">
                       <TrendingUp size={14} className="shrink-0" />
                       <span className="leading-tight">{pack.descontoTexto}</span>
                     </div>
-                    <div className="text-xs text-gray-500 pt-2 border-t border-white/5 font-mono">
-                      Investimento Total do Pack: R$ {pack.precoTotal.toFixed(2).replace('.', ',')}
+                    <div className="pt-3 border-t border-white/10 flex flex-col gap-1">
+                      <span className="text-xs text-gray-400 uppercase font-semibold tracking-wider">Investimento Total do Pack:</span>
+                      <span className="text-2xl sm:text-3xl text-white font-black font-display tracking-wide">R$ {pack.precoTotal.toFixed(2).replace('.', ',')}</span>
                     </div>
                   </div>
 
