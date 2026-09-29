@@ -37,7 +37,8 @@ export default function Login() {
       }
 
     } catch (err: any) {
-      setError('E-mail ou senha incorretos.');
+      console.error(err);
+      setError(`Erro: ${err.message || 'E-mail ou senha incorretos.'}`);
     } finally {
       setIsLoading(false);
     }
