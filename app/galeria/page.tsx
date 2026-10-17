@@ -59,7 +59,7 @@ export default function GalleryPage() {
     const pack = PACKS[selectedPack];
     const stylesStr = selectedStyles.map(s => s.titulo).join(', ');
     const numEstilos = selectedStyles.length;
-    
+
     // Distribuição de fotos: se for Premium (10 fotos, 2 estilos), 5 por estilo
     let distribuicao = '';
     if (selectedPack !== 'AVULSO' && numEstilos > 0) {
@@ -70,7 +70,7 @@ export default function GalleryPage() {
     const totalFotos = selectedPack === 'AVULSO' ? Math.max(1, numEstilos) : pack.fotos;
     const valorTotal = selectedPack === 'AVULSO' ? pack.preco * Math.max(1, numEstilos) : pack.preco;
     const limiteEstilosText = selectedPack === 'AVULSO' ? `${numEstilos} estilo(s)` : `${numEstilos}/${pack.estilosMax}`;
-    
+
     const text = `Olá! Montei meu pacote na galeria do Virtual Studio:
 - Pacote: ${pack.nome} (${totalFotos} fotos)
 - Estilos Escolhidos (${limiteEstilosText}): ${stylesStr || 'Ainda não escolhidos'}${distribuicao}
@@ -192,92 +192,92 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
           <h2 className="text-xl font-display font-bold uppercase tracking-widest text-studio-gold mb-6">1. Escolha o seu Pacote</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {/* Avulso */}
-            <div 
+            <div
               onClick={() => handleSelectPack('AVULSO')}
               className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'AVULSO' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
             >
-               <div>
-                 <h3 className="text-lg font-bold font-display uppercase tracking-wider text-white">Foto Avulsa</h3>
-                 <p className="text-xs text-gray-400 mt-2 font-light">1 Foto em Alta Resolução</p>
-                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
-                   <Camera size={14} className="text-studio-gold" />
-                   <span className="text-[10px] font-bold uppercase tracking-widest">Estilos Ilimitados</span>
-                 </div>
-               </div>
-               <div className="mt-6 flex items-end justify-between">
-                 <div className="flex flex-col">
-                   <span className="text-xl font-bold text-studio-gold">R$ 19,90</span>
-                   <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold">por foto</span>
-                 </div>
-                 {selectedPack === 'AVULSO' && <Check size={20} className="text-studio-gold" />}
-               </div>
+              <div>
+                <h3 className="text-lg font-bold font-display uppercase tracking-wider text-white">Foto Avulsa</h3>
+                <p className="text-xs text-gray-400 mt-2 font-light">1 Foto em Alta Resolução</p>
+                <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                  <Camera size={14} className="text-studio-gold" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Estilos Ilimitados</span>
+                </div>
+              </div>
+              <div className="mt-6 flex items-end justify-between">
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold text-studio-gold">R$ 19,90</span>
+                  <span className="text-[9px] text-gray-500 uppercase tracking-widest font-bold">por foto</span>
+                </div>
+                {selectedPack === 'AVULSO' && <Check size={20} className="text-studio-gold" />}
+              </div>
             </div>
 
             {/* Essencial */}
-            <div 
+            <div
               onClick={() => handleSelectPack('ESSENCIAL')}
               className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'ESSENCIAL' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
             >
-               <div>
-                 <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Essencial</h3>
-                 <p className="text-xs text-gray-400 mt-2 font-light">5 Fotos em Alta Resolução</p>
-                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
-                   <Camera size={14} className="text-studio-gold" />
-                   <span className="text-xs font-bold uppercase tracking-widest">1 Estilo</span>
-                 </div>
-               </div>
-               <div className="mt-6 flex items-end justify-between">
-                 <div className="flex flex-col">
-                   <span className="text-2xl font-bold text-studio-gold">R$ 67,90</span>
-                   <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 13,58 por foto</span>
-                 </div>
-                 {selectedPack === 'ESSENCIAL' && <Check size={24} className="text-studio-gold" />}
-               </div>
+              <div>
+                <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Essencial</h3>
+                <p className="text-xs text-gray-400 mt-2 font-light">5 Fotos em Alta Resolução</p>
+                <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                  <Camera size={14} className="text-studio-gold" />
+                  <span className="text-xs font-bold uppercase tracking-widest">1 Estilo</span>
+                </div>
+              </div>
+              <div className="mt-6 flex items-end justify-between">
+                <div className="flex flex-col">
+                  <span className="text-2xl font-bold text-studio-gold">R$ 67,90</span>
+                  <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 13,58 por foto</span>
+                </div>
+                {selectedPack === 'ESSENCIAL' && <Check size={24} className="text-studio-gold" />}
+              </div>
             </div>
 
             {/* Premium */}
-            <div 
+            <div
               onClick={() => handleSelectPack('PREMIUM')}
               className={`relative cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'PREMIUM' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
             >
-               <div className="absolute -top-3 right-4 bg-studio-gold text-studio-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full">Recomendado</div>
-               <div>
-                 <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Premium</h3>
-                 <p className="text-xs text-gray-400 mt-2 font-light">10 Fotos em Alta Resolução</p>
-                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
-                   <Camera size={14} className="text-studio-gold" />
-                   <span className="text-xs font-bold uppercase tracking-widest">Até 2 Estilos</span>
-                 </div>
-               </div>
-               <div className="mt-6 flex items-end justify-between">
-                 <div className="flex flex-col">
-                   <span className="text-2xl font-bold text-studio-gold">R$ 97,90</span>
-                   <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 9,79 por foto</span>
-                 </div>
-                 {selectedPack === 'PREMIUM' && <Check size={24} className="text-studio-gold" />}
-               </div>
+              <div className="absolute -top-3 right-4 bg-studio-gold text-studio-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full">Recomendado</div>
+              <div>
+                <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Premium</h3>
+                <p className="text-xs text-gray-400 mt-2 font-light">10 Fotos em Alta Resolução</p>
+                <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                  <Camera size={14} className="text-studio-gold" />
+                  <span className="text-xs font-bold uppercase tracking-widest">Até 2 Estilos</span>
+                </div>
+              </div>
+              <div className="mt-6 flex items-end justify-between">
+                <div className="flex flex-col">
+                  <span className="text-2xl font-bold text-studio-gold">R$ 97,90</span>
+                  <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 9,79 por foto</span>
+                </div>
+                {selectedPack === 'PREMIUM' && <Check size={24} className="text-studio-gold" />}
+              </div>
             </div>
 
             {/* Elite */}
-            <div 
+            <div
               onClick={() => handleSelectPack('ELITE')}
               className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col justify-between ${selectedPack === 'ELITE' ? 'border-studio-gold bg-studio-gold/10 scale-105 shadow-[0_0_30px_rgba(212,175,55,0.3)]' : 'border-white/10 bg-white/5 hover:border-studio-gold/50'}`}
             >
-               <div>
-                 <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Elite</h3>
-                 <p className="text-xs text-gray-400 mt-2 font-light">20 Fotos em Alta Resolução</p>
-                 <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
-                   <Camera size={14} className="text-studio-gold" />
-                   <span className="text-xs font-bold uppercase tracking-widest">Até 3 Estilos</span>
-                 </div>
-               </div>
-               <div className="mt-6 flex items-end justify-between">
-                 <div className="flex flex-col">
-                   <span className="text-2xl font-bold text-studio-gold">R$ 147,90</span>
-                   <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 7,40 por foto</span>
-                 </div>
-                 {selectedPack === 'ELITE' && <Check size={24} className="text-studio-gold" />}
-               </div>
+              <div>
+                <h3 className="text-xl font-bold font-display uppercase tracking-wider text-white">Elite</h3>
+                <p className="text-xs text-gray-400 mt-2 font-light">20 Fotos em Alta Resolução</p>
+                <div className="mt-4 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                  <Camera size={14} className="text-studio-gold" />
+                  <span className="text-xs font-bold uppercase tracking-widest">Até 3 Estilos</span>
+                </div>
+              </div>
+              <div className="mt-6 flex items-end justify-between">
+                <div className="flex flex-col">
+                  <span className="text-2xl font-bold text-studio-gold">R$ 148,00</span>
+                  <span className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold">R$ 7,40 por foto</span>
+                </div>
+                {selectedPack === 'ELITE' && <Check size={24} className="text-studio-gold" />}
+              </div>
             </div>
           </div>
         </div>
@@ -285,10 +285,10 @@ Gostaria de saber mais sobre como finalizar meu pedido pelo WhatsApp!`;
         <div className="max-w-4xl mx-auto px-6 mb-8 text-left">
           <h2 className="text-xl font-display font-bold uppercase tracking-widest text-studio-gold mb-2">2. Selecione os Estilos</h2>
           <p className="text-gray-400 text-sm font-light">
-            {selectedPack 
-              ? selectedPack === 'AVULSO' 
-                  ? 'Você escolheu Foto Avulsa. Pode escolher quantos estilos quiser, e cada um será R$ 19,90.'
-                  : `Você escolheu o ${PACKS[selectedPack].nome}. Você pode selecionar até ${PACKS[selectedPack].estilosMax} estilo(s).` 
+            {selectedPack
+              ? selectedPack === 'AVULSO'
+                ? 'Você escolheu Foto Avulsa. Pode escolher quantos estilos quiser, e cada um será R$ 19,90.'
+                : `Você escolheu o ${PACKS[selectedPack].nome}. Você pode selecionar até ${PACKS[selectedPack].estilosMax} estilo(s).`
               : 'Selecione um pacote acima para começar a escolher seus estilos.'}
           </p>
         </div>

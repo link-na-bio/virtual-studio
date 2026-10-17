@@ -258,7 +258,7 @@ export const packsLojistas = [
       "Garantia 100% Risco Zero e suporte pós-entrega"
     ],
     ctaTexto: "Contratar Pack Elite",
-    waMensagem: "Olá, tenho interesse no Pack Elite para Lojistas (20 fotos por R$ 147,90, saindo R$ 7,40/foto) do Virtual Studio. Quero produzir o catálogo completo da minha coleção com IA de elite!"
+    waMensagem: "Olá, tenho interesse no Pack Elite para Lojistas (20 fotos por R$ 148,00, saindo R$ 7,40/foto) do Virtual Studio. Quero produzir o catálogo completo da minha coleção com IA de elite!"
   }
 ];
 
