@@ -22,7 +22,7 @@ export default function GalleryPage() {
     AVULSO: { nome: 'Foto Avulsa', fotos: 1, estilosMax: 99, preco: 19.90 },
     ESSENCIAL: { nome: 'Pack Essencial', fotos: 5, estilosMax: 1, preco: 67.90 },
     PREMIUM: { nome: 'Pack Premium', fotos: 10, estilosMax: 2, preco: 97.90 },
-    ELITE: { nome: 'Pack Elite', fotos: 20, estilosMax: 3, preco: 147.90 }
+    ELITE: { nome: 'Pack Elite', fotos: 20, estilosMax: 3, preco: 148.00 }
   };
 
   const handleSelectPack = (pack: 'AVULSO' | 'ESSENCIAL' | 'PREMIUM' | 'ELITE') => {

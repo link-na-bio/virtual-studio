@@ -243,7 +243,7 @@ export const packsLojistas = [
     nome: "Pack Elite",
     badge: "💎 Máxima Escala & ROI",
     qtdFotos: 20,
-    precoTotal: 147.90,
+    precoTotal: 148.00,
     precoPorFoto: 7.40,
     descontoTexto: "Melhor preço garantido: Apenas R$ 7,40 por foto",
     destaque: false,

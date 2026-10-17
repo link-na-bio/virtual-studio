@@ -104,7 +104,7 @@ function CheckoutContent() {
       const pBase = parsePrice(dynamicPrices?.preco_amostra, 19.90);
       const pEssencial = parsePrice(dynamicPrices?.preco_essencial, 67.90) / 5;
       const pPremium = parsePrice(dynamicPrices?.preco_premium, 97.90) / 10;
-      const pElite = parsePrice(dynamicPrices?.preco_elite, 147.90) / 20;
+      const pElite = parsePrice(dynamicPrices?.preco_elite, 148.00) / 20;
 
       let precoUnitarioNormais = pBase;
       let nomePlano = 'Amostra / Avulso';
