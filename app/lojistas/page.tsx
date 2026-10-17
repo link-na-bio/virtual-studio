@@ -344,7 +344,7 @@ export default function LojistasPage() {
               {/* Badges de Confiança */}
               <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 text-center lg:text-left">
                 <div className="flex flex-col items-center lg:items-start">
-                  <p className="text-studio-gold font-serif text-2xl md:text-3xl font-bold italic">80% -</p>
+                  <p className="text-studio-gold font-serif text-2xl md:text-3xl font-bold italic">90% -</p>
                   <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-medium mt-1">Economia no Custo por Foto</p>
                 </div>
                 <div className="flex flex-col items-center lg:items-start">
@@ -564,7 +564,7 @@ export default function LojistasPage() {
               <CheckCircle2 className="text-studio-gold shrink-0 mt-1" size={22} />
               <div>
                 <p className="text-white font-bold text-base uppercase leading-snug">Economia Absoluta</p>
-                <p className="text-gray-400 text-xs mt-0.5">Até 80% mais barato que estúdios</p>
+                <p className="text-gray-400 text-xs mt-0.5">Até 90% mais barato que estúdios</p>
               </div>
             </div>
             <div className="flex items-start gap-3 w-full md:w-auto">
