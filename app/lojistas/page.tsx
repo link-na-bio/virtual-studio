@@ -232,17 +232,17 @@ export default function LojistasPage() {
     const total = qtd * precoUnit;
     const nomes = selectedAvatars.map(a => `${a.codigo} (${a.nome})`).join(', ');
 
-    const texto = `Olá! Selecionei ${qtd} modelo(s) virtual(is) na página para Lojistas do Virtual Studio:\n` +
-      `- Avatares: ${nomes}\n` +
-      `- Sugestão de Pacote: ${getPackageSugestao(qtd)}\n` +
+    const texto = `Olá! Sou lojista e selecionei ${qtd} modelo(s) virtual(is) para o catálogo da minha loja:\n` +
+      `- Modelos: ${nomes}\n` +
+      `- Sugestão de Pack: ${getPackageSugestao(qtd)}\n` +
       `- Valor estimado: R$ ${total.toFixed(2).replace('.', ',')} (R$ ${precoUnit.toFixed(2).replace('.', ',')}/foto)\n\n` +
-      `Gostaria de saber como enviar as fotos dos meus produtos para iniciar meu ensaio de elite!`;
+      `Gostaria de enviar as fotos dos meus produtos para análise e começar meu catálogo com IA para lojistas!`;
 
     return `https://wa.me/556193314473?text=${encodeURIComponent(texto)}`;
   };
 
   const getWhatsAppLinkAvatar = (avatar: AvatarModel) => {
-    const texto = `Olá, tenho interesse em realizar o ensaio da minha loja com o modelo virtual ${avatar.nome} (${avatar.codigo} - ${avatar.categoria}) do Virtual Studio. Como podemos começar?`;
+    const texto = `Olá! Sou lojista e tenho interesse em produzir as fotos do catálogo da minha loja com o modelo virtual ${avatar.nome} (${avatar.codigo} - ${avatar.categoria}). Quero enviar meu produto para análise.`;
     return `https://wa.me/556193314473?text=${encodeURIComponent(texto)}`;
   };
 
@@ -283,15 +283,15 @@ export default function LojistasPage() {
             />
           </Link>
 
-          {/* Botão de WhatsApp Rápido */}
+          {/* Botão de WhatsApp Rápido para Lojistas */}
           <a
-            href="https://wa.me/556193314473?text=Ol%C3%A1!%20Sou%20lojista%20e%20quero%20saber%20mais%20sobre%20os%20ensaios%20com%20IA%20para%20meus%20produtos."
+            href="https://wa.me/556193314473?text=Ol%C3%A1!%20Sou%20lojista%20e%20gostaria%20de%20falar%20com%20um%20consultor%20sobre%20o%20cat%C3%A1logo%20de%20produtos%20da%20minha%20loja."
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:flex items-center gap-2 bg-studio-gold text-studio-black px-6 py-2.5 text-[11px] font-bold uppercase tracking-widest hover:bg-studio-gold-light transition rounded-lg shadow-lg shadow-studio-gold/20"
           >
             <MessageCircle size={16} className="fill-studio-black" />
-            Atendimento Zap
+            Falar com consultor para lojistas
           </a>
         </div>
       </header>
@@ -321,7 +321,7 @@ export default function LojistasPage() {
               </h1>
 
               <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0">
-                Transforme seus produtos em <span className="text-white font-semibold">obras de arte que vendem</span>, sem os custos, a logística e a complexidade dos ensaios fotográficos tradicionais.
+                Apresente seus produtos com <span className="text-white font-semibold">qualidade visual de alto padrão</span>, aumentando a percepção de valor da sua marca sem os custos, a logística e a complexidade dos ensaios tradicionais.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -329,7 +329,7 @@ export default function LojistasPage() {
                   onClick={() => scrollToSection('modelos')}
                   className="w-full sm:w-auto px-8 py-5 bg-studio-gold text-studio-black font-black uppercase tracking-widest text-xs sm:text-sm rounded-xl hover:bg-studio-gold-light transition-all shadow-[0_15px_35px_rgba(212,175,55,0.3)] hover:scale-105 flex items-center justify-center gap-3 group"
                 >
-                  Conheça Nossos Modelos Virtuais
+                  Conhecer Modelos para Lojistas
                   <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
                 </button>
 
@@ -337,7 +337,7 @@ export default function LojistasPage() {
                   onClick={() => scrollToSection('packs')}
                   className="w-full sm:w-auto px-8 py-5 bg-white/5 border border-white/10 hover:border-studio-gold/50 text-white font-bold uppercase tracking-widest text-xs sm:text-sm rounded-xl transition-all hover:bg-white/10 flex items-center justify-center gap-2"
                 >
-                  Ver Packs e Valores
+                  Conhecer os packs para lojistas
                 </button>
               </div>
 
@@ -456,10 +456,10 @@ export default function LojistasPage() {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold uppercase italic tracking-tight font-display mb-4">
-              Cansado de Fotos que <span className="text-red-500">Não Vendem?</span>
+              Cansado de Imagens que <span className="text-red-500">Desvalorizam Seu Produto?</span>
             </h2>
             <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed">
-              O mercado de e-commerce nunca esteve tão competitivo. Se a sua loja ainda depende dos métodos antigos ou de fotos amadoras, o prejuízo diário em vendas é inevitável.
+              O mercado de e-commerce exige autoridade visual. Fotos amadoras no cabide ou com iluminação inadequada reduzem a confiança do cliente, comprometem a percepção de valor das suas peças e enfraquecem a comunicação da sua marca.
             </p>
           </div>
 
@@ -572,6 +572,137 @@ export default function LojistasPage() {
               <div>
                 <p className="text-white font-bold text-base uppercase leading-snug">Licença Comercial Total</p>
                 <p className="text-gray-400 text-xs mt-0.5">Para Site, Instagram, Meta Ads & Google</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SEÇÃO "O QUE VOCÊ PRECISA ENVIAR" (Guia Visual de Fotos e Arquivos) */}
+      <section id="envio-produtos" className="py-24 bg-[#0a0a0a] border-t border-white/5 relative overflow-hidden">
+        {/* Glow de fundo */}
+        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-studio-gold/5 blur-[130px] rounded-full pointer-events-none"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-studio-gold text-xs font-bold uppercase tracking-[0.3em] block mb-3 font-display">
+              GUIA PRÁTICO • PROCESSO 100% DIGITAL
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold uppercase italic tracking-tight font-display mb-4">
+              O Que Você Precisa <span className="text-studio-gold">Enviar</span>
+            </h2>
+            <p className="text-gray-300 text-base md:text-lg font-light leading-relaxed">
+              Não é obrigatório enviar o produto fisicamente para o estúdio quando as imagens enviadas tiverem qualidade suficiente. Tudo começa com fotos simples das suas peças, tiradas com boa luz.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-12">
+            {/* Coluna 1: O Que Enviar */}
+            <div className="bg-[#141414] border border-emerald-500/20 rounded-3xl p-8 sm:p-10 shadow-xl flex flex-col justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">
+                  <CheckCircle2 size={16} />
+                  O Que Enviar (Recomendado)
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-wide font-display text-white mb-6">
+                  Fotos e Arquivos Necessários
+                </h3>
+
+                <ul className="space-y-4 text-sm text-gray-300 font-light leading-relaxed">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Fotos nítidas do produto:</strong> Imagens focadas que mostrem com clareza as formas e cores reais da peça.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Ângulos necessários:</strong> Fotos tiradas de frente, de costas e em diferentes ângulos quando o modelo ou caimento exigir.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Superfície ou manequim:</strong> Imagens da peça no cabide, manequim, superfície plana (flat lay) ou fundo neutro.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Boa iluminação:</strong> Luz natural ou iluminação uniforme de estúdio, sem excesso de sombras pesadas.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Produto inteiro visível:</strong> Enquadramento completo da peça sempre que possível, sem cortes acidentais.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Detalhes importantes:</strong> Registros aproximados de textura, estampa, acabamento, fechamento, sola, ferragens ou acessórios.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Para looks completos:</strong> Fotos individuais de cada peça e, se possível, uma referência da combinação desejada.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-white/10 bg-studio-gold/5 -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 p-4 sm:p-6 rounded-b-2xl border border-studio-gold/15">
+                <p className="text-xs text-gray-300 leading-relaxed">
+                  <span className="text-studio-gold font-bold uppercase tracking-wider block mb-1">✓ Sem Envio Físico Obrigatório</span>
+                  Não é obrigatório enviar o produto fisicamente para o estúdio quando a imagem enviada tiver qualidade suficiente para o mapeamento digital.
+                </p>
+              </div>
+            </div>
+
+            {/* Coluna 2: O Que Evitar */}
+            <div className="bg-[#141414] border border-red-500/20 rounded-3xl p-8 sm:p-10 shadow-xl flex flex-col justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-widest mb-6">
+                  <X size={16} />
+                  O Que Evitar
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-wide font-display text-white mb-6">
+                  Para Garantir o Melhor Padrão
+                </h3>
+
+                <ul className="space-y-4 text-sm text-gray-300 font-light leading-relaxed">
+                  <li className="flex items-start gap-3">
+                    <X size={18} className="text-red-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Fotos desfocadas ou tremidas:</strong> Dificultam o mapeamento fino de texturas e relevos dos tecidos.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <X size={18} className="text-red-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Produto parcialmente cortado:</strong> Partes essenciais fora do enquadramento (como mangas, barras ou golas).</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <X size={18} className="text-red-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Iluminação muito escura:</strong> Ambientes escuros distorcem cores e ocultam detalhes importantes do produto.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <X size={18} className="text-red-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Reflexos que escondam detalhes:</strong> Pontos estourados ou reflexos que ocultem o acabamento ou a estampa.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <X size={18} className="text-red-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Fundos muito poluídos:</strong> Cenários carregados ou com objetos concorrendo com o produto.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <X size={18} className="text-red-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Imagens com baixa resolução:</strong> Arquivos excessivamente comprimidos, borrados ou pixelados.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <X size={18} className="text-red-400 shrink-0 mt-0.5" />
+                    <span><strong className="text-white font-medium">Produto não identificável:</strong> Fotos em que a peça não possa ser identificada claramente em suas linhas e caimento.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <a
+                  href="https://wa.me/556193314473?text=Ol%C3%A1!%20Sou%20lojista%20e%20gostaria%20de%20enviar%20as%20fotos%20dos%20meus%20produtos%20para%20an%C3%A1lise."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-4 bg-studio-gold text-studio-black font-black uppercase tracking-widest text-xs rounded-xl hover:bg-studio-gold-light transition-all shadow-lg shadow-studio-gold/20 flex items-center justify-center gap-2"
+                >
+                  <MessageCircle size={18} className="fill-studio-black" />
+                  Enviar meu produto para análise
+                </a>
               </div>
             </div>
           </div>
@@ -725,8 +856,8 @@ export default function LojistasPage() {
                     >
                       {currentSlideIndex === 0 && `${activeAvatar.genero}, ${activeAvatar.style_category}. ${activeAvatar.descricao}`}
                       {currentSlideIndex === 1 && 'Assim como você nos enviaria. Fundo neutro, iluminação padrão.'}
-                      {currentSlideIndex === 2 && `Transformado em um ensaio fotorrealista 8K no estilo ${activeAvatar.style_category}, pronto para vender!`}
-                      {currentSlideIndex === 3 && 'Escolha este modelo e envie as fotos do seu produto. Nós cuidamos do resto!'}
+                      {currentSlideIndex === 2 && `Transformado em um ensaio fotorrealista 8K no estilo ${activeAvatar.style_category}, pronto para destacar seu catálogo e anúncios!`}
+                      {currentSlideIndex === 3 && 'Escolha este modelo e envie as fotos do seu produto para análise. Nós cuidamos de toda a produção visual!'}
                     </motion.p>
                   </AnimatePresence>
                 </div>
@@ -754,13 +885,13 @@ export default function LojistasPage() {
                     {currentSlideIndex === 3 ? (
                       /* CTA Final para WhatsApp */
                       <a
-                        href={`https://wa.me/556193314473?text=${encodeURIComponent(`Olá, tenho interesse em usar o avatar ${activeAvatar.id} para meus ensaios.`)}`}
+                        href={`https://wa.me/556193314473?text=${encodeURIComponent(`Olá! Sou lojista e tenho interesse em usar o modelo ${activeAvatar.id} no catálogo de produtos da minha loja.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full bg-studio-gold text-studio-black py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-studio-gold-light hover:scale-[1.02] transition-all flex items-center justify-center gap-2 shadow-lg shadow-studio-gold/20 cursor-pointer text-center"
                       >
                         <MessageCircle size={18} className="fill-studio-black" />
-                        Escolher Avatar {activeAvatar.id}
+                        Escolher Modelo {activeAvatar.id} para Catálogo
                       </a>
                     ) : (
                       /* Avançar Workflow (Apenas Desktop) */
@@ -865,7 +996,7 @@ export default function LojistasPage() {
                         : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
                         }`}
                     >
-                      {selectedAvatars.some(a => a.id === modalAvatar.id) ? '✓ Avatar Adicionado à sua Lista' : '+ Adicionar à minha Lista de Seleção'}
+                      {selectedAvatars.some(a => a.id === modalAvatar.id) ? '✓ Modelo Adicionado à Lista da Loja' : '+ Adicionar aos Modelos da Minha Loja'}
                     </button>
 
                     <a
@@ -875,7 +1006,7 @@ export default function LojistasPage() {
                       className="w-full bg-studio-gold text-studio-black py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all flex items-center justify-center gap-2 shadow-lg shadow-studio-gold/20"
                     >
                       <MessageCircle size={18} className="fill-studio-black" />
-                      Quero meu Ensaio com este Modelo
+                      Enviar meu produto para análise
                     </a>
                   </div>
                 </div>
@@ -895,10 +1026,10 @@ export default function LojistasPage() {
               TABELA DE PREÇOS
             </span>
             <h2 className="text-3xl md:text-6xl font-extrabold uppercase italic tracking-tight font-display mb-6">
-              Packs Feitos Para o <span className="text-studio-gold">Sucesso</span> da Sua Loja
+              Packs Feitos Para a <span className="text-studio-gold">Presença Visual</span> da Sua Loja
             </h2>
             <p className="text-gray-300 text-lg font-light leading-relaxed">
-              Quanto mais fotos você produz, menor o investimento por unidade. Todos os pacotes incluem curadoria artística dedicada e licença comercial irrestrita para impulsionar suas vendas.
+              Quanto mais fotos você produz, menor o investimento por unidade. Todos os pacotes incluem curadoria artística dedicada e licença comercial irrestrita para fortalecer a apresentação dos seus produtos.
             </p>
           </div>
 
@@ -980,7 +1111,7 @@ export default function LojistasPage() {
                       }`}
                   >
                     <MessageCircle size={18} className={pack.destaque ? 'fill-studio-black' : ''} />
-                    Contratar {pack.nome}
+                    {pack.ctaTexto || `Contratar ${pack.nome} para Lojistas`}
                   </a>
                 </div>
               </div>
@@ -994,13 +1125,13 @@ export default function LojistasPage() {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-studio-gold text-xs font-bold uppercase tracking-[0.3em] block mb-3 font-display">
-              CASOS REAIS & PROVA SOCIAL
+              RELATOS & EXEMPLOS DE CLIENTES
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold uppercase italic tracking-tight font-display mb-6">
-              Lojistas que <span className="text-studio-gold">Transformaram Suas Vendas</span> com o Virtual Studio
+              Lojistas que <span className="text-studio-gold">Transformaram a Imagem</span> de Suas Coleções
             </h2>
             <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed">
-              Veja a diferença prática na percepção de valor dos produtos. Nossos avatares vestem suas coleções transmitindo desejo, autoridade e sofisticação imediata ao consumidor final.
+              Relatos reais de marcas e lojistas que elevaram a percepção de valor e a consistência visual de seus produtos no e-commerce e nas redes sociais. (Exemplos compartilhados por clientes; resultados podem variar de acordo com o segmento e estratégia).
             </p>
           </div>
 
@@ -1217,15 +1348,15 @@ export default function LojistasPage() {
           <div className="mt-12 text-center bg-white/5 border border-white/10 rounded-2xl p-8">
             <HelpCircle size={32} className="mx-auto text-studio-gold mb-3" />
             <h3 className="text-lg font-bold uppercase text-white font-display mb-2">Ainda tem alguma dúvida?</h3>
-            <p className="text-xs text-gray-400 mb-6">Nossa equipe de atendimento está pronta para analisar suas peças no WhatsApp.</p>
+            <p className="text-xs text-gray-400 mb-6">Nossa equipe de consultoria para lojistas está pronta para analisar suas peças no WhatsApp.</p>
             <a
-              href="https://wa.me/556193314473?text=Ol%C3%A1!%20Sou%20lojista%20e%20tenho%20uma%20d%C3%BAvida%20espec%C3%ADfica%20sobre%20os%20ensaios%20com%20IA."
+              href="https://wa.me/556193314473?text=Ol%C3%A1!%20Sou%20lojista%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20a%20produ%C3%A7%C3%A3o%20de%20cat%C3%A1logo%20com%20IA."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-studio-gold text-studio-black px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-studio-gold-light transition-all shadow-lg shadow-studio-gold/20"
             >
               <MessageCircle size={16} className="fill-studio-black" />
-              Falar com Consultor no WhatsApp
+              Falar com consultor para lojistas
             </a>
           </div>
         </div>
@@ -1238,18 +1369,18 @@ export default function LojistasPage() {
         <div className="container mx-auto px-6 text-center relative z-10">
           <Star size={44} className="text-studio-gold fill-studio-gold mx-auto mb-6 animate-pulse" />
           <h2 className="text-4xl md:text-6xl font-extrabold mb-8 italic uppercase tracking-tight font-display">
-            PRONTO PARA REVOLUCIONAR <br /> AS VENDAS DA <span className="text-studio-gold">SUA LOJA?</span>
+            PRONTO PARA TRANSFORMAR <br /> A IMAGEM DA <span className="text-studio-gold">SUA LOJA?</span>
           </h2>
           <p className="text-gray-400 text-base max-w-2xl mx-auto mb-10 font-light">
-            Não deixe que fotos sem vida continuem prejudicando suas conversões. Escolha seus avatares e comece agora mesmo pelo WhatsApp com atendimento dedicado.
+            Fortaleça a autoridade e a percepção de valor dos seus produtos com modelos virtuais de elite e imagens profissionais para seu catálogo e redes sociais.
           </p>
           <a
-            href="https://wa.me/556193314473?text=Ol%C3%A1!%20Sou%20lojista%20e%20quero%20iniciar%20a%20produ%C3%A7%C3%A3o%20das%20fotos%20da%20minha%20loja%20com%20o%20Virtual%20Studio."
+            href="https://wa.me/556193314473?text=Ol%C3%A1!%20Sou%20lojista%20e%20quero%20come%C3%A7ar%20meu%20cat%C3%A1logo%20de%20produtos%20com%20IA%20no%20Virtual%20Studio."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-4 px-10 sm:px-14 py-6 bg-studio-gold text-studio-black font-extrabold uppercase tracking-[0.2em] hover:bg-studio-gold-light hover:scale-105 transition-all shadow-2xl shadow-studio-gold/30 rounded-2xl text-sm md:text-lg group"
           >
-            INICIAR AGORA PELO WHATSAPP
+            Começar meu catálogo com IA
             <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
           </a>
           <p className="mt-8 text-gray-500 text-xs tracking-[0.3em] font-light uppercase">
@@ -1346,14 +1477,14 @@ export default function LojistasPage() {
             >
               <div className="flex flex-col items-start">
                 <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-75">
-                  {getPackageSugestao(selectedAvatars.length)} • {selectedAvatars.length} {selectedAvatars.length === 1 ? 'avatar selecionado' : 'avatares selecionados'}
+                  {getPackageSugestao(selectedAvatars.length)} • {selectedAvatars.length} {selectedAvatars.length === 1 ? 'modelo selecionado' : 'modelos selecionados'}
                 </span>
                 <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider mt-0.5">
-                  Solicitar Ensaio • R$ {(selectedAvatars.length * getPrecoUnitario(selectedAvatars.length)).toFixed(2).replace('.', ',')}
+                  Começar catálogo com IA • R$ {(selectedAvatars.length * getPrecoUnitario(selectedAvatars.length)).toFixed(2).replace('.', ',')}
                 </span>
               </div>
               <div className="bg-studio-black/15 p-3 rounded-xl group-hover:bg-studio-black/25 transition-colors flex items-center gap-1.5 font-bold text-xs uppercase tracking-wider">
-                <span>Continuar</span>
+                <span>Enviar para análise</span>
                 <MessageCircle size={22} className="fill-studio-black" />
               </div>
             </a>

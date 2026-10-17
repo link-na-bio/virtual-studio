@@ -67,7 +67,7 @@ export const avataresLojistas: AvatarModel[] = [
     categoria: "Elegância Urbana",
     genero: "Feminino",
     etnia: "Latina / Brasileira",
-    descricao: "Luz natural difusa com energia vibrante e urbana. Um dos perfis de maior conversão para lojas de e-commerce femininas de moda casual, jeanswear, blusas de seda e calçados.",
+    descricao: "Luz natural difusa com energia vibrante e urbana. Um dos perfis mais requisitados para catálogos femininos de moda casual, jeanswear, blusas de seda e calçados.",
     img_url: "/images/galeria/lifestyle-urbano-d6160273-dedf-4512-993b-ff463286788b.webp",
     indicacaoProdutos: ["Jeanswear Premium", "Moda Casual Feminina", "Calçados e Sandálias", "Óculos & Bolsas"]
   },
@@ -213,8 +213,8 @@ export const packsLojistas = [
       "Licença comercial para e-commerce, Redes Sociais e Ads",
       "Entrega rápida e segura (Até 48h)"
     ],
-    ctaTexto: "Contratar Pack Essencial",
-    waMensagem: "Olá, tenho interesse no Pack Essencial para Lojistas (5 fotos por R$ 67,90) do Virtual Studio. Quero transformar os produtos da minha loja em ensaios de elite!"
+    ctaTexto: "Contratar Pack Essencial para Lojistas",
+    waMensagem: "Olá! Sou lojista e tenho interesse no Pack Essencial (5 fotos por R$ 67,90) para o catálogo de produtos da minha loja. Gostaria de enviar meu produto para análise."
   },
   {
     id: "premium",
@@ -235,13 +235,13 @@ export const packsLojistas = [
       "Prioridade na fila de processamento VIP (Até 48h)",
       "Garantia de Risco Zero com aprovação prévia com marca d'água"
     ],
-    ctaTexto: "Contratar Pack Premium",
-    waMensagem: "Olá, tenho interesse no Pack Premium para Lojistas (10 fotos por R$ 97,90, saindo R$ 9,79/foto) do Virtual Studio. Quero elevar o nível do catálogo da minha loja!"
+    ctaTexto: "Contratar Pack Premium para Lojistas",
+    waMensagem: "Olá! Sou lojista e tenho interesse no Pack Premium (10 fotos por R$ 97,90, saindo R$ 9,79/foto) para o catálogo de produtos da minha loja. Gostaria de enviar meus produtos para análise."
   },
   {
     id: "elite",
     nome: "Pack Elite",
-    badge: "💎 Máxima Escala & ROI",
+    badge: "💎 Máxima Escala & Variedade",
     qtdFotos: 20,
     precoTotal: 148.00,
     precoPorFoto: 7.40,
@@ -257,8 +257,8 @@ export const packsLojistas = [
       "Atendimento VIP super prioritário (Entrega acelerada)",
       "Garantia 100% Risco Zero e suporte pós-entrega"
     ],
-    ctaTexto: "Contratar Pack Elite",
-    waMensagem: "Olá, tenho interesse no Pack Elite para Lojistas (20 fotos por R$ 148,00, saindo R$ 7,40/foto) do Virtual Studio. Quero produzir o catálogo completo da minha coleção com IA de elite!"
+    ctaTexto: "Contratar Pack Elite para Lojistas",
+    waMensagem: "Olá! Sou lojista e tenho interesse no Pack Elite (20 fotos por R$ 148,00, saindo R$ 7,40/foto) para o catálogo completo da minha loja. Gostaria de começar meu catálogo com IA."
   }
 ];
 
@@ -280,8 +280,8 @@ export const doresLojistas = [
   },
   {
     icone: "TrendingDown",
-    titulo: "Baixa Conversão e ROI",
-    descricao: "Fotos amadoras ou genéricas diminuem a autoridade da sua marca, resultando em carrinhos abandonados e custo por clique alto nos anúncios."
+    titulo: "Baixa Percepção de Valor",
+    descricao: "Fotos amadoras ou genéricas diminuem a autoridade da sua marca, transmitindo menos confiança ao cliente e enfraquecendo a comunicação visual."
   }
 ];
 
@@ -329,14 +329,14 @@ export const depoimentosLojistas: DepoimentoModel[] = [
     nome: "Mariana Fontes",
     iniciais: "MF",
     cargo: "Fundadora • Studio M E-commerce",
-    texto: "Como dona de e-commerce, o custo de fazer ensaios mensais estava comendo toda a minha margem de lucro. O Virtual Studio salvou meu negócio. As fotos ficam tão reais que minhas clientes perguntam o nome da modelo!",
+    texto: "Como dona de e-commerce, o custo de fazer ensaios presenciais todo mês era inviável. O Virtual Studio transformou a apresentação da minha loja. As imagens têm um padrão profissional impecável e as clientes adoram o caimento das peças.",
     estrelas: 5
   },
   {
     nome: "Ricardo Santoro",
     iniciais: "RS",
     cargo: "Diretor de Marketing • Santoro Men",
-    texto: "Contratamos o Pack Elite para o lançamento da coleção de inverno. A qualidade da textura das roupas e da iluminação dos avatares superou qualquer expectativa. Nosso custo de aquisição (CPA) caiu pela metade no Meta Ads.",
+    texto: "Contratamos o Pack Elite para o lançamento da coleção de inverno. A qualidade da textura das roupas e da iluminação dos avatares superou qualquer expectativa. Conseguimos produzir mais variações de criativos e anúncios com altíssima qualidade visual.",
     estrelas: 5
   },
   {
@@ -357,14 +357,14 @@ export const depoimentosLojistas: DepoimentoModel[] = [
     nome: "Felipe Diniz",
     iniciais: "FD",
     cargo: "Fundador • Diniz Sportswear",
-    texto: "Antes gastávamos uma fortuna com diárias de modelos e fotógrafos. Hoje conseguimos lançar novos drops semanalmente. A velocidade de entrega de 48h é crucial para o nosso fluxo de vendas.",
+    texto: "Antes gastávamos uma fortuna com diárias de modelos e fotógrafos. Hoje conseguimos renovar nosso catálogo com muito mais frequência. A velocidade de entrega de 48h é crucial para a dinâmica dos nossos lançamentos.",
     estrelas: 5
   },
   {
     nome: "Gustavo Neves",
     iniciais: "GN",
     cargo: "Fundador • Neves Calçados",
-    texto: "Sempre gastávamos muito tempo editando fotos de sapatos para tirar imperfeições e ajustar as sombras do couro. Com o Virtual Studio, os modelos calçam as peças de forma impecável, mostrando o caimento perfeito do produto real. As vendas subiram 35% no primeiro mês.",
+    texto: "Sempre gastávamos muito tempo editando fotos de sapatos para tirar imperfeições e ajustar as sombras do couro. Com o Virtual Studio, os modelos calçam as peças de forma impecável, mostrando o caimento e o acabamento real do produto com total nitidez.",
     estrelas: 5
   }
 ];

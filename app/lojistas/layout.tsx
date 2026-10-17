@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Virtual Studio para Lojistas | Ensaios Fotográficos de Elite com IA',
-  description: 'Revolucione suas vendas com ensaios fotográficos Dark Premium para lojistas. Escolha modelos virtuais de elite e transforme seus produtos em obras de arte com o Virtual Studio.',
+  description: 'Eleve a apresentação visual da sua marca com ensaios fotográficos Dark Premium para lojistas. Escolha modelos virtuais de elite e crie imagens de alto padrão para seu catálogo com o Virtual Studio.',
   keywords: [
     'Virtual Studio',
     'lojistas',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Virtual Studio para Lojistas | Ensaios Fotográficos de Elite com IA',
-    description: 'Revolucione suas vendas com ensaios fotográficos Dark Premium para lojistas. Escolha modelos virtuais de elite e transforme seus produtos em obras de arte com o Virtual Studio.',
+    description: 'Eleve a apresentação visual da sua marca com ensaios fotográficos Dark Premium para lojistas. Escolha modelos virtuais de elite e crie imagens de alto padrão para seu catálogo com o Virtual Studio.',
     url: 'https://virtualstudio.click/lojistas',
     siteName: 'Virtual Studio',
     images: [
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Virtual Studio para Lojistas | Ensaios Fotográficos de Elite com IA',
-    description: 'Revolucione suas vendas com ensaios fotográficos Dark Premium para lojistas. Escolha modelos virtuais de elite e transforme seus produtos em obras de arte com o Virtual Studio.',
+    description: 'Eleve a apresentação visual da sua marca com ensaios fotográficos Dark Premium para lojistas. Escolha modelos virtuais de elite e crie imagens de alto padrão para seu catálogo com o Virtual Studio.',
     images: ['/logo_transparente_.png'],
   },
 };
